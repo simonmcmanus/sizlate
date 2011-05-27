@@ -1,15 +1,12 @@
 <h1>Sizlate</h1>
 
-Sizlate is an experimental <a href="http://expressjs.com/guide.html#template-engines">templating engine for Express.js</a>
+Sizlate is an experimental HTML <a href="http://expressjs.com/guide.html#template-engines">templating engine for Express.js</a>
 
 Sizlate requires NO special syntax in the views, your templates are valid HTML files. 
 
-Templates are populated using sizzle selectors (as used in jQuery)
-
-Requires express.js
+Templates are populated using sizzle selectors (as used in jQuery).
 
 <h2>Example</h2>
-
 
 <h3>Simple Text example</h3>
 <pre>
@@ -25,9 +22,6 @@ app.get('/', function(req, res){
 });
 </code>
 </pre>
-<hr />
-
-
 
 <h3>Object example</h3>
 <pre>
@@ -37,10 +31,10 @@ app.get('/', function(req, res){
 		locals: {
 			selectors: {
 				'a': {
-					innerHTML: 'link text',
-					href: 'alt text',
-					title: 'title text',
-					className:'linkClass'
+					innerHTML: 'simonmcmanus.com',
+					href: 'http://simonmcmanus.com',
+					title: 'simonmcmanus.com',
+					className:'external'
 				}
 			}
 		}
@@ -49,5 +43,8 @@ app.get('/', function(req, res){
 </code>
 </pre>
 
+Sizlate uses JSDOM and Sizzle.
 
+Requires <a href="http://expressjs.com/">express.js</a> and <a href="http://nodejs.org/">node.js</a>.
 
+The template is inserted into a div with an id of container (#container) in layout.html.

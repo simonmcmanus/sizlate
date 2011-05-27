@@ -6,7 +6,7 @@ var updateNode = function(node, data) {
 			if(key=='className'){
 				node[key] = node[key] +" "+ data[key];
 			}else{
-				node[key] = data[key];				
+				node[key] = data[key];
 			}
 		}
 	}
@@ -15,7 +15,7 @@ var updateNode = function(node, data) {
 
 
 exports.render = function(str, options) {
-	if(typeof options.locals.parentView != "undefined"){ // its the last call
+	if(typeof options.locals.parentView != "undefined") { // its the last call
 		var browser = require("./lib/jsdom/lib/jsdom/browser");
 		var dom = browser.browserAugmentation(require("./lib/jsdom/lib/jsdom/level2/core").dom.level2.core);
 		var doc = new dom.Document("html");
@@ -26,18 +26,18 @@ exports.render = function(str, options) {
 			for(key in selectors) {
 				var array = (selectors[key].constructor == Array) ? selectors[key] : [selectors[key]]; // make sure we have an array.
 				var c = array.length;
-				var pendingItems  = [];
-				while(c--){
+				var pendingItems = [];
+				while(c--) {
 					var domNode = sizzle(key)[c];
-					if(domNode){
+					if(domNode) {
 						var pendingItemsCount = pendingItems.length;
-						while(pendingItemsCount--){
+						while(pendingItemsCount--) {
 							var newNode = domNode.cloneNode(true);
 							newNode = updateNode(newNode, pendingItems[pendingItemsCount]);
 							domNode.parentNode.appendChild(newNode);
 							pendingItems.pop();
 						}
-						domNode = updateNode(domNode, array[c]);								
+						domNode = updateNode(domNode, array[c]);
 					} else {
 						pendingItems.push(array[c]);
 					}
