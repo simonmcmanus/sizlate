@@ -11,35 +11,51 @@ exports.render = function(str, options) {
 		sizzle('#container')[0].innerHTML=options.locals.body;
 			var selectors = options.locals.selectors;
 			for(key in selectors) {
+				console.log(key);
 				var array = (selectors[key].constructor == Array) ? selectors[key] : [selectors[key]]; // make sure we have an array.
-
-		//		console.log('array is: ', array);
 				var c = array.length;
+				var pendingItems  = [];
+				
 				while(c--){
-		//			console.log('split: ', array[c]);
-					var domNode = sizzle(key)[c];
+					var d = c;
+					var domNode = sizzle(key)[d];
 					if(domNode){
-			//			console.log('G>>', typeof domNode, array[c]);
-		//	
-					console.log('G>>', typeof domNode, array[c]);
-						domNode.innerHTML = array[c];	
-						var	lastDomNode = domNode;				
-					} else {
-						var newDomNode = lastDomNode;
 						
-						console.log('ldb', domNode, lastDomNode.parentNode.id);
-//						newDomNode.innerHTML=array[c];
-//						lastDomNode.parentNode.appendChild(newDomNode);
-							console.log('B>>', lastDomNode.id, array[c]);
+						
+						
+						var pendingItemsCount = pendingItems.length;
+						while(pendingItemsCount--){
+							var newNode = domNode.cloneNode();
+							newNode.innerHTML = pendingItems[pendingItemsCount];
+							domNode.parentNode.appendChild(newNode);
+							pendingItems.pop();
+						}
+						domNode.innerHTML = array[c];	
+						console.log('pending items', pendingItems);
+					//	console.log('ldb1', lastDomNode, ">>>", array[c]);
+								
+					} else {
+						pendingItems.push(array[c]);
+						//lastDomNode.innerHTML=array[c];
+						//lastDomNode.parentNode.appendChild(newDomNode);
 					}
 				}
-			}
-		
+			}	
 		return doc.innerHTML;
 	}
-	
-	
-	
 	return str;
 };
 
+/*
+function clone(o) {
+        var c = {};
+        for(var i in o) {
+            if(typeof(o[i])=="object")
+                c[i] = clone(o[i]);
+            else
+                c[i] = o[i];
+        }
+        return c;
+    }
+
+*/
