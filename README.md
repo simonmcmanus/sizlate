@@ -1,3 +1,5 @@
+<h1>Sizlate</h1>
+
 Sizlate is an experimental <a href="http://expressjs.com/guide.html#template-engines">templating engine for Express.js</a>
 
 Sizlate requires NO special syntax in the views, your templates are valid HTML files. 
@@ -6,7 +8,8 @@ Templates are populated using sizzle selectors (as used in jQuery)
 
 <h2>Example</h2>
 
-
+<pre>
+<code>	
 app.get('/', function(req, res){
 	res.render('container.html', {
 		locals: {
@@ -23,7 +26,8 @@ app.get('/', function(req, res){
 		}
 	});
 });
-
+</code>
+</pre>
 
 
 
