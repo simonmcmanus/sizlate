@@ -3,7 +3,7 @@ var updateNode = function(node, data) {
 		node.innerHTML = data;
 	}else if (typeof data == "object") {
 		for(key in data) {
-			if(key=='className') {
+			if(key == 'className') {
 				node[key] = node[key] +" "+ data[key];
 			}else {
 				node[key] = data[key];
@@ -21,7 +21,7 @@ exports.render = function(str, options) {
 		var doc = new dom.Document("html");
 		doc.innerHTML = str;
 		var sizzle = require("./lib/sizzle.js").sizzleInit({}, doc);
-		sizzle('#container')[0].innerHTML=options.locals.body;
+		sizzle('#container')[0].innerHTML = options.locals.body;
 		var selectors = options.locals.selectors;
 		for(key in selectors) {
 			var array = (selectors[key].constructor == Array) ? selectors[key] : [selectors[key]]; // make sure we have an array.
