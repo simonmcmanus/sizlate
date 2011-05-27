@@ -1,4 +1,4 @@
-var sizlate = require('./sizlate1.js');
+var sizlate = require('./sizlate.js');
 var app = require('express').createServer();
 
 app.set( "view engine", "html" );
