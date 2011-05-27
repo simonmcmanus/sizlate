@@ -16,9 +16,7 @@ app.get('/', function(req, res){
 		locals: {
 			selectors: {
 				'h1:first':'REPLACED: template test title',
-				'h2':'replaced h2'
-			
-				,
+				'h2':'replaced h2',
 				'ul li': ['item 1', 'item2', 'item3']
 				
 			}

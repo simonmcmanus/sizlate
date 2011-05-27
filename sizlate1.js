@@ -2,24 +2,13 @@
 
 
 exports.render = function(str, options) {
-	
-	//console.log('rc', typeof options.locals.parentView);
-	console.log(str);
-
 	if(typeof options.locals.parentView != "undefined"){ // its the last call
-
-
-
 		var browser = require("./lib/jsdom/lib/jsdom/browser");
 		var dom = browser.browserAugmentation(require("./lib/jsdom/lib/jsdom/level2/core").dom.level2.core);
 		var doc = new dom.Document("html");
 		doc.innerHTML = str;
 		var sizzle = require("./lib/sizzle.js").sizzleInit({}, doc);
-
-
-
 		sizzle('#container')[0].innerHTML=options.locals.body;
-		
 			var selectors = options.locals.selectors;
 			for(key in selectors) {
 				var array = (selectors[key].constructor == Array) ? selectors[key] : [selectors[key]]; // make sure we have an array.
@@ -32,11 +21,16 @@ exports.render = function(str, options) {
 					if(domNode){
 			//			console.log('G>>', typeof domNode, array[c]);
 		//	
-		//			console.log('G>>', typeof domNode, array[c]);
+					console.log('G>>', typeof domNode, array[c]);
 						domNode.innerHTML = array[c];	
-						//var	lastDomNode = domNode;				
+						var	lastDomNode = domNode;				
 					} else {
-							console.log('B>>', typeof domNode, array[c]);
+						var newDomNode = lastDomNode;
+						
+						console.log('ldb', domNode, lastDomNode.parentNode.id);
+//						newDomNode.innerHTML=array[c];
+//						lastDomNode.parentNode.appendChild(newDomNode);
+							console.log('B>>', lastDomNode.id, array[c]);
 					}
 				}
 			}
@@ -48,3 +42,4 @@ exports.render = function(str, options) {
 	
 	return str;
 };
+
