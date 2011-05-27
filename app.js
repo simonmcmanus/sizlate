@@ -2,24 +2,40 @@ var sizlate = require('./sizlate.js');
 var app = require('express').createServer();
 
 app.set( "view engine", "html" );
+app.register('.html', sizlate);
 
-app.register('.html', {
-    compile: function(str, options) {
-        return function(locals) {
-            return sizlate.render(str, {locals: locals});
-        }
-    }
-});
 
 app.get('/', function(req, res){
-	res.render('page1.html', {
+	res.render('container.html', {
 		locals: {
 			selectors: {
-				'h1:first':'REPLACED: template test title',
-				'h2':'replaced h2',
-/*				'ul li': ['item 1', 'item2', 'item3', 'item4', 'item5', 'item6'] */
-				'ul li': ['item1']
-				
+				'h1:eq(1)':'Home Page',
+				'h2':'Welcome to the home page.',
+				'ul li': ['item 1', 'item2', 'item3', 'item4', 'item5', 'item6'] ,
+				'footer a': {
+					innerHTML: 'link text',
+					href: 'alt text',
+					title: 'title text',
+					className:'bob'
+				}				
+			}
+		}
+	});
+});
+
+app.get('/1', function(req, res){
+	res.render('container.html', {
+		locals: {
+			selectors: {
+				'h1:eq(1)':'Page 1',
+				'h2':'Welcome to page 1',
+				'ul li a': ['item 1', 'item2', 'item3', 'item4', 'item5', 'item6'] ,
+				'footer a': {
+					innerHTML: 'link text',
+					href: 'alt text',
+					title: 'title text',
+					className:'bob'
+				}				
 			}
 		}
 	});

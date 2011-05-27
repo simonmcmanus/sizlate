@@ -1,4 +1,17 @@
-
+var updateNode = function(node, data) {
+	if(typeof data == "string") {
+		node.innerHTML = data;
+	}else if (typeof data == "object") {
+		for(key in data) {
+			if(key=='className'){
+				node[key] = node[key] +" "+ data[key];
+			}else{
+				node[key] = data[key];				
+			}
+		}
+	}
+	return node;	
+};
 
 
 exports.render = function(str, options) {
@@ -11,33 +24,23 @@ exports.render = function(str, options) {
 		sizzle('#container')[0].innerHTML=options.locals.body;
 			var selectors = options.locals.selectors;
 			for(key in selectors) {
-				console.log(key);
 				var array = (selectors[key].constructor == Array) ? selectors[key] : [selectors[key]]; // make sure we have an array.
 				var c = array.length;
 				var pendingItems  = [];
-				
 				while(c--){
 					var d = c;
 					var domNode = sizzle(key)[d];
 					if(domNode){
-						
-						
-						
 						var pendingItemsCount = pendingItems.length;
 						while(pendingItemsCount--){
-							var newNode = domNode.cloneNode();
-							newNode.innerHTML = pendingItems[pendingItemsCount];
+							var newNode = domNode.cloneNode(true);
+							newNode = updateNode(newNode, pendingItems[pendingItemsCount]);
 							domNode.parentNode.appendChild(newNode);
 							pendingItems.pop();
 						}
-						domNode.innerHTML = array[c];	
-						console.log('pending items', pendingItems);
-					//	console.log('ldb1', lastDomNode, ">>>", array[c]);
-								
+						domNode = updateNode(domNode, array[c]);								
 					} else {
 						pendingItems.push(array[c]);
-						//lastDomNode.innerHTML=array[c];
-						//lastDomNode.parentNode.appendChild(newDomNode);
 					}
 				}
 			}	
@@ -46,16 +49,9 @@ exports.render = function(str, options) {
 	return str;
 };
 
-/*
-function clone(o) {
-        var c = {};
-        for(var i in o) {
-            if(typeof(o[i])=="object")
-                c[i] = clone(o[i]);
-            else
-                c[i] = o[i];
-        }
-        return c;
-    }
 
-*/
+exports.compile = function(str, options) {
+    return function(locals) {
+        return exports.render(str, {locals: locals});
+    }
+};
