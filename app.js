@@ -29,7 +29,7 @@ app.get('/1', function(req, res){
 			selectors: {
 				'h1:eq(1)':'Page 1',
 				'h2':'Welcome to page 1',
-				'ul li a': ['item 1', 'item2', 'item3', 'item4', 'item5', 'item6'] ,
+				'ul li': 'You made it to page one',
 				'footer a': {
 					innerHTML: 'link text',
 					href: 'alt text',

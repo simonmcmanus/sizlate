@@ -28,8 +28,7 @@ exports.render = function(str, options) {
 				var c = array.length;
 				var pendingItems  = [];
 				while(c--){
-					var d = c;
-					var domNode = sizzle(key)[d];
+					var domNode = sizzle(key)[c];
 					if(domNode){
 						var pendingItemsCount = pendingItems.length;
 						while(pendingItemsCount--){
