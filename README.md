@@ -13,9 +13,13 @@ Templates are populated using sizzle selectors (as used in jQuery).
 <code>	
 app.get('/', function(req, res){
 	res.render('container.html', {
-		locals: {
-			selectors: {
-				'h1':'Home Page'
+		selectors: {
+			'h1':'Home Page',
+			'.nav a': {
+				innerHTML: 'Sizlate',
+				href: 'https://github.com/simonmcmanus/sizlate/',
+				title: 'Sizzle templating for Express.js',
+				className:'external'
 			}
 		}
 	});
@@ -28,16 +32,15 @@ app.get('/', function(req, res){
 <code>	
 app.get('/', function(req, res){
 	res.render('container.html', {
-		locals: {
-			selectors: {
-				'a': {
-					innerHTML: 'simonmcmanus.com',
-					href: 'http://simonmcmanus.com',
-					title: 'simonmcmanus.com',
-					className:'external'
-				}
+		selectors: {
+			'a': {
+				innerHTML: 'simonmcmanus.com',
+				href: 'http://simonmcmanus.com',
+				title: 'simonmcmanus.com',
+				className:'external'
 			}
 		}
+	
 	});
 });
 </code>
