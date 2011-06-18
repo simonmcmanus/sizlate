@@ -21,7 +21,7 @@ app.get('/', function(req, res) {
 					'h2': 'HERE IS MY TITLE',
 					'span': 'stick some text in here.'
 				}
-			}							
+			}
 		}
 	});
 });
