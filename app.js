@@ -14,6 +14,13 @@ app.get('/', function(req, res) {
 				href: 'alt text',
 				title: 'title text',
 				className: 'bob'
+			},	
+			'.partial': {
+				partial: 'partial.html',
+				data: {
+					'h2': 'HERE IS MY TITLE',
+					'span': 'stick some text in here.'
+				}
 			}							
 		}
 	});
@@ -35,4 +42,6 @@ app.get('/1', function(req, res) {
 	});
 });
 
-app.listen(8000);
+sizlate.startup(app, function(app) {
+	app.listen(8000);	
+});
