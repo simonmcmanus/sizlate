@@ -17,6 +17,7 @@ var updateNode = function(node, data) {
 };
 
 exports.doRender = function(str, options) {
+	
 	var browser = require("jsdom/lib/jsdom/browser");
 	var dom = browser.browserAugmentation(require("jsdom/lib/jsdom/level2/core").dom.level2.core);
 	var doc = new dom.Document("html");
@@ -26,11 +27,21 @@ exports.doRender = function(str, options) {
 		sizzle('#container')[0].innerHTML = options.locals.body;		
 		var selectors = options.locals.selectors;
 	} else { // called directly
+//		console.log(options);
 		var selectors = options;
 	}
+	
+	
+	
+	selectorIterator(selectors, sizzle);
+	return doc.innerHTML;	
+};
+
+
+var selectorIterator = function(selectors, sizzle) {
 	for(key in selectors) {
-		var array = (selectors[key].constructor == Array) ? selectors[key] : [selectors[key]]; // make sure we have an array.
-		var c = array.length;
+		var a = (selectors[key].constructor == Array) ? selectors[key] : [selectors[key]]; // make sure we have an array.
+		var c = a.length;
 		var pendingItems = [];
 		while(c--) {
 			var domNode = sizzle(key)[c];
@@ -42,14 +53,14 @@ exports.doRender = function(str, options) {
 					domNode.parentNode.appendChild(newNode);
 					pendingItems.pop();
 				}
-				domNode = updateNode(domNode, array[c]);
+				domNode = updateNode(domNode, a[c]);
 			} else {
-				pendingItems.push(array[c]); 
+				pendingItems.push(a[c]); 
 			}
 		}		
-	}	
-	return doc.innerHTML;	
+	}
 };
+
 
 exports.render = function(str, options) {
 	if(typeof options.locals.parentView != "undefined") { // its the last call
@@ -58,11 +69,46 @@ exports.render = function(str, options) {
 	return str;
 };
 
+
+var classifyKeys = function(obj) {
+		var outObj = {};
+		for(selector in obj){
+			
+			var c = obj[selector].length;
+			var retArray = [];
+			while(c--) {
+				var newObj = {};
+				for(key in obj[selector][c]){
+					newObj['.'+key] = obj[selector][c][key];
+				}
+				retArray.push(newObj);
+			}
+			outObj[selector] = retArray
+		}
+	return outObj;
+};
+
+
+var classifyKeys = function(ar) {
+			var c = ar.length;
+			var retArray = [];
+			while(c--) {
+				var newObj = {};
+				for(key in ar[c]){
+					newObj['.'+key] = ar[c][key];
+				}
+				retArray.push(newObj);
+			}
+			//console.log(retArray);
+			return retArray;
+};
+
 exports.compile = function(str, options) {
 	var selectors = options.selectors;
 	for(key in selectors) {
 		if(typeof selectors[key].partial !=="undefined"){// this is a partial.
-			selectors[key] = exports.doRender('<body>'+exports.partials[selectors[key].partial]+'</body>', selectors[key].data).slice(6, -7);	// adding and then stripping body tag for jsdom. 
+			
+			selectors[key] = exports.doRender('<body>'+exports.partials[selectors[key].partial]+'</body>', classifyKeys(selectors[key].data)).slice(6, -7);	// adding and then stripping body tag for jsdom. 
 		}
 	}
 	return function(locals) {
