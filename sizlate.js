@@ -2,12 +2,15 @@ var fs = require('fs');
 exports.version = '0.2';
 
 var updateNode = function(node, data) {
+	console.log(data);
 	if(typeof data == "string") {
 		node.innerHTML = data;
 	}else if (typeof data == "object") {
 		for(key in data) {
 			if(key == 'className') {
 				node[key] = node[key] +" "+ data[key];
+			}else if (key == '.id') {
+				node['id'] = data[key];
 			}else {
 				node[key] = data[key];
 			}
@@ -17,7 +20,6 @@ var updateNode = function(node, data) {
 };
 
 exports.doRender = function(str, options) {
-	
 	var browser = require("jsdom/lib/jsdom/browser");
 	var dom = browser.browserAugmentation(require("jsdom/lib/jsdom/level2/core").dom.level2.core);
 	var doc = new dom.Document("html");
@@ -27,14 +29,17 @@ exports.doRender = function(str, options) {
 		sizzle('#container')[0].innerHTML = options.locals.body;		
 		var selectors = options.locals.selectors;
 	} else { // called directly
-//		console.log(options);
 		var selectors = options;
 	}
 	
-	
-	
-	selectorIterator(selectors, sizzle);
-	return doc.innerHTML;	
+	var selectors = (typeof selectors[0] == 'undefined') ? [selectors] : selectors; // make sure we have an array. 
+	var selectorCount = selectors.length;
+	var outString = "";
+	while(selectorCount--){
+		selectorIterator(selectors[selectorCount], sizzle);
+		outString = outString + doc.innerHTML;
+	}
+	return outString;	
 };
 
 
@@ -69,45 +74,23 @@ exports.render = function(str, options) {
 	return str;
 };
 
-
-var classifyKeys = function(obj) {
-		var outObj = {};
-		for(selector in obj){
-			
-			var c = obj[selector].length;
-			var retArray = [];
-			while(c--) {
-				var newObj = {};
-				for(key in obj[selector][c]){
-					newObj['.'+key] = obj[selector][c][key];
-				}
-				retArray.push(newObj);
-			}
-			outObj[selector] = retArray
-		}
-	return outObj;
-};
-
-
 var classifyKeys = function(ar) {
-			var c = ar.length;
-			var retArray = [];
-			while(c--) {
-				var newObj = {};
-				for(key in ar[c]){
-					newObj['.'+key] = ar[c][key];
-				}
-				retArray.push(newObj);
-			}
-			//console.log(retArray);
-			return retArray;
+	var c = ar.length;
+	var retArray = [];
+	while(c--) {
+		var newObj = {};
+		for(key in ar[c]){
+			newObj['.'+key] = ar[c][key];
+		}
+		retArray.push(newObj);
+	}
+	return retArray;
 };
 
 exports.compile = function(str, options) {
 	var selectors = options.selectors;
 	for(key in selectors) {
-		if(typeof selectors[key].partial !=="undefined"){// this is a partial.
-			
+		if(typeof selectors[key].partial !=="undefined"){// this is a partial.			
 			selectors[key] = exports.doRender('<body>'+exports.partials[selectors[key].partial]+'</body>', classifyKeys(selectors[key].data)).slice(6, -7);	// adding and then stripping body tag for jsdom. 
 		}
 	}
