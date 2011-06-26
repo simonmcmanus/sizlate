@@ -1,44 +1,64 @@
 var fs = require('fs');
+
 exports.version = '0.2';
 
-var updateNode = function(node, data) {
-	console.log(data);
-	if(typeof data == "string") {
-		node.innerHTML = data;
-	}else if (typeof data == "object") {
-		for(key in data) {
-			if(key == 'className') {
-				node[key] = node[key] +" "+ data[key];
-			}else if (key == '.id') {
-				node['id'] = data[key];
+var updateNode = function(node, data, selector) {
+	switch(typeof data)
+	{
+		case "string":
+			node.innerHTML = data;
+	  	break;
+		case "number":
+			if(selector == ".id"){
+		  		node.id = data;				
 			}else {
-				node[key] = data[key];
+				node.innerHTML = data;				
 			}
-		}
+	  	break;
+		case "object":
+			for(key in data) {
+				if(key == 'className') {
+					node[key] = node[key] +" "+ data[key];
+				}else {
+					node[key] = data[key];
+				}
+			}
+	  	break;
+	
 	}
 	return node;	
 };
 
 exports.doRender = function(str, options) {
+	console.log('debug: called - doRender ');
+	// this is not being called the last time round.
 	var browser = require("jsdom/lib/jsdom/browser");
 	var dom = browser.browserAugmentation(require("jsdom/lib/jsdom/level2/core").dom.level2.core);
 	var doc = new dom.Document("html");
 	doc.innerHTML = str;
 	var sizzle = require("./lib/sizzle.js").sizzleInit({}, doc);
-	if(typeof options.locals != "undefined" && sizzle('#container')[0]){ // called via render - should be the last call.
-		sizzle('#container')[0].innerHTML = options.locals.body;		
+	
+	console.log(typeof options.locals, typeof sizzle('#container')[0]);
+	// as layout is turned off the container does not exist so we are never in this loop.
+	if(typeof options.locals != "undefined"){ // called via render - should be the last call.
+		console.log('debug: called via render');
 		var selectors = options.locals.selectors;
+		if(sizzle('#container')[0]){
+			sizzle('#container')[0].innerHTML = options.locals.body;					
+		}
 	} else { // called directly
 		var selectors = options;
 	}
 	
 	var selectors = (typeof selectors[0] == 'undefined') ? [selectors] : selectors; // make sure we have an array. 
+
 	var selectorCount = selectors.length;
 	var outString = "";
 	while(selectorCount--){
 		selectorIterator(selectors[selectorCount], sizzle);
 		outString = outString + doc.innerHTML;
 	}
+	//console.log('sending: ', outString);
 	return outString;	
 };
 
@@ -54,11 +74,11 @@ var selectorIterator = function(selectors, sizzle) {
 				var pendingItemsCount = pendingItems.length;
 				while(pendingItemsCount--) {
 					var newNode = domNode.cloneNode(true);
-					newNode = updateNode(newNode, pendingItems[pendingItemsCount]);
+					newNode = updateNode(newNode, pendingItems[pendingItemsCount], key);
 					domNode.parentNode.appendChild(newNode);
 					pendingItems.pop();
 				}
-				domNode = updateNode(domNode, a[c]);
+				domNode = updateNode(domNode, a[c], key);
 			} else {
 				pendingItems.push(a[c]); 
 			}
@@ -68,9 +88,10 @@ var selectorIterator = function(selectors, sizzle) {
 
 
 exports.render = function(str, options) {
-	if(typeof options.locals.parentView != "undefined") { // its the last call
+	
+//	if(typeof options.locals.parentView != "undefined") { // its the last call
 		str = exports.doRender(str, options);
-	}
+//	}
 	return str;
 };
 
@@ -90,7 +111,7 @@ var classifyKeys = function(ar) {
 exports.compile = function(str, options) {
 	var selectors = options.selectors;
 	for(key in selectors) {
-		if(typeof selectors[key].partial !=="undefined"){// this is a partial.			
+		if(typeof selectors[key].partial !=="undefined"){// this is a partial.	
 			selectors[key] = exports.doRender('<body>'+exports.partials[selectors[key].partial]+'</body>', classifyKeys(selectors[key].data)).slice(6, -7);	// adding and then stripping body tag for jsdom. 
 		}
 	}
