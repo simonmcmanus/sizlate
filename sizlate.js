@@ -30,7 +30,7 @@ var updateNode = function(node, data, selector) {
 };
 
 exports.doRender = function(str, options) {
-	console.log('debug: called - doRender ');
+	//console.log('debug: called - doRender ');
 	// this is not being called the last time round.
 	var browser = require("jsdom/lib/jsdom/browser");
 	var dom = browser.browserAugmentation(require("jsdom/lib/jsdom/level2/core").dom.level2.core);
@@ -38,10 +38,10 @@ exports.doRender = function(str, options) {
 	doc.innerHTML = str;
 	var sizzle = require("./lib/sizzle.js").sizzleInit({}, doc);
 	
-	console.log(typeof options.locals, typeof sizzle('#container')[0]);
+	//console.log(typeof options.locals, typeof sizzle('#container')[0]);
 	// as layout is turned off the container does not exist so we are never in this loop.
 	if(typeof options.locals != "undefined"){ // called via render - should be the last call.
-		console.log('debug: called via render');
+		//console.log('debug: called via render');
 		var selectors = options.locals.selectors;
 		if(sizzle('#container')[0]){
 			sizzle('#container')[0].innerHTML = options.locals.body;					
@@ -49,7 +49,9 @@ exports.doRender = function(str, options) {
 	} else { // called directly
 		var selectors = options;
 	}
-	
+	if(typeof selectors == "undefined"){
+		return "";
+	}
 	var selectors = (typeof selectors[0] == 'undefined') ? [selectors] : selectors; // make sure we have an array. 
 
 	var selectorCount = selectors.length;
@@ -65,6 +67,9 @@ exports.doRender = function(str, options) {
 
 var selectorIterator = function(selectors, sizzle) {
 	for(key in selectors) {
+		if(!selectors[key]){ // break on nulls.
+			break;
+		}
 		var a = (selectors[key].constructor == Array) ? selectors[key] : [selectors[key]]; // make sure we have an array.
 		var c = a.length;
 		var pendingItems = [];
@@ -96,6 +101,9 @@ exports.render = function(str, options) {
 };
 
 var classifyKeys = function(ar) {
+	if(typeof ar == "undefined"){
+		return false;
+	}
 	var c = ar.length;
 	var retArray = [];
 	while(c--) {
@@ -110,9 +118,18 @@ var classifyKeys = function(ar) {
 
 exports.compile = function(str, options) {
 	var selectors = options.selectors;
+//	console.log('selectors: ', selectors);
 	for(key in selectors) {
-		if(typeof selectors[key].partial !=="undefined"){// this is a partial.	
-			selectors[key] = exports.doRender('<body>'+exports.partials[selectors[key].partial]+'</body>', classifyKeys(selectors[key].data)).slice(6, -7);	// adding and then stripping body tag for jsdom. 
+		if(typeof selectors[key].partial !=="undefined" ){// this is a partial.	
+			
+
+
+			if(typeof selectors[key].data === "undefined" || selectors[key].data.length > 0){ // make sure we are passed in data and that the data is not empty.
+				selectors[key] = exports.doRender('<body>'+exports.partials[selectors[key].partial]+'</body>', classifyKeys(selectors[key].data)).slice(6, -7);	// adding and then stripping body tag for jsdom. 
+				
+			}
+			//console.log('data', typeof selectors[key].data);
+			//	console.log('in here');
 		}
 	}
 	return function(locals) {

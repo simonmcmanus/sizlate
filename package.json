@@ -1,0 +1,17 @@
+{
+	"name": "sizlate",
+	"version": "0.2",
+	"description": "express.js templating engine using sizzle selectors.",
+	"author": "Simon McManus  mcmanus.simon@gmail.com",
+	"repository" :{
+ 		"type" : "git",
+		"url" : "git://github.com/simonmcmanus/sizlate.git"
+  	},
+	"main": "sizlate.js",
+	"dependencies": {
+		"jsdom": "0.2.0"
+	},
+	"directories": {
+    	"lib": "lib"
+	}
+}
