@@ -2,7 +2,7 @@
 
 Sizlate is an experimental HTML templating engine for <a href="http://expressjs.com">Express.js</a>.
 
-Sizlate requires NO special syntax, your templates are valid HTML files. 
+Sizlate requires NO special syntax, your templates only contain valid HTML.
 
 Templates are populated using sizzle selectors (as used in jQuery).
 
@@ -86,13 +86,11 @@ See /examples/partial
 </ul>
 
 
-
+The template is inserted into a div with an id of container (#container) in layout.html.
 
 See the examples folder for more examples.
-
 
 Sizlate uses JSDOM and Sizzle.
 
 Requires <a href="http://expressjs.com/">express.js</a> and <a href="http://nodejs.org/">node.js</a>.
 
-The template is inserted into a div with an id of container (#container) in layout.html.
