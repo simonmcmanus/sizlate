@@ -6,7 +6,7 @@ Sizlate requires NO special syntax, your templates are valid HTML files.
 
 Templates are populated using sizzle selectors (as used in jQuery).
 
-<h2>Quick Setup</h2>
+Sizlate will be available as an npm package very soon.
 
 <h2>Examples</h2>
 
