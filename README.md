@@ -13,14 +13,14 @@ Sizlate will be available as an npm package very soon.
 <h3>Simple text example</h3>
 <pre>
 <code>	
-app.get('/', function(req, res){
-	res.render('container.html', {
-		selectors: {
-			'h1':'Home Page',
-			'.nav a': 'link text'
-		}
+	app.get('/', function(req, res) {
+		res.render('home.html', {
+			selectors: {
+				'a': 'hi there'
+			}	
+		});
 	});
-});
+
 </code>
 </pre>
 See /examples/basic
@@ -32,19 +32,17 @@ Note that the text in the template is overridden. This allows you to pre-populat
 <h3>Populating a node using a javascript object</h3>
 <pre>
 <code>	
-app.get('/', function(req, res){
-	res.render('container.html', {
-		selectors: {
-			'a': {
-				innerHTML: 'simonmcmanus.com',
-				href: 'http://simonmcmanus.com',
-				title: 'simonmcmanus.com',
-				className:'external'
-			}
-		}
-	
+	app.get('/', function(req, res) {
+		res.render('home.html', {
+			selectors: {
+				'a': {
+					href: 'http://yahoo.com',
+					title: 'yahoo',
+					innerHTML: 'yahoo'
+				}
+			}	
+		});
 	});
-});
 </code>
 </pre>
 See /examples/object

@@ -6,13 +6,11 @@ var app =  express.createServer();
 app.register('.html', sizlate);
 
 app.get('/', function(req, res) {
-	res.render('home.html', 
-	{
+	res.render('home.html', {
 		selectors: {
 			'a': 'hi there'
 		}	
-	}
-);
+	});
 });
 
 app.listen(8000);
