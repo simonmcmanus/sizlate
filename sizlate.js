@@ -121,12 +121,8 @@ exports.compile = function(str, options) {
 //	console.log('selectors: ', selectors);
 	for(key in selectors) {
 		if(typeof selectors[key].partial !=="undefined" ){// this is a partial.	
-			
-
-
 			if(typeof selectors[key].data === "undefined" || selectors[key].data.length > 0){ // make sure we are passed in data and that the data is not empty.
-				selectors[key] = exports.doRender('<body>'+exports.partials[selectors[key].partial]+'</body>', classifyKeys(selectors[key].data)).slice(6, -7);	// adding and then stripping body tag for jsdom. 
-				
+				selectors[key] = exports.doRender('<body>'+exports.partials[selectors[key].partial]+'</body>', classifyKeys(selectors[key].data)).slice(6, -7);	// adding and then stripping body tag for jsdom. 				
 			}
 			//console.log('data', typeof selectors[key].data);
 			//	console.log('in here');

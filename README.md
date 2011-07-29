@@ -49,34 +49,25 @@ All these values will override the existing value except className which will be
 
 <h3>Partial Example</h3>
 
-<h4>Master Container</h4>
-
-<pre>
-<code>	
-	<!doctype html>
-	<html>
-	<body>
-		<div class="container"></div>
-	</body>
-	</html>
-</code>
-</pre>
-
-
-
-<h4>Render Call</h4>
 
 With partials if you do not specify a class name for the keys in the data the keys will be converted into a class.
 <pre>
 <code>	
-	app.get('/', function(req, res){
-		res.render('container.html', {
+	app.get('/', function(req, res) {
+		res.render('home.html', {
 			selectors: {
-				'a': {
-					partial: 'file.html',
-					data: [{'title': 'title1'}, {'title': 'title2'}]
+				'ul#list': {
+					partial: 'part.html',
+					data: [
+						{
+							name: 'bob'
+						},
+						{
+							name: 'anna'
+						}
+					]
 				}
-			}
+			}	
 		});
 	});
 </code>
@@ -86,31 +77,12 @@ With partials if you do not specify a class name for the keys in the data the ke
 	<li>If no data is passed in the partial will render without any data</li>
 	<li>If an empty array is passed into data the partial will not be displayed at all.</li>
 </ul>
-<h4>File.html</h4>
-<pre>
-<code>	
-	<div>
-		<span class="title"></span>
-	</div>
-</code>
-</pre>
-
-
-Would Output : 
-<pre>
-<code>	
-	<div>
-		<span class="title">title1</span>
-		<span class="title">title2</span>
-	</div>
-</code>
-</pre>
 
 
 
 
+See the examples folder for more examples.
 
-See app.js for more examples.
 
 Sizlate uses JSDOM and Sizzle.
 
