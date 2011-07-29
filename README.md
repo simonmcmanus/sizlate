@@ -23,6 +23,7 @@ app.get('/', function(req, res){
 });
 </code>
 </pre>
+See /examples/basic
 
 <h3>Populating a node using a javascript object</h3>
 <pre>
@@ -42,6 +43,8 @@ app.get('/', function(req, res){
 });
 </code>
 </pre>
+See /examples/object
+
 
 All these values will override the existing value except className which will be added on to the end of any existing classes.
 
@@ -72,6 +75,8 @@ With partials if you do not specify a class name for the keys in the data the ke
 	});
 </code>
 </pre>
+
+See /examples/partial
 
 <ul>
 	<li>If no data is passed in the partial will render without any data</li>
