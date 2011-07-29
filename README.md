@@ -25,6 +25,10 @@ app.get('/', function(req, res){
 </pre>
 See /examples/basic
 
+<p>
+Note that the text in the template is overridden. This allows you to pre-populate a design templates with dummy data.  
+</p>
+
 <h3>Populating a node using a javascript object</h3>
 <pre>
 <code>	
