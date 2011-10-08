@@ -6,8 +6,7 @@ var app =  express.createServer();
 app.register('.html', sizlate);
 
 app.get('/', function(req, res) {
-	res.render('home.html', 
-	{
+	res.render('home.html', {
 		selectors: {
 			'a': {
 				href: 'http://yahoo.com',
@@ -15,8 +14,7 @@ app.get('/', function(req, res) {
 				innerHTML: 'yahoo'
 			}
 		}	
-	}
-);
+	});
 });
 
 app.listen(8000);

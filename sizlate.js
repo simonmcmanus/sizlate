@@ -6,7 +6,9 @@ var updateNode = function(node, data, selector) {
 	switch(typeof data)
 	{
 		case "string":
-			node.innerHTML = data;
+			if(data !=""){
+				node.innerHTML = data;				
+			}
 	  	break;
 		case "number":
 			if(selector == ".id"){
@@ -32,11 +34,14 @@ var updateNode = function(node, data, selector) {
 exports.doRender = function(str, options) {
 	//console.log('debug: called - doRender ');
 	// this is not being called the last time round.
-	var browser = require("jsdom/lib/jsdom/browser");
-	var dom = browser.browserAugmentation(require("jsdom/lib/jsdom/level2/core").dom.level2.core);
-	var doc = new dom.Document("html");
-	doc.innerHTML = str;
-	var sizzle = require("./lib/sizzle.js").sizzleInit({}, doc);
+    var browser = require("./lib/jsdom/lib/jsdom/browser");
+    var dom = browser.browserAugmentation(require("./lib/jsdom/lib/jsdom/level2/core").dom.level2.core);
+    var doc = new dom.Document("html");
+    doc.innerHTML = str;
+    var sizzle = require("./lib/sizzle.js").sizzleInit({}, doc);
+
+
+
 	
 	//console.log(typeof options.locals, typeof sizzle('#container')[0]);
 	// as layout is turned off the container does not exist so we are never in this loop.
@@ -66,11 +71,12 @@ exports.doRender = function(str, options) {
 
 
 var selectorIterator = function(selectors, sizzle) {
+	
 	for(key in selectors) {
-		if(!selectors[key]){ // break on nulls.
-			break;
-		}
-		var a = (selectors[key].constructor == Array) ? selectors[key] : [selectors[key]]; // make sure we have an array.
+//		if(!selectors[key]){ // break on nulls.
+//			break;
+//		}
+		var a = (selectors[key] && selectors[key].constructor == Array) ? selectors[key] : [selectors[key]]; // make sure we have an array.
 		var c = a.length;
 		var pendingItems = [];
 		while(c--) {
@@ -106,10 +112,12 @@ var classifyKeys = function(ar) {
 	}
 	var c = ar.length;
 	var retArray = [];
+	
 	while(c--) {
 		var newObj = {};
 		for(key in ar[c]){
 			newObj['.'+key] = ar[c][key];
+			
 		}
 		retArray.push(newObj);
 	}
