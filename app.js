@@ -3,6 +3,11 @@ var app = require('express').createServer();
 var sizlate = require('./sizlate.js');
 app.register('.html', sizlate);
 
+app.configure( function () {
+  app.set('view engine', 'html');
+  app.set('dirname', __dirname);
+});
+
 app.get('/', function(req, res) {
 	res.render('container.html', {
 		selectors: {

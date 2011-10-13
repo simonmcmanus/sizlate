@@ -32,12 +32,8 @@ var updateNode = function(node, data, selector) {
 };
 
 exports.doRender = function(str, options) {
-	//console.log('debug: called - doRender ');
-	// this is not being called the last time round.
-    var browser = require("./lib/jsdom/lib/jsdom/browser");
-    var dom = browser.browserAugmentation(require("./lib/jsdom/lib/jsdom/level2/core").dom.level2.core);
-    var doc = new dom.Document("html");
-    doc.innerHTML = str;
+	var jsdom = require('jsdom').jsdom;
+	var doc   = jsdom("<html><body>"+str+"</body></html>", null, {});
     var sizzle = require("./lib/sizzle.js").sizzleInit({}, doc);
 
 	//console.log(typeof options.locals, typeof sizzle('#container')[0]);
@@ -63,7 +59,7 @@ exports.doRender = function(str, options) {
 		outString = outString + doc.innerHTML;
 	}
 	//console.log('sending: ', outString);
-	return outString;	
+	return outString.slice(12, -14);	
 };
 
 
@@ -141,6 +137,7 @@ console.log('In here', selectors[key].partial);
 
 exports.startup = function(app, callback) { 
 	var count = 0;
+	console.log(app.set('dirname')+'/views/partials/');
 	fs.readdir(app.set('dirname')+'/views/partials/', function (err, files) { 
 		if (err) throw err;
 		exports.partials = {};
