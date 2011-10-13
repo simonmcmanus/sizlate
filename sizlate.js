@@ -34,20 +34,12 @@ var updateNode = function(node, data, selector) {
 exports.doRender = function(str, options) {
 	//console.log('debug: called - doRender ');
 	// this is not being called the last time round.
-  var browser = require("./lib/jsdom/lib/jsdom/browser");
-    var dom = browser.browserAugmentation(require("./lib/jsdom/lib/jsdom/level2/core").dom.level2.core);
-    var doc = new dom.Document("html");
-    doc.innerHTML = str;
-    var sizzle = require("./lib/sizzle.js").sizzleInit({}, doc);
-
-
-/*
 	var browser = require("jsdom/browser");
 	var dom = browser.browserAugmentation(require("jsdom/level2/core").dom.level2.core);
 	var doc = new dom.Document("html");
 	doc.innerHTML = str;
 	var sizzle = require("./lib/sizzle.js").sizzleInit({}, doc);
-*/	
+	
 	//console.log(typeof options.locals, typeof sizzle('#container')[0]);
 	// as layout is turned off the container does not exist so we are never in this loop.
 	if(typeof options.locals != "undefined"){ // called via render - should be the last call.
