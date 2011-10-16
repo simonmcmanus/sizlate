@@ -32,7 +32,9 @@ var updateNode = function(node, data, selector) {
 };
 
 exports.doRender = function(str, options) {
-	var jsdom = require('jsdom').jsdom;
+	console.log(options);
+	var jsdom = require('./lib/jsdom/lib/jsdom.js').jsdom;
+console.log(str);
 	var doc   = jsdom("<html><body>"+str+"</body></html>", null, {});
     var sizzle = require("./lib/sizzle.js").sizzleInit({}, doc);
 
@@ -99,10 +101,15 @@ exports.render = function(str, options) {
 	return str;
 };
 
-var classifyKeys = function(ar) {
+var classifyKeys = function(ar, classify) {
 	if(typeof ar == "undefined"){
 		return false;
 	}
+	
+	if(classify === false){
+		return ar;
+	}
+
 	var c = ar.length;
 	var retArray = [];
 	
@@ -123,8 +130,8 @@ exports.compile = function(str, options) {
 	for(key in selectors) {
 		if(typeof selectors[key].partial !=="undefined" ){// this is a partial.	
 			if(typeof selectors[key].data === "undefined" || selectors[key].data.length > 0){ // make sure we are passed in data and that the data is not empty.
-console.log('In here', selectors[key].partial);
-				selectors[key] = exports.doRender('<body>'+exports.partials[selectors[key].partial]+'</body>', classifyKeys(selectors[key].data)).slice(6, -7);	// adding and then stripping body tag for jsdom. 				
+				
+				selectors[key] = exports.doRender('<body>'+exports.partials[selectors[key].partial]+'</body>', classifyKeys(selectors[key].data, selectors[key].classifyKeys)).slice(6, -7);	// adding and then stripping body tag for jsdom. 				
 			}
 			//console.log('data', typeof selectors[key].data);
 			//	console.log('in here');
