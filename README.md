@@ -25,10 +25,10 @@ Sizlate will be available as an npm package very soon.
 </pre>
 See /examples/basic
 
-<p>
-Note that the text in the template is overridden. This allows you to pre-populate a design templates with dummy data.  
-</p>
-
+<ul>
+<li>Note that the text in the template is overridden. This allows you to pre-populate a design templates with dummy data. </li>
+<li>Please also note that the template should only have one root html element. This is a known issue.</li>
+</ul>
 <h3>Populating a node using a javascript object</h3>
 <pre>
 <code>	
