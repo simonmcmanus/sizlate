@@ -75,8 +75,19 @@ With partials if you do not specify a class name for the keys in the data the ke
 			}	
 		});
 	});
+	
+	
+	
+	sizlate.startup(app, function(app) {
+		app.listen(8000);
+		console.log('check out http://localhost:8000');	
+	});
 </code>
 </pre>
+
+<p>
+Note that you need to start your server is the startup callback so that the partials have been loaded.
+</p>
 
 See /examples/partial
 
