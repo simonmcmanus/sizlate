@@ -1,6 +1,6 @@
 var app = require('express').createServer();
 
-var sizlate = require('./sizlate.js');
+var sizlate = require('sizlate');
 app.register('.html', sizlate);
 
 app.configure( function () {

@@ -1,6 +1,6 @@
 var fs = require('fs');
 
-exports.version = '0.3';
+exports.version = '0.3.0';
 
 var updateNode = function(node, data, selector) {
 	switch(typeof data) {
@@ -102,9 +102,10 @@ var classifyKeys = function(ar) {
 exports.compile = function(str, options) {
 	var selectors = options.selectors;
 	for(key in selectors) {
-		if(typeof selectors[key].partial !=="undefined" ){// this is a partial.	
+		if(typeof selectors[key].partial !== "undefined" ){// this is a partial.	
 			if(typeof selectors[key].data === "undefined" || selectors[key].data.length > 0){ // make sure we are passed in data and that the data is not empty.
-				selectors[key] = exports.doRender('<body>' + exports.partials[selectors[key].partial] + '</body>', classifyKeys(selectors[key].data)).slice(6, -7);	// adding and then stripping body tag for jsdom. 				
+					// TODO _ we should confirm if classify keys is not disabled.
+					selectors[key] = exports.doRender('<body>' + exports.partials[selectors[key].partial] + '</body>', classifyKeys(selectors[key].data)).slice(6, -7);	// adding and then stripping body tag for jsdom. 					
 			}
 		}
 	}
