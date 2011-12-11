@@ -9,7 +9,7 @@ var updateNode = function(node, data, selector) {
 				node.innerHTML = data;
 			}
 	  	break;
-		case "number":
+		case "number": // TODO - confirm - this seems wrong - why only numbers to ids?
 			if(selector == ".id"){
 		  		node.id = data;
 			}else {
@@ -18,7 +18,12 @@ var updateNode = function(node, data, selector) {
 	  	break;
 		case "object":
 			for(key in data) {
+				if(key === 'selectors') { // allow nested selectors
+					node.innerHTML = exports.doRender(node.innerHTML, data[key]);
+					
+				}
 				node[key] = (key == 'className') ? node[key] = node[key] + " " + data[key] : node[key] = data[key]; //if its a classname add its to what is already there instead of overriding.
+				
 			}
 	  	break;
 	}
@@ -53,6 +58,10 @@ exports.doRender = function(str, options) {
 	return outString;	
 };
 
+var _doRender = function(str, options) {
+	
+}
+
 
 var selectorIterator = function(selectors, sizzle) {	
 	for(key in selectors) {
@@ -60,6 +69,7 @@ var selectorIterator = function(selectors, sizzle) {
 		var c = a.length;
 		var pendingItems = [];
 		while(c--) {
+			
 			var domNode = sizzle(key)[c];
 			if(domNode) {
 				var pendingItemsCount = pendingItems.length;
