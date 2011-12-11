@@ -20,10 +20,8 @@ var updateNode = function(node, data, selector) {
 			for(key in data) {
 				if(key === 'selectors') { // allow nested selectors
 					node.innerHTML = exports.doRender(node.innerHTML, data[key]);
-					
 				}
 				node[key] = (key == 'className') ? node[key] = node[key] + " " + data[key] : node[key] = data[key]; //if its a classname add its to what is already there instead of overriding.
-				
 			}
 	  	break;
 	}
