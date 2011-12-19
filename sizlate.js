@@ -25,7 +25,7 @@ var updateNode = function(node, data, selector) {
 			}
 	  	break;
 	}
-	return node;	
+	return node;
 };
 
 exports.doRender = function(str, options) {
@@ -38,7 +38,7 @@ exports.doRender = function(str, options) {
 	if(typeof options.locals != "undefined"){ // called via render - should be the last call.
 		var selectors = options.locals.selectors;
 		if(sizzle('#container')[0]){
-			sizzle('#container')[0].innerHTML = options.locals.body;					
+			sizzle('#container')[0].innerHTML = options.locals.body;
 		}
 	} else { // called directly
 		var selectors = options;
@@ -46,28 +46,28 @@ exports.doRender = function(str, options) {
 	if(typeof selectors == "undefined"){
 		return "";
 	}
-	var selectors = (typeof selectors[0] == 'undefined') ? [selectors] : selectors; // make sure we have an array. 
+	var selectors = (typeof selectors[0] == 'undefined') ? [selectors] : selectors; // make sure we have an array.
 	var selectorCount = selectors.length;
 	var outString = "";
 	while(selectorCount--){
 		selectorIterator(selectors[selectorCount], sizzle);
 		outString = outString + doc.innerHTML.slice(12, -14); // slice strips html/body tags added above.
 	}
-	return outString;	
+	return outString;
 };
 
 var _doRender = function(str, options) {
-	
+
 }
 
 
-var selectorIterator = function(selectors, sizzle) {	
+var selectorIterator = function(selectors, sizzle) {
 	for(key in selectors) {
 		var a = (selectors[key].constructor == Array) ? selectors[key] : [selectors[key]]; // make sure we have an array.
 		var c = a.length;
 		var pendingItems = [];
 		while(c--) {
-			
+
 			var domNode = sizzle(key)[c];
 			if(domNode) {
 				var pendingItemsCount = pendingItems.length;
@@ -79,9 +79,9 @@ var selectorIterator = function(selectors, sizzle) {
 				}
 				domNode = updateNode(domNode, a[c], key);
 			} else {
-				pendingItems.push(a[c]); 
+				pendingItems.push(a[c]);
 			}
-		}		
+		}
 	}
 };
 
@@ -96,7 +96,7 @@ var classifyKeys = function(ar) {
 	}
 	var c = ar.length;
 	var retArray = [];
-	
+
 	while(c--) {
 		var newObj = {};
 		for(key in ar[c]){
@@ -110,21 +110,21 @@ var classifyKeys = function(ar) {
 exports.compile = function(str, options) {
 	var selectors = options.selectors;
 	for(key in selectors) {
-		if(typeof selectors[key].partial !== "undefined" ){// this is a partial.	
+		if(typeof selectors[key].partial !== "undefined" ){// this is a partial.
 			if(typeof selectors[key].data === "undefined" || selectors[key].data.length > 0){ // make sure we are passed in data and that the data is not empty.
 					// TODO _ we should confirm if classify keys is not disabled.
-					selectors[key] = exports.doRender('<body>' + exports.partials[selectors[key].partial] + '</body>', classifyKeys(selectors[key].data)).slice(6, -7);	// adding and then stripping body tag for jsdom. 					
+					selectors[key] = exports.doRender('<body>' + exports.partials[selectors[key].partial] + '</body>', classifyKeys(selectors[key].data)).slice(6, -7);	// adding and then stripping body tag for jsdom.
 			}
 		}
 	}
 	return function(locals) {
-		return exports.render(str, {locals: options});	
+		return exports.render(str, {locals: options});
 	}
 };
 
-exports.startup = function(app, callback) { 
+exports.startup = function(app, callback) {
 	var count = 0;
-	fs.readdir('./views/partials/', function (err, files) { 
+	fs.readdir('./views/partials/', function (err, files) {
 		if (err) throw err;
 		exports.partials = {};
 		files.forEach( function (file) {
@@ -136,7 +136,7 @@ exports.startup = function(app, callback) {
 				if(count===0) {
 					callback(app);
 				}
-			});	
+			});
 		});
 	});
 };

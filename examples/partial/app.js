@@ -19,13 +19,13 @@ app.get('/', function(req, res) {
 					}
 				]
 			}
-		}	
+		}
 	});
 });
 
 
 sizlate.startup(app, function(app) {
 	app.listen(8000);
-	console.log('check out http://localhost:8000');	
+	console.log('check out http://localhost:8000');
 });
 

@@ -19,7 +19,7 @@ app.get('/', function(req, res) {
 				href: 'alt text',
 				title: 'title text',
 				className: 'bob'
-			},	
+			},
 			'.partial': {
 				partial: 'partial.html',
 				data: {
@@ -42,11 +42,11 @@ app.get('/1', function(req, res) {
 				href: 'alt text',
 				title: 'title text',
 				className: 'bob'
-			}				
+			}
 		}
 	});
 });
 
 sizlate.startup(app, function(app) {
-	app.listen(8000);	
+	app.listen(8000);
 });

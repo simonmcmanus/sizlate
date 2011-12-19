@@ -13,10 +13,10 @@ app.get('/', function(req, res) {
 				title: 'yahoo',
 				innerHTML: 'yahoo'
 			}
-		}	
+		}
 	});
 });
 
 app.listen(8000);
-console.log('check out http://localhost:8000');	
+console.log('check out http://localhost:8000');
 
