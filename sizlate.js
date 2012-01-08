@@ -38,7 +38,7 @@ exports.doRender = function(str, options) {
 	if(typeof options.locals != "undefined"){ // called via render - should be the last call.
 		var selectors = options.locals.selectors;
 		if(sizzle('#container')[0]){
-			sizzle('#container')[0].innerHTML = options.locals.body;					
+			sizzle('#container')[0].innerHTML = options.locals.body;
 		}
 	} else { // called directly
 		var selectors = options;
@@ -125,9 +125,16 @@ exports.compile = function(str, options) {
 exports.startup = function(app, callback) { 
 	var count = 0;
 	var dir = app.settings.dirname;
-	console.log(dir+'/views/partials/', app);
 	fs.readdir(dir+'/views/partials/', function (err, files) { 
-		if (err) throw err;
+		if (err) {
+			if(!dir){
+				console.log('Error loading partial from dir: ' + dir + '/views/partials/' );
+				console.log('YOU NEED TO SET THE EXPRESS __dirname PARAMETER ');
+				console.log('TRY THIS: ', "app.configure( function () {  app.set('dirname', __dirname) });");
+			}
+//			console.log('Have you set: ');
+			throw err;
+		}
 		exports.partials = {};
 		files.forEach( function (file) {
 			count = count + 1;

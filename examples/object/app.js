@@ -6,7 +6,7 @@ var app =  express.createServer();
 app.register('.html', sizlate);
 
 app.get('/', function(req, res) {
-	res.render('home.html', {
+	res.render(__dirname+'/views/home.html', {
 		selectors: {
 			'a': {
 				href: 'http://yahoo.com',

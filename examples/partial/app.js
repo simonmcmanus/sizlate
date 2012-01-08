@@ -4,8 +4,12 @@ var sizlate = require('sizlate');
 var app = express.createServer();
 app.register('.html', sizlate);
 
+app.configure( function () {
+  app.set('dirname', __dirname);
+});
+
 app.get('/', function(req, res) {
-	res.render('home.html', {
+	res.render(__dirname+'/views/home.html', {
 		selectors: {
 			'ul#list': {
 				partial: 'part.html',
