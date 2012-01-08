@@ -124,15 +124,18 @@ exports.compile = function(str, options) {
 
 exports.startup = function(app, callback) { 
 	var count = 0;
-	fs.readdir('./views/partials/', function (err, files) { 
+	var dir = app.settings.dirname;
+	console.log(dir+'/views/partials/', app);
+	fs.readdir(dir+'/views/partials/', function (err, files) { 
 		if (err) throw err;
 		exports.partials = {};
 		files.forEach( function (file) {
 			count = count + 1;
-			fs.readFile('./views/partials/' + file, function (err, data) {
+			fs.readFile(dir+'/views/partials/' + file, function (err, data) {
 				count = count -1;
 				if (err) throw err;
 				exports.partials[file] = '' + data;
+				console.log(exports.partials[file]);
 				if(count===0) {
 					callback(app);
 				}

@@ -1,5 +1,5 @@
 var express = require('express');
-var sizlate = require('../../sizlate');
+var sizlate = require('sizlate');
 
 
 var app =  express.createServer();

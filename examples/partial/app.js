@@ -1,8 +1,7 @@
 var express = require('express');
-var sizlate = require('../../sizlate');
+var sizlate = require('sizlate');
 
-
-var app =  express.createServer();
+var app = express.createServer();
 app.register('.html', sizlate);
 
 app.get('/', function(req, res) {
@@ -11,21 +10,18 @@ app.get('/', function(req, res) {
 			'ul#list': {
 				partial: 'part.html',
 				data: [
-					{
-						name: 'bob'
-					},
-					{
-						name: 'anna'
-					}
+					{ name: 'Bob' },
+					{ name: 'Anna' }
 				]
 			}
-		}	
+		}
 	});
 });
 
 
-sizlate.startup(app, function(app) {
-	app.listen(8000);
-	console.log('check out http://localhost:8000');	
+sizlate.startup(app,
+function(app) {
+    app.listen(8000);
+    console.log('check out http://localhost:8000');
 });
 
