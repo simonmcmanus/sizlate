@@ -90,17 +90,16 @@ exports.render = function(str, options) {
 	return exports.doRender(str, options);
 };
 
-var classifyKeys = function(ar) {
-	if(typeof ar == "undefined"){
+var classifyKeys = function(data, options) {
+	if(!options.classifyKeys || typeof data == "undefined"){
 		return false;
 	}
-	var c = ar.length;
+	var c = data.length;
 	var retArray = [];
-	
 	while(c--) {
 		var newObj = {};
-		for(key in ar[c]){
-			newObj['.'+key] = ar[c][key];
+		for(key in data[c]){
+			newObj['.'+key] = data[c][key];
 		}
 		retArray.push(newObj);
 	}
@@ -113,7 +112,7 @@ exports.compile = function(str, options) {
 		if(typeof selectors[key].partial !== "undefined" ){// this is a partial.	
 			if(typeof selectors[key].data === "undefined" || selectors[key].data.length > 0){ // make sure we are passed in data and that the data is not empty.
 					// TODO _ we should confirm if classify keys is not disabled.
-					selectors[key] = exports.doRender('<body>' + exports.partials[selectors[key].partial] + '</body>', classifyKeys(selectors[key].data)).slice(6, -7);	// adding and then stripping body tag for jsdom. 					
+					selectors[key] = exports.doRender('<body>' + exports.partials[selectors[key].partial] + '</body>', classifyKeys(selectors[key].data, selectors[key])).slice(6, -7);	// adding and then stripping body tag for jsdom. 					
 			}
 		}
 	}

@@ -20,6 +20,7 @@ app.get('/', function(req, res) {
 		selectors: {
 			'#comments': {
 				partial: 'comment.html',
+				classifyKeys: true,
 				data: [{
 					author: 'Simon McManus',
 					comment: 'Partial example.',
