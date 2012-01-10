@@ -29,6 +29,10 @@ var updateNode = function(node, data, selector) {
 };
 
 exports.doRender = function(str, options) {
+
+
+	var container = options.locals.container || '#container';
+			
 	var browser = require("jsdom/lib/jsdom/browser");
 	var dom = browser.browserAugmentation(require("jsdom/lib/jsdom/level2/core").dom.level2.core);
 	var doc = new dom.Document("html");
@@ -37,8 +41,8 @@ exports.doRender = function(str, options) {
 	// as layout is turned off the container does not exist so we are never in this loop.
 	if(typeof options.locals != "undefined"){ // called via render - should be the last call.
 		var selectors = options.locals.selectors;
-		if(sizzle('#container')[0]){
-			sizzle('#container')[0].innerHTML = options.locals.body;
+		if(sizzle(container)[0]){
+			sizzle(container)[0].innerHTML = options.locals.body;
 		}
 	} else { // called directly
 		var selectors = options;
