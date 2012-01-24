@@ -14,8 +14,8 @@ app.get('/', function(req, res) {
 			'ul#list': {
 				partial: 'part.html',
 				data: [
-					{ name: 'Bob' },
-					{ name: 'Anna' }
+					{ '.name': 'Bob' },
+					{ '.name': 'Anna' }
 				]
 			}
 		}

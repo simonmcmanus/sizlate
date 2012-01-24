@@ -105,3 +105,8 @@ Sizlate uses JSDOM and Sizzle.
 
 Requires <a href="http://expressjs.com/">express.js</a> and <a href="http://nodejs.org/">node.js</a>.
 
+
+Release log : 
+
+0.5.0 - fix to partials, modified examples.
+

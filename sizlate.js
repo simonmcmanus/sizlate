@@ -1,6 +1,6 @@
 var fs = require('fs');
 
-exports.version = '0.3.0';
+exports.version = '0.5.0';
 
 var updateNode = function(node, data, selector) {
 	switch(typeof data) {
@@ -95,8 +95,9 @@ exports.render = function(str, options) {
 };
 
 var classifyKeys = function(data, options) {
+	console.log(data, options);
 	if(!options.classifyKeys || typeof data == "undefined"){
-		return false;
+		return data;
 	}
 	var c = data.length;
 	var retArray = [];
@@ -145,7 +146,6 @@ exports.startup = function(app, callback) {
 				count = count -1;
 				if (err) throw err;
 				exports.partials[file] = '' + data;
-				console.log(exports.partials[file]);
 				if(count===0) {
 					callback(app);
 				}
