@@ -107,6 +107,6 @@ Requires <a href="http://expressjs.com/">express.js</a> and <a href="http://node
 
 
 Release log : 
-
+0.6.0 - forcing html5 doctype.
 0.5.0 - fix to partials, modified examples.
 

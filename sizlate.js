@@ -1,6 +1,6 @@
 var fs = require('fs');
 
-exports.version = '0.5.0';
+exports.version = '0.6.0';
 
 var updateNode = function(node, data, selector) {
 	switch(typeof data) {
@@ -59,11 +59,11 @@ exports.doRender = function(str, options) {
 
 var _doRender = function(str, options) {
 	
-}
+};
 
 
-var selectorIterator = function(selectors, sizzle) {	
-	for(key in selectors) {
+var selectorIterator = function(selectors, sizzle) {
+	for(var key in selectors) {
 		var a = (selectors[key].constructor == Array) ? selectors[key] : [selectors[key]]; // make sure we have an array.
 		var c = a.length;
 		var pendingItems = [];
@@ -118,7 +118,11 @@ exports.compile = function(str, options) {
 		}
 	}
 	return function(locals) {
-		return exports.render(str, {locals: options});
+		/*
+			todo - Forcing html5 doctype. - needs to be fixed. its available in the str param passed into compile.
+					There should be some checking if the string is a doctype, it should then be used to set JSDOM mode.
+		*/
+		return '<!DOCTYPE html>'+exports.render(str, {locals: options});
 	};
 };
 
@@ -132,7 +136,6 @@ exports.startup = function(app, callback) {
 				console.log('YOU NEED TO SET THE EXPRESS __dirname PARAMETER ');
 				console.log('TRY THIS: ', "app.configure( function () {  app.set('dirname', __dirname) });");
 			}
-//			console.log('Have you set: ');
 			throw err;
 		}
 		exports.partials = {};
