@@ -5,33 +5,30 @@ exports.version = '0.5.0';
 var updateNode = function(node, data, selector) {
 	switch(typeof data) {
 		case "string":
-			if(data !=""){
+			if(data !== ""){
 				node.innerHTML = data;
 			}
-	  	break;
+		break;
 		case "number": // TODO - confirm - this seems wrong - why only numbers to ids?
 			if(selector == ".id"){
-		  		node.id = data;
+				node.id = data;
 			}else {
 				node.innerHTML = data;
 			}
-	  	break;
+		break;
 		case "object":
-			for(key in data) {
+			for(var key in data){
 				if(key === 'selectors') { // allow nested selectors
 					node.innerHTML = exports.doRender(node.innerHTML, data[key]);
 				}
 				node[key] = (key == 'className') ? node[key] = node[key] + " " + data[key] : node[key] = data[key]; //if its a classname add its to what is already there instead of overriding.
 			}
-	  	break;
+		break;
 	}
-	return node;	
+	return node;
 };
 
 exports.doRender = function(str, options) {
-
-
-			
 	var browser = require("jsdom/lib/jsdom/browser");
 	var dom = browser.browserAugmentation(require("jsdom/lib/jsdom/level2/core").dom.level2.core);
 	var doc = new dom.Document("html");
@@ -45,19 +42,19 @@ exports.doRender = function(str, options) {
 			sizzle(container)[0].innerHTML = options.locals.body;
 		}
 	} else { // called directly
-		var selectors = options;
+		var	selectors = options;
 	}
 	if(typeof selectors == "undefined"){
 		return "";
 	}
-	var selectors = (typeof selectors[0] == 'undefined') ? [selectors] : selectors; // make sure we have an array. 
+	var selectors = (typeof selectors[0] == 'undefined') ? [selectors] : selectors; // make sure we have an array.
 	var selectorCount = selectors.length;
 	var outString = "";
 	while(selectorCount--){
 		selectorIterator(selectors[selectorCount], sizzle);
 		outString = outString + doc.innerHTML.slice(12, -14); // slice strips html/body tags added above.
 	}
-	return outString;	
+	return outString;
 };
 
 var _doRender = function(str, options) {
@@ -71,7 +68,6 @@ var selectorIterator = function(selectors, sizzle) {
 		var c = a.length;
 		var pendingItems = [];
 		while(c--) {
-			
 			var domNode = sizzle(key)[c];
 			if(domNode) {
 				var pendingItemsCount = pendingItems.length;
@@ -83,9 +79,9 @@ var selectorIterator = function(selectors, sizzle) {
 				}
 				domNode = updateNode(domNode, a[c], key);
 			} else {
-				pendingItems.push(a[c]); 
+				pendingItems.push(a[c]);
 			}
-		}		
+		}
 	}
 };
 
@@ -103,7 +99,7 @@ var classifyKeys = function(data, options) {
 	var retArray = [];
 	while(c--) {
 		var newObj = {};
-		for(key in data[c]){
+		for(var key in data[c]){
 			newObj['.'+key] = data[c][key];
 		}
 		retArray.push(newObj);
@@ -113,23 +109,23 @@ var classifyKeys = function(data, options) {
 
 exports.compile = function(str, options) {
 	var selectors = options.selectors;
-	for(key in selectors) {
-		if(typeof selectors[key].partial !== "undefined" ){// this is a partial.	
+	for(var key in selectors) {
+		if(typeof selectors[key].partial !== "undefined" ){// this is a partial.
 			if(typeof selectors[key].data === "undefined" || selectors[key].data.length > 0){ // make sure we are passed in data and that the data is not empty.
-					// TODO _ we should confirm if classify keys is not disabled.
-					selectors[key] = exports.doRender('<body>' + exports.partials[selectors[key].partial] + '</body>', classifyKeys(selectors[key].data, selectors[key])).slice(6, -7);	// adding and then stripping body tag for jsdom. 					
+				// TODO _ we should confirm if classify keys is not disabled.
+				selectors[key] = exports.doRender('<body>' + exports.partials[selectors[key].partial] + '</body>', classifyKeys(selectors[key].data, selectors[key])).slice(6, -7);	// adding and then stripping body tag for jsdom.
 			}
 		}
 	}
 	return function(locals) {
-		return exports.render(str, {locals: options});	
-	}
+		return exports.render(str, {locals: options});
+	};
 };
 
-exports.startup = function(app, callback) { 
+exports.startup = function(app, callback) {
 	var count = 0;
 	var dir = app.settings.dirname;
-	fs.readdir(dir+'/views/partials/', function (err, files) { 
+	fs.readdir(dir+'/views/partials/', function (err, files) {
 		if (err) {
 			if(!dir){
 				console.log('Error loading partial from dir: ' + dir + '/views/partials/' );
@@ -149,7 +145,7 @@ exports.startup = function(app, callback) {
 				if(count===0) {
 					callback(app);
 				}
-			});	
+			});
 		});
 	});
 };

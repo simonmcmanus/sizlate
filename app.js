@@ -1,3 +1,8 @@
+/*
+This is a demo app. 
+
+There are more examples in the examples folder.
+*/
 var app = require('express').createServer();
 
 var sizlate = require('sizlate');
