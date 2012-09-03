@@ -28,6 +28,19 @@ var updateNode = function(node, data, selector) {
 	return node;
 };
 
+
+exports.__express = function(filename, options, callback) {
+	var fs = require('fs');
+	fs.readFile(filename, function(err,data){
+	  if(err) {
+	    console.error("Could not open file: %s", err);
+	    process.exit(1);
+	  }
+	  callback(null, exports.doRender(data, options));
+	});
+
+};
+
 exports.doRender = function(str, options) {
 	var browser = require("jsdom/lib/jsdom/browser");
 	var dom = browser.browserAugmentation(require("jsdom/lib/jsdom/level2/core").dom.level2.core);
@@ -125,6 +138,8 @@ exports.compile = function(str, options) {
 		return '<!DOCTYPE html>'+exports.render(str, {locals: options});
 	};
 };
+
+
 
 exports.startup = function(app, callback) {
 	var count = 0;
