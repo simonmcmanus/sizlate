@@ -2,6 +2,10 @@ var fs = require('fs');
 
 exports.version = '0.6.0';
 
+
+
+
+
 var updateNode = function(node, data, selector) {
 	switch(typeof data) {
 		case "string":
@@ -31,33 +35,38 @@ var updateNode = function(node, data, selector) {
 
 exports.__express = function(filename, options, callback) {
 	var fs = require('fs');
-	fs.readFile(filename, function(err,data){
-	  if(err) {
-	    console.error("Could not open file: %s", err);
-	    process.exit(1);
-	  }
-	  callback(null, exports.doRender(data, options));
-	});
+	console.log(options);
+
+	if(options.layout) {
+		fs.readFile(options.settings.views + '/' + options.layout + '.'+ options.settings['view engine'], function(error, template) {
+			var selectors = {
+				'#content': template
+			}
+			fs.readFile(filename, function(err,data){
+			  if(err) {
+			    console.error("Could not open file: %s", err);
+			    process.exit(1);
+			  }
+			  callback(null, exports.doRender(template,  { '#content': exports.doRender(data, options) } ) );
+			});
+
+
+			exports.doRender();
+		});
+	}
+
+
+
 
 };
 
-exports.doRender = function(str, options) {
+exports.doRender = function(str, selectors) {
 	var browser = require("jsdom/lib/jsdom/browser");
 	var dom = browser.browserAugmentation(require("jsdom/lib/jsdom/level2/core").dom.level2.core);
 	var doc = new dom.Document("html");
 	doc.innerHTML = '<html><body>' + str + '</html></body>';
 	var sizzle = require("./lib/sizzle.js").sizzleInit({}, doc);
-	// as layout is turned off the container does not exist so we are never in this loop.
-	if(typeof options.locals != "undefined"){ // called via render - should be the last call.
-		var container = options.locals.container || '#container';
-		var selectors = options.locals.selectors;
-		if(sizzle(container)[0]){
-			sizzle(container)[0].innerHTML = options.locals.body;
-		}
-	} else { // called directly
-		var	selectors = options;
-	}
-	if(typeof selectors == "undefined"){
+	if(typeof selectors === "undefined"){
 		return "";
 	}
 	var selectors = (typeof selectors[0] == 'undefined') ? [selectors] : selectors; // make sure we have an array.
@@ -69,11 +78,6 @@ exports.doRender = function(str, options) {
 	}
 	return outString;
 };
-
-var _doRender = function(str, options) {
-	
-};
-
 
 var selectorIterator = function(selectors, sizzle) {
 	for(var key in selectors) {
@@ -103,8 +107,7 @@ exports.render = function(str, options) {
 	return exports.doRender(str, options);
 };
 
-var classifyKeys = function(data, options) {
-	console.log(data, options);
+exports.classifyKeys = function(data, options) {
 	if(!options.classifyKeys || typeof data == "undefined"){
 		return data;
 	}
@@ -126,7 +129,7 @@ exports.compile = function(str, options) {
 		if(typeof selectors[key].partial !== "undefined" ){// this is a partial.
 			if(typeof selectors[key].data === "undefined" || selectors[key].data.length > 0){ // make sure we are passed in data and that the data is not empty.
 				// TODO _ we should confirm if classify keys is not disabled.
-				selectors[key] = exports.doRender('<body>' + exports.partials[selectors[key].partial] + '</body>', classifyKeys(selectors[key].data, selectors[key])).slice(6, -7);	// adding and then stripping body tag for jsdom.
+				selectors[key] = exports.doRender('<body>' + exports.partials[selectors[key].partial] + '</body>', exports.classifyKeys(selectors[key].data, selectors[key])).slice(6, -7);	// adding and then stripping body tag for jsdom.
 			}
 		}
 	}
