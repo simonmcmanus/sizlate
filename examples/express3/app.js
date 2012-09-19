@@ -31,8 +31,14 @@ app.configure('development', function(){
 app.get('/', function(req, res){
   res.render('index', { 
     layout: 'layout',
-    selectors : {
-      p: 'boris'
+    selectors: {
+      'ul#list': {
+        partial: 'part.sizlate',
+        data: [
+          { '.name': 'Bob' },
+          { '.name': 'Anna' }
+        ]
+      }
     }
   });
 });
