@@ -1,3 +1,14 @@
+<h1>Express 3.0 Changes</h1>
+
+All template files must use .sizlate extension. (if someone can fix I would happily go back to .html)
+
+
+Do not specify file extensions for templates or partials.
+
+Thats about it.
+
+
+
 <h1>Sizlate</h1>
 
 Sizlate is an experimental HTML templating engine for <a href="http://expressjs.com">Express.js</a>.
