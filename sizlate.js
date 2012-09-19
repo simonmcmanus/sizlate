@@ -35,29 +35,26 @@ var updateNode = function(node, data, selector) {
 
 exports.__express = function(filename, options, callback) {
 	var fs = require('fs');
-	console.log(options);
-
 	if(options.layout) {
-		fs.readFile(options.settings.views + '/' + options.layout + '.'+ options.settings['view engine'], function(error, template) {
-			var selectors = {
-				'#content': template
-			}
-			fs.readFile(filename, function(err,data){
+		fs.readFile(options.settings.views + '/' + options.layout + '.'+ options.settings['view engine'], 'utf8', function(error, template) {
+			fs.readFile(filename, 'utf8', function(err,data){
 			  if(err) {
 			    console.error("Could not open file: %s", err);
 			    process.exit(1);
 			  }
-			  callback(null, exports.doRender(template,  { '#content': exports.doRender(data, options) } ) );
+			  var markup = exports.doRender(template,  { '#content': data } ) ;
+			  callback(null, exports.doRender(markup, options.selectors));
 			});
-
-
-			exports.doRender();
+		});
+	} else { // no layouts specified, just do the render.
+		fs.readFile(filename, 'utf8', function(err,data){
+		  if(err) {
+		    console.error("Could not open file: %s", err);
+		    process.exit(1);
+		  }
+		  callback(null, exports.doRender(template,  { '#content': exports.doRender(data, options) } ) );
 		});
 	}
-
-
-
-
 };
 
 exports.doRender = function(str, selectors) {
