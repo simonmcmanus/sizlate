@@ -74,7 +74,7 @@ exports.__express = function(filename, options, callback) {
 	for(var key in selectors) {
 		if(selectors[key].partial){// this is a partial.
 			if(selectors[key].data && selectors[key].data.length > 0){ // make sure we are passed in data and that the data is not empty.
-				fs.readFile(options.settings.views + '/partials/' + selectors[key].partial, 'utf8', function (err, data) {
+				fs.readFile(options.settings.views + '/partials/' + selectors[key].partial + '.' + options.settings['view engine'], 'utf8', function (err, data) {
 					selectors[key] = exports.doRender('<body>' + data + '</body>', exports.classifyKeys(selectors[key].data, selectors[key])).slice(6, -7);	// adding and then stripping body tag for jsdom.
 				});
 			}

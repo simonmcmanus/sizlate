@@ -31,15 +31,28 @@ app.configure('development', function(){
 app.get('/', function(req, res){
   res.render('index', { 
     layout: 'layout',
-    selectors: {
-      'ul#list': {
-        partial: 'part.sizlate',
-        data: [
-          { '.name': 'Bob' },
-          { '.name': 'Anna' }
+   selectors: {
+      '#comments': {
+        partial: 'part',
+        classifyKeys: true,
+        data: [{
+          author: 'Simon McManus',
+          comment: 'Partial example.',
+          date: '12th December 1991'
+        },
+        {
+          author: 'Harry Beagle',
+          comment: 'Partial example 1.',
+          date: '12th December 1992'
+        },
+        {
+          author: 'UNKNOWN',
+          comment: 'Partial example 2.',
+          date: '12th December 1993'
+        }
         ]
       }
-    }
+    } 
   });
 });
 
