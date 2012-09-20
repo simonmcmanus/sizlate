@@ -67,7 +67,6 @@ exports.classifyKeys = function(data, options) {
 	return retArray;
 };
 
-
 exports.__express = function(filename, options, callback) {
 	var fs = require('fs');
 	var selectors = options.selectors;
@@ -87,7 +86,9 @@ exports.__express = function(filename, options, callback) {
 			    console.error("Could not open file: %s", err);
 			    process.exit(1);
 			  }
-			  var markup = exports.doRender(template,  { '#content': data } ) ;
+			  var selectors = {};
+			  selectors[options.container || '#container'] = data;
+			  var markup = exports.doRender(template,   selectors) ;
 			  callback(null, '<!DOCTYPE html>'+exports.doRender(markup, options.selectors));
 			});
 		});
@@ -97,7 +98,7 @@ exports.__express = function(filename, options, callback) {
 		    console.error("Could not open file: %s", err);
 		    process.exit(1);
 		  }
-		  callback(null, '<!DOCTYPE html>'+exports.doRender(template,  { '#content': exports.doRender(data, options) } ) );
+		  callback(null, '<!DOCTYPE html>'+exports.doRender(template, { '#content': exports.doRender(data, options) } ) );
 		});
 	}
 };
