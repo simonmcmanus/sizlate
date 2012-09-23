@@ -1,12 +1,10 @@
-<h1>Express 3.0 Changes</h1>
+<h1>Express 3.0 Changes with Sizlate 0.6.0</h1>
 
 All template files must use .sizlate extension. (if someone can fix I would happily go back to .html)
 
-
-Do not specify file extensions for templates or partials.
+Do not specify file extensions for templates or partials. Examples have all been updated.
 
 Thats about it.
-
 
 
 <h1>Sizlate</h1>
@@ -25,7 +23,7 @@ Sizlate will be available as an npm package very soon.
 <pre>
 <code>	
 	app.get('/', function(req, res) {
-		res.render('home.html', {
+		res.render('home', {
 			selectors: {
 				'a': 'hi there'
 			}	
@@ -44,7 +42,7 @@ See /examples/basic
 <pre>
 <code>	
 	app.get('/', function(req, res) {
-		res.render('home.html', {
+		res.render('home', {
 			selectors: {
 				'a': {
 					href: 'http://yahoo.com',
@@ -70,10 +68,10 @@ With partials if you do not specify a class name for the keys in the data the ke
 <pre>
 <code>	
 	app.get('/', function(req, res) {
-		res.render('home.html', {
+		res.render('home', {
 			selectors: {
 				'ul#list': {
-					partial: 'part.html',
+					partial: 'part',
 					data: [
 						{
 							name: 'bob'
