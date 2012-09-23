@@ -1,5 +1,5 @@
 var fs = require('fs');
-exports.version = '0.6.0';
+exports.version = '0.7.0';
 
 var updateNode = function(node, data, selector) {
 	switch(typeof data) {
