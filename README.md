@@ -1,4 +1,4 @@
-<h1>Express 3.0 Changes with Sizlate 0.6.0</h1>
+<h1>Express 3.0 Changes with Sizlate 0.7.0</h1>
 
 All template files must use .sizlate extension. (if someone can fix I would happily go back to .html)
 
