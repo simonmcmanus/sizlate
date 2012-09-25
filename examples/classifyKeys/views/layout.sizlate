@@ -3,6 +3,6 @@
 	<title>Sizlate basic example</title>
 </head>
 <html>
-<div id="content">
+<div id="container">
 </div>
 </html>
