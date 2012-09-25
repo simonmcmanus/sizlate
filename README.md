@@ -1,10 +1,3 @@
-<h1>Express 3.0 Changes with Sizlate 0.7.0</h1>
-
-All template files must use .sizlate extension. (if someone can fix I would happily go back to .html)
-
-Do not specify file extensions for templates or partials. Examples have all been updated.
-
-Thats about it.
 
 
 <h1>Sizlate</h1>
@@ -110,10 +103,27 @@ The template is inserted into a div with an id of container (#container) in layo
 
 See the examples folder for more examples.
 
-Sizlate uses JSDOM and Sizzle.
+
 
 Requires <a href="http://expressjs.com/">express.js</a> and <a href="http://nodejs.org/">node.js</a>.
 
+
+
+<h1>Express 3.0 Changes with Sizlate 0.7.0</h1>
+
+All template files must use .sizlate extension. (if someone can fix I would happily go back to .html)
+
+Do not specify file extensions for templates or partials. Examples have all been updated.
+
+Its now using Cheerio instead of JSOM which should make things much faster.
+
+Other than the changes mentioned above the API should remain the same. 
+
+Any problems please do let me know.
+
+Thanks
+
+Simon
 
 Release log : 
 0.6.0 - forcing html5 doctype.
