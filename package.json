@@ -1,6 +1,6 @@
 {
   "name": "sizlate",
-  "version": "0.7.0rc	",
+  "version": "0.7.0rc",
   "description": "Templating engine using sizzle selectors.",
   "author": "Simon McManus  mcmanus.simon@gmail.com",
   "repository": {
@@ -16,3 +16,4 @@
     "lib": "lib"
   }
 }
+  
