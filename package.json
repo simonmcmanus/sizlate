@@ -11,9 +11,5 @@
   "dependencies": {
     "request": "*",
     "cheerio": "~0.10.0"
-  },
-  "directories": {
-    "lib": "lib"
   }
 }
-  
