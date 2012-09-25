@@ -33,7 +33,6 @@ var updateNode = function($node, selector, data) {
 	return $node;
 };
 
-
 var selectorIterator = function(selectors, $) {
 	for(var selector in selectors) {
 		var $domNode = $(selector);
@@ -59,8 +58,23 @@ exports.classifyKeys = function(data, options) {
 	return retArray;
 };
 
-exports.__express = function(filename, options, callback) {
+exports.doRender = function(str, selectors) {
+	if(!selectors){
+		return "";
+	}
+	$ = cheerio.load(str);
+	var selectors = (typeof selectors[0] == 'undefined') ? [selectors] : selectors; // make sure we have an array.
+	var selectorCount = selectors.length;
+	var out = [];
+	while(selectorCount--){
+		selectorIterator(selectors[selectorCount], $);
+		out.push($.html());
+	}
+	return out.join('');
+};
 
+
+exports.__express = function(filename, options, callback) {
 	var fs = require('fs');
 	var selectors = options.selectors;
 	for(var key in selectors) {
@@ -72,9 +86,6 @@ exports.__express = function(filename, options, callback) {
 			}
 		}
 	}
-
-
-
 	if(options.layout) {
 		fs.readFile(options.settings.views + '/' + options.layout + '.'+ options.settings['view engine'], 'utf8', function(error, template) {
 			fs.readFile(filename, 'utf8', function(err,data){
@@ -84,9 +95,8 @@ exports.__express = function(filename, options, callback) {
 			  }
 			  var selectors = {};
 			  selectors[options.container || '#container'] = data;
-			  console.log('selectors', template, selectors);
 			  var markup = exports.doRender(template,   selectors) ;
-			  callback(null, '<!DOCTYPE html>'+exports.doRender(markup, options.selectors));
+			  callback(null, exports.doRender(markup, options.selectors));
 			});
 		});
 	} else { // no layouts specified, just do the render.
@@ -95,23 +105,7 @@ exports.__express = function(filename, options, callback) {
 		    console.error("Could not open file: %s", err);
 		    process.exit(1);
 		  }
-		  callback(null, '<!DOCTYPE html>'+exports.doRender(template, { '#content': exports.doRender(data, options) } ) );
+		  callback(null, exports.doRender(template, { '#content': exports.doRender(data, options) } ) );
 		});
 	}
-};
-
-exports.doRender = function(str, selectors) {
-	if(typeof selectors === "undefined"){
-		return "";
-	}
-	$ = cheerio.load(str);
-	var selectors = (typeof selectors[0] == 'undefined') ? [selectors] : selectors; // make sure we have an array.
-	var selectorCount = selectors.length;
-	var out = [];
-	while(selectorCount--){
-		selectorIterator(selectors[selectorCount], $);
-		out.push($.html());
-	}
-	console.log(out.join(''));
-	return out.join('');
 };
