@@ -1,52 +1,44 @@
 var fs = require('fs');
+var cheerio = require('cheerio');
 exports.version = '0.7.0';
 
-var updateNode = function(node, data, selector) {
+var updateNode = function($node, selector, data) {
 	switch(typeof data) {
 		case "string":
 			if(data !== ""){
-				node.innerHTML = data;
+				$node.html(data);
 			}
 		break;
 		case "number": // TODO - confirm - this seems wrong - why only numbers to ids?
 			if(selector == ".id"){
+				$node.attr('id', 'data');
 				node.id = data;
 			}else {
-				node.innerHTML = data;
+				$node.html(data);
 			}
 		break;
 		case "object":
 			for(var key in data){
 				if(key === 'selectors') { // allow nested selectors
-					node.innerHTML = exports.doRender(node.innerHTML, data[key]);
+					$node.html(exports.doRender($node.html(), data[key]));
 				}
-				node[key] = (key == 'className') ? node[key] = node[key] + " " + data[key] : node[key] = data[key]; //if its a classname add its to what is already there instead of overriding.
+				if(key == 'className'){
+					$node.addClass(data[key]);
+				}else {
+					$node.attr(data[key]);
+				}
 			}
 		break;
 	}
-	return node;
+	return $node;
 };
 
 
-var selectorIterator = function(selectors, sizzle) {
-	for(var key in selectors) {
-		var a = (selectors[key].constructor == Array) ? selectors[key] : [selectors[key]]; // make sure we have an array.
-		var c = a.length;
-		var pendingItems = [];
-		while(c--) {
-			var domNode = sizzle(key)[c];
-			if(domNode) {
-				var pendingItemsCount = pendingItems.length;
-				while(pendingItemsCount--) {
-					var newNode = domNode.cloneNode(true);
-					newNode = updateNode(newNode, pendingItems[pendingItemsCount], key);
-					domNode.parentNode.appendChild(newNode);
-					pendingItems.pop();
-				}
-				domNode = updateNode(domNode, a[c], key);
-			} else {
-				pendingItems.push(a[c]);
-			}
+var selectorIterator = function(selectors, $) {
+	for(var selector in selectors) {
+		var $domNode = $(selector);
+		if($domNode) {
+			$domNode = updateNode($domNode, selector, selectors[selector]);
 		}
 	}
 };
@@ -68,6 +60,7 @@ exports.classifyKeys = function(data, options) {
 };
 
 exports.__express = function(filename, options, callback) {
+
 	var fs = require('fs');
 	var selectors = options.selectors;
 	for(var key in selectors) {
@@ -79,6 +72,9 @@ exports.__express = function(filename, options, callback) {
 			}
 		}
 	}
+
+
+
 	if(options.layout) {
 		fs.readFile(options.settings.views + '/' + options.layout + '.'+ options.settings['view engine'], 'utf8', function(error, template) {
 			fs.readFile(filename, 'utf8', function(err,data){
@@ -88,6 +84,7 @@ exports.__express = function(filename, options, callback) {
 			  }
 			  var selectors = {};
 			  selectors[options.container || '#container'] = data;
+			  console.log('selectors', template, selectors);
 			  var markup = exports.doRender(template,   selectors) ;
 			  callback(null, '<!DOCTYPE html>'+exports.doRender(markup, options.selectors));
 			});
@@ -104,20 +101,17 @@ exports.__express = function(filename, options, callback) {
 };
 
 exports.doRender = function(str, selectors) {
-	var browser = require("jsdom/lib/jsdom/browser");
-	var dom = browser.browserAugmentation(require("jsdom/lib/jsdom/level2/core").dom.level2.core);
-	var doc = new dom.Document("html");
-	doc.innerHTML = '<html><body>' + str + '</html></body>';
-	var sizzle = require("./lib/sizzle.js").sizzleInit({}, doc);
 	if(typeof selectors === "undefined"){
 		return "";
 	}
+	$ = cheerio.load(str);
 	var selectors = (typeof selectors[0] == 'undefined') ? [selectors] : selectors; // make sure we have an array.
 	var selectorCount = selectors.length;
-	var outString = "";
+	var out = [];
 	while(selectorCount--){
-		selectorIterator(selectors[selectorCount], sizzle);
-		outString = outString + doc.innerHTML.slice(12, -14); // slice strips html/body tags added above.
+		selectorIterator(selectors[selectorCount], $);
+		out.push($.html());
 	}
-	return outString;
+	console.log(out.join(''));
+	return out.join('');
 };
