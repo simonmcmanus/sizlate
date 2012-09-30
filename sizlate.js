@@ -1,8 +1,9 @@
 var fs = require('fs');
 var cheerio = require('cheerio');
-exports.version = '0.7.0';
-
+exports.version = '0.7.1';
+console.log('in ur edit');
 var updateNode = function($node, selector, data) {
+	console.log(selector, data);
 	switch(typeof data) {
 		case "string":
 			if(data !== ""){
@@ -105,7 +106,7 @@ exports.__express = function(filename, options, callback) {
 		    console.error("Could not open file: %s", err);
 		    process.exit(1);
 		  }
-		  callback(null, exports.doRender(template, { '#content': exports.doRender(data, options) } ) );
+		  callback(null, exports.doRender(data, options)	 );
 		});
 	}
 };
