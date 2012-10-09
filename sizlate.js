@@ -106,7 +106,7 @@ exports.__express = function(filename, options, callback) {
 		    console.error("Could not open file: %s", err);
 		    process.exit(1);
 		  }
-		  callback(null, exports.doRender(data, options)	 );
+		  callback(null, exports.doRender(data, options.selectors)	 );
 		});
 	}
 };
