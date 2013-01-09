@@ -1,6 +1,6 @@
 var fs = require('fs');
 var cheerio = require('cheerio');
-exports.version = '0.7.1';
+exports.version = '0.7.3';
 console.log('in ur edit');
 var updateNode = function($node, selector, data) {
 	console.log(selector, data);
@@ -13,7 +13,7 @@ var updateNode = function($node, selector, data) {
 		case "number": // TODO - confirm - this seems wrong - why only numbers to ids?
 			if(selector == ".id"){
 				$node.attr('id', 'data');
-				node.id = data;
+				//node.id = data;
 			}else {
 				$node.html(data);
 			}
