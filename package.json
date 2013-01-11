@@ -1,6 +1,6 @@
 {
   "name": "sizlate",
-  "version": "0.7.3",
+  "version": "0.7.4",
   "description": "Templating engine using sizzle selectors.",
   "author": "Simon McManus  mcmanus.simon@gmail.com",
   "repository": {
@@ -10,6 +10,6 @@
   "main": "sizlate.js",
   "dependencies": {
     "request": "*",
-    "cheerio": "~0.10.0"
+    "cheerio": "~0.10.5"
   }
 }

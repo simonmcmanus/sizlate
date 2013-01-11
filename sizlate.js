@@ -1,6 +1,6 @@
 var fs = require('fs');
 var cheerio = require('cheerio');
-exports.version = '0.7.3';
+exports.version = '0.7.4';
 console.log('in ur edit');
 var updateNode = function($node, selector, data) {
 	console.log(selector, data);
