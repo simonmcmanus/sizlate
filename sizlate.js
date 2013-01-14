@@ -3,17 +3,23 @@ var cheerio = require('cheerio');
 exports.version = '0.7.4';
 console.log('in ur edit');
 var updateNode = function($node, selector, data) {
-	console.log(selector, data);
+	// if there are multiple using the same selector then need to be addressed here.
 	switch(typeof data) {
 		case "string":
 			if(data !== ""){
-				$node.html(data);
+				console.log('<>>>>>>', $node, data);
+
+				if($node[0] && $node[0].type === 'input') {
+										$node.attr('value', data);
+
+									}else {
+															$node.html(data);
+									}
 			}
 		break;
 		case "number": // TODO - confirm - this seems wrong - why only numbers to ids?
 			if(selector == ".id"){
-				$node.attr('id', 'data');
-				//node.id = data;
+				$node.attr('id', data);
 			}else {
 				$node.html(data);
 			}

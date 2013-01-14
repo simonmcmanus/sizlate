@@ -7,6 +7,9 @@
     "type": "git",
     "url": "git://github.com/simonmcmanus/sizlate.git"
   },
+  "engines": {
+    "node": "0.8.9"
+  },
   "main": "sizlate.js",
   "dependencies": {
     "request": "*",
