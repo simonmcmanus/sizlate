@@ -1,19 +1,21 @@
 var fs = require('fs');
 var cheerio = require('cheerio');
 exports.version = '0.7.4';
-console.log('in ur edit');
 var updateNode = function($node, selector, data) {
 	// if there are multiple using the same selector then need to be addressed here.
 	switch(typeof data) {
 		case "string":
 			if(data !== ""){
-				console.log('<>>>>>>', $node, data);
-
-				if($node[0] && $node[0].type === 'input') {
+				if($node['1'] && $node['1'].name === 'input') {
 										$node.attr('value', data);
-
 									}else {
-															$node.html(data);
+
+										if($node['0'] && $node['0'].name === 'input') {
+$node.attr('value', data);
+										}else {
+										$node.html(data);
+
+										}
 									}
 			}
 		break;
@@ -96,13 +98,16 @@ exports.__express = function(filename, options, callback) {
 	if(options.layout) {
 		fs.readFile(options.settings.views + '/' + options.layout + '.'+ options.settings['view engine'], 'utf8', function(error, template) {
 			fs.readFile(filename, 'utf8', function(err,data){
+
 			  if(err) {
 			    console.error("Could not open file: %s", err);
 			    process.exit(1);
 			  }
 			  var selectors = {};
 			  selectors[options.container || '#container'] = data;
-			  var markup = exports.doRender(template,   selectors) ;
+			  var markup = exports.doRender(template,  selectors) ;
+
+			  console.log('DATA', markup, options.selectors);
 			  callback(null, exports.doRender(markup, options.selectors));
 			});
 		});
