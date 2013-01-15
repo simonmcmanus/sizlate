@@ -3,6 +3,7 @@ var cheerio = require('cheerio');
 exports.version = '0.7.4';
 var updateNode = function($node, selector, data) {
 	// if there are multiple using the same selector then need to be addressed here.
+	console.log($node, selector,typeof data);
 	switch(typeof data) {
 		case "string":
 			if(data !== ""){
@@ -28,13 +29,15 @@ $node.attr('value', data);
 		break;
 		case "object":
 			for(var key in data){
+
+				console.log('IN OB',key, data[key]);
 				if(key === 'selectors') { // allow nested selectors
 					$node.html(exports.doRender($node.html(), data[key]));
 				}
 				if(key == 'className'){
 					$node.addClass(data[key]);
 				}else {
-					$node.attr(data[key]);
+					$node.attr(key, data[key]);
 				}
 			}
 		break;
@@ -107,7 +110,7 @@ exports.__express = function(filename, options, callback) {
 			  selectors[options.container || '#container'] = data;
 			  var markup = exports.doRender(template,  selectors) ;
 
-			  console.log('DATA', markup, options.selectors);
+
 			  callback(null, exports.doRender(markup, options.selectors));
 			});
 		});
