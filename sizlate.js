@@ -1,36 +1,34 @@
 var fs = require('fs');
 var cheerio = require('cheerio');
 exports.version = '0.7.4';
+
+var checkForInputs = function($node, data) {
+	$node.each(function(i, elem) {
+		if(this[0].name === 'input') {
+			$(this[0]).attr('value', data);
+		}else {
+			$(this[0]).html(data);
+		}				
+	});
+};
 var updateNode = function($node, selector, data) {
 	// if there are multiple using the same selector then need to be addressed here.
-	console.log($node.attr);
 	switch(typeof data) {
 		case "string":
 			if(data !== ""){
-				$node.each(function(i, elem) {
-					if(this[0].name === 'input') {
-						$(this[0]).attr('value', data);
-					}else {
-						$(this[0]).html(data);
-					}
-  						
-				});
-
-
-
+				checkForInputs($node, data);
 			}
 		break;
 		case "number": // TODO - confirm - this seems wrong - why only numbers to ids?
 			if(selector == ".id"){
 				$node.attr('id', data);
 			}else {
-				$node.html(data);
+				checkForInputs($node, data);
 			}
 		break;
 		case "object":
 			for(var key in data){
 
-				console.log('IN OB',key, data[key]);
 				if(key === 'selectors') { // allow nested selectors
 					$node.html(exports.doRender($node.html(), data[key]));
 				}
