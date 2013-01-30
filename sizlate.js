@@ -1,6 +1,6 @@
 var fs = require('fs');
 var cheerio = require('cheerio');
-exports.version = '0.7.7';
+exports.version = '0.7.8';
 
 var checkForInputs = function($node, data) {
 	$node.each(function(i, elem) {
@@ -8,7 +8,7 @@ var checkForInputs = function($node, data) {
 			$(this[0]).attr('value', data);
 		}else {
 			$(this[0]).html(data);
-		}				
+		}
 	});
 };
 var updateNode = function($node, selector, data) {
@@ -22,6 +22,8 @@ var updateNode = function($node, selector, data) {
 		case "number": // TODO - confirm - this seems wrong - why only numbers to ids?
 			if(selector == ".id"){
 				$node.attr('id', data);
+			}else if(selector == ".data-id") {
+				$node.attr('data-id', data);
 			}else {
 				checkForInputs($node, data);
 			}
