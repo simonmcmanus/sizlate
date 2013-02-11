@@ -1,6 +1,6 @@
 var fs = require('fs');
 var cheerio = require('cheerio');
-exports.version = '0.7.8';
+exports.version = '0.7.10';
 
 var checkForInputs = function($node, data) {
 	$node.each(function(i, elem) {
@@ -93,7 +93,7 @@ exports.__express = function(filename, options, callback) {
 		if(selectors[key] && selectors[key].partial){// this is a partial.
 			if(selectors[key].data && selectors[key].data.length > 0){ // make sure we are passed in data and that the data is not empty.
 				fs.readFile(options.settings.views + '/partials/' + selectors[key].partial + '.' + options.settings['view engine'], 'utf8', function (key, err, data) {
-					selectors[key] = exports.doRender('<body>' + data + '</body>', exports.classifyKeys(selectors[key].data, selectors[key])).slice(6, -7);	// adding and then stripping body tag for jsdom.
+					selectors[key] = exports.doRender(data, exports.classifyKeys(selectors[key].data, selectors[key]));	// adding and then stripping body tag for jsdom.
 				}.bind({}, key));
 			}
 		}
