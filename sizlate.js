@@ -1,6 +1,6 @@
 var fs = require('fs');
 var cheerio = require('cheerio');
-exports.version = '0.7.12';
+exports.version = '0.7.13';
 
 var checkForInputs = function($node, data) {
 	$node.each(function(i, elem) {
