@@ -1,6 +1,6 @@
 var fs = require('fs');
 var cheerio = require('cheerio');
-exports.version = '0.7.11';
+exports.version = '0.7.12';
 
 var checkForInputs = function($node, data) {
 	$node.each(function(i, elem) {
@@ -82,9 +82,6 @@ exports.doRender = function(str, selectors) {
 		selectorIterator(selectors[selectorCount], $);
 		out.push($.html());
 	}
-
-
-	console.log(out.join(''));
 	return out.join('');
 };
 
