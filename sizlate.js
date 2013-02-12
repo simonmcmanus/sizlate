@@ -1,6 +1,6 @@
 var fs = require('fs');
 var cheerio = require('cheerio');
-exports.version = '0.7.10';
+exports.version = '0.7.11';
 
 var checkForInputs = function($node, data) {
 	$node.each(function(i, elem) {
@@ -74,17 +74,19 @@ exports.doRender = function(str, selectors) {
 	if(!selectors){
 		return "";
 	}
-	$ = cheerio.load(str);
-	var selectors = (typeof selectors[0] == 'undefined') ? [selectors] : selectors; // make sure we have an array.
+	var selectors = ( typeof selectors[0] == 'undefined' ) ? [selectors] : selectors; // make sure we have an array.
 	var selectorCount = selectors.length;
 	var out = [];
 	while(selectorCount--){
+		$ = cheerio.load(str);
 		selectorIterator(selectors[selectorCount], $);
 		out.push($.html());
 	}
+
+
+	console.log(out.join(''));
 	return out.join('');
 };
-
 
 exports.__express = function(filename, options, callback) {
 	var fs = require('fs');
@@ -92,7 +94,7 @@ exports.__express = function(filename, options, callback) {
 	for(var key in selectors) {
 		if(selectors[key] && selectors[key].partial){// this is a partial.
 			if(selectors[key].data && selectors[key].data.length > 0){ // make sure we are passed in data and that the data is not empty.
-				fs.readFile(options.settings.views + '/partials/' + selectors[key].partial + '.' + options.settings['view engine'], 'utf8', function (key, err, data) {
+				fs.readFile(options.settings.views + '/partials/' + selectors[key].partial + '.sizlate', 'utf8', function (key, err, data) {
 					selectors[key] = exports.doRender(data, exports.classifyKeys(selectors[key].data, selectors[key]));	// adding and then stripping body tag for jsdom.
 				}.bind({}, key));
 			}
@@ -101,7 +103,6 @@ exports.__express = function(filename, options, callback) {
 	if(options.layout) {
 		fs.readFile(options.settings.views + '/' + options.layout + '.'+ options.settings['view engine'], 'utf8', function(error, template) {
 			fs.readFile(filename, 'utf8', function(err,data){
-
 			  if(err) {
 			    console.error("Could not open file: %s", err);
 			    process.exit(1);
@@ -109,8 +110,6 @@ exports.__express = function(filename, options, callback) {
 			  var selectors = {};
 			  selectors[options.container || '#container'] = data;
 			  var markup = exports.doRender(template,  selectors) ;
-
-
 			  callback(null, exports.doRender(markup, options.selectors));
 			});
 		});
