@@ -1,6 +1,6 @@
 var fs = require('fs');
 var cheerio = require('cheerio');
-exports.version = '0.7.13';
+exports.version = '0.7.14';
 
 var checkForInputs = function($node, data) {
 	$node.each(function(i, elem) {
@@ -72,7 +72,7 @@ exports.classifyKeys = function(data, options) {
 
 exports.doRender = function(str, selectors) {
 	if(!selectors){
-		return "";
+		return str;
 	}
 	var selectors = ( typeof selectors[0] == 'undefined' ) ? [selectors] : selectors; // make sure we have an array.
 	var selectorCount = selectors.length;
