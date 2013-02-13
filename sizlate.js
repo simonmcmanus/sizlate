@@ -1,6 +1,6 @@
 var fs = require('fs');
 var cheerio = require('cheerio');
-exports.version = '0.7.14';
+exports.version = '0.8.0';
 
 var checkForInputs = function($node, data) {
 	$node.each(function(i, elem) {
@@ -12,7 +12,6 @@ var checkForInputs = function($node, data) {
 	});
 };
 var updateNode = function($node, selector, data) {
-	// if there are multiple using the same selector then need to be addressed here.
 	switch(typeof data) {
 		case "string":
 			if(data !== ""){
@@ -30,7 +29,6 @@ var updateNode = function($node, selector, data) {
 		break;
 		case "object":
 			for(var key in data){
-
 				if(key === 'selectors') { // allow nested selectors
 					$node.html(exports.doRender($node.html(), data[key]));
 				}
@@ -47,6 +45,9 @@ var updateNode = function($node, selector, data) {
 
 var selectorIterator = function(selectors, $) {
 	for(var selector in selectors) {
+		if(typeof selectors[selector] === 'function') {
+			break;
+		}
 		var $domNode = $(selector);
 		if($domNode) {
 			$domNode = updateNode($domNode, selector, selectors[selector]);
@@ -74,6 +75,7 @@ exports.doRender = function(str, selectors) {
 	if(!selectors){
 		return str;
 	}
+	console.log(selectors);
 	var selectors = ( typeof selectors[0] == 'undefined' ) ? [selectors] : selectors; // make sure we have an array.
 	var selectorCount = selectors.length;
 	var out = [];
@@ -88,35 +90,54 @@ exports.doRender = function(str, selectors) {
 exports.__express = function(filename, options, callback) {
 	var fs = require('fs');
 	var selectors = options.selectors;
+	var wait = false;
+	var count = 0; // keep track of total number of callbacks to wait for
+	var complete = 0; // completed callbacks count.
 	for(var key in selectors) {
 		if(selectors[key] && selectors[key].partial){// this is a partial.
 			if(selectors[key].data && selectors[key].data.length > 0){ // make sure we are passed in data and that the data is not empty.
+				wait = true;
+				count++;
 				fs.readFile(options.settings.views + '/partials/' + selectors[key].partial + '.sizlate', 'utf8', function (key, err, data) {
 					selectors[key] = exports.doRender(data, exports.classifyKeys(selectors[key].data, selectors[key]));	// adding and then stripping body tag for jsdom.
+					complete++;
+					if(complete === 1) {
+						doRendering();
+					}
 				}.bind({}, key));
 			}
 		}
 	}
-	if(options.layout) {
-		fs.readFile(options.settings.views + '/' + options.layout + '.'+ options.settings['view engine'], 'utf8', function(error, template) {
+
+	var doRendering = function() {
+		if(options.layout) {
+			fs.readFile(options.settings.views + '/' + options.layout + '.'+ options.settings['view engine'], 'utf8', function(error, template) {
+				fs.readFile(filename, 'utf8', function(err,data){
+				  if(err) {
+				    console.error("Could not open file: %s", err);
+				    process.exit(1);
+				  }
+				  var selectors = {};
+				  selectors[options.container || '#container'] = data;
+				  var markup = exports.doRender(template,  selectors) ;
+				  callback(null, exports.doRender(markup, options.selectors));
+				});
+			});
+		} else { // no layouts specified, just do the render.
 			fs.readFile(filename, 'utf8', function(err,data){
 			  if(err) {
 			    console.error("Could not open file: %s", err);
 			    process.exit(1);
 			  }
-			  var selectors = {};
-			  selectors[options.container || '#container'] = data;
-			  var markup = exports.doRender(template,  selectors) ;
-			  callback(null, exports.doRender(markup, options.selectors));
+			  callback(null, exports.doRender(data, options.selectors)	 );
 			});
-		});
-	} else { // no layouts specified, just do the render.
-		fs.readFile(filename, 'utf8', function(err,data){
-		  if(err) {
-		    console.error("Could not open file: %s", err);
-		    process.exit(1);
-		  }
-		  callback(null, exports.doRender(data, options.selectors)	 );
-		});
+		}
 	}
+	if(!wait) {
+		doRendering();
+	}
+
+	// its doing this before its fetch the parital
+	// 
+
 };
