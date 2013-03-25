@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+    <meta charset='utf-8' />
+    <meta http-equiv="X-UA-Compatible" content="chrome=1" />
+    <meta name="description" content="Sizlate : use sizzle selectors for express.js templating" />
+
+    <link rel="stylesheet" type="text/css" media="screen" href="stylesheets/stylesheet.css">
+
+    <title>Sizlate</title>
+  </head>
+
+  <body>
+
+    <!-- HEADER -->
+    <div id="header_wrap" class="outer">
+        <header class="inner">
+          <a id="forkme_banner" href="https://github.com/simonmcmanus/sizlate">View on GitHub</a>
+
+          <h1 id="project_title">Sizlate</h1>
+          <h2 id="project_tagline">use sizzle selectors for express.js templating</h2>
+
+            <section id="downloads">
+              <a class="zip_download_link" href="https://github.com/simonmcmanus/sizlate/zipball/master">Download this project as a .zip file</a>
+              <a class="tar_download_link" href="https://github.com/simonmcmanus/sizlate/tarball/master">Download this project as a tar.gz file</a>
+            </section>
+        </header>
+    </div>
+
+    <!-- MAIN CONTENT -->
+    <div id="main_content_wrap" class="outer">
+      <section id="main_content" class="inner">
+        <h1>Sizlate</h1>
+
+<p>Sizlate is an experimental HTML templating engine for <a href="http://expressjs.com">Express.js</a>.</p>
+
+<p>Sizlate requires NO special syntax, your templates only contain valid HTML.</p>
+
+<p>Templates are populated using sizzle selectors (as used in jQuery).</p>
+
+<p>Sizlate will be available as an npm package very soon.</p>
+
+<h2>Examples</h2>
+
+<h3>Simple text example</h3>
+
+<pre>
+<code>  
+    app.get('/', function(req, res) {
+        res.render('home', {
+            selectors: {
+                'a': 'hi there'
+            }   
+        });
+    });
+
+</code>
+</pre>
+
+<p>See /examples/basic</p>
+
+<ul>
+<li>Note that the text in the template is overridden. This allows you to pre-populate a design templates with dummy data. </li>
+<li>Please also note that the template should only have one root html element. This is a known issue.</li>
+</ul><h3>Populating a node using a javascript object</h3>
+
+<pre>
+<code>  
+    app.get('/', function(req, res) {
+        res.render('home', {
+            selectors: {
+                'a': {
+                    href: 'http://yahoo.com',
+                    title: 'yahoo',
+                    innerHTML: 'yahoo'
+                }
+            }   
+        });
+    });
+</code>
+</pre>
+
+<p>See /examples/object</p>
+
+<p>All these values will override the existing value except className which will be added on to the end of any existing classes.</p>
+
+<h3>Partial Example</h3>
+
+<p>With partials if you do not specify a class name for the keys in the data the keys will be converted into a class.</p>
+
+<pre>
+<code>  
+    app.get('/', function(req, res) {
+        res.render('home', {
+            selectors: {
+                'ul#list': {
+                    partial: 'part',
+                    data: [
+                        {
+                            name: 'bob'
+                        },
+                        {
+                            name: 'anna'
+                        }
+                    ]
+                }
+            }   
+        });
+    });
+    
+    
+    
+    sizlate.startup(app, function(app) {
+        app.listen(8000);
+        console.log('check out http://localhost:8000'); 
+    });
+</code>
+</pre>
+
+<p>
+Note that you need to start your server is the startup callback so that the partials have been loaded.
+</p>
+
+<p>See /examples/partial</p>
+
+<ul>
+<li>If no data is passed in the partial will render without any data</li>
+    <li>If an empty array is passed into data the partial will not be displayed at all.</li>
+</ul><p>The template is inserted into a div with an id of container (#container) in layout.html.</p>
+
+<p>See the examples folder for more examples.</p>
+
+<p>Requires <a href="http://expressjs.com/">express.js</a> and <a href="http://nodejs.org/">node.js</a>.</p>
+
+<h1>Express 3.0 Changes with Sizlate 0.7.0</h1>
+
+<p>All template files must use .sizlate extension. (if someone can fix I would happily go back to .html)</p>
+
+<p>Do not specify file extensions for templates or partials. Examples have all been updated.</p>
+
+<p>Its now using Cheerio instead of JSOM which should make things much faster.</p>
+
+<p>Other than the changes mentioned above the API should remain the same. </p>
+
+<p>Any problems please do let me know.</p>
+
+<p>Thanks</p>
+
+<p>Simon</p>
+
+<p>Release log : 
+0.6.0 - forcing html5 doctype.
+0.5.0 - fix to partials, modified examples.</p>
+      </section>
+    </div>
+
+    <!-- FOOTER  -->
+    <div id="footer_wrap" class="outer">
+      <footer class="inner">
+        <p class="copyright">Sizlate maintained by <a href="https://github.com/simonmcmanus">simonmcmanus</a></p>
+        <p>Published with <a href="http://pages.github.com">GitHub Pages</a></p>
+      </footer>
+    </div>
+
+    
+
+  </body>
+</html>
