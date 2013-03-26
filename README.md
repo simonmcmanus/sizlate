@@ -2,7 +2,7 @@
 
 <h1>Sizlate</h1>
 
-Sizlate is an experimental HTML templating engine for <a href="http://expressjs.com">Express.js</a>.
+Sizlate is an HTML templating engine for <a href="http://expressjs.com">Express.js</a>.
 
 Sizlate requires NO special syntax, your templates only contain valid HTML.
 
