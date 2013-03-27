@@ -16,11 +16,11 @@ app.configure(function(){
 });
 
 app.get('/', function(req, res){
-  res.render('index', { 
+  res.render('index', {
     layout: 'layout',
     selectors: {
       'h1': 'Sizlate'
-    } 
+    }
   });
 });
 

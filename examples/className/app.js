@@ -6,6 +6,7 @@
 var express = require('express');
 var http = require('http');
 var path = require('path');
+var sizlate = require('sizlate');
 
 var app = express();
 
@@ -16,13 +17,13 @@ app.configure(function(){
 });
 
 app.get('/', function(req, res){
-  res.render('index', { 
+  res.render('index', {
     layout: 'layout',
     selectors: {
       'a': {
         className: 'selected'
       }
-    } 
+    }
   });
 });
 
