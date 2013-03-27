@@ -14,12 +14,12 @@ Sizlate will be available as an npm package very soon.
 
 <h3>Simple text example</h3>
 <pre>
-<code>	
+<code>
 	app.get('/', function(req, res) {
 		res.render('home', {
 			selectors: {
 				'a': 'hi there'
-			}	
+			}
 		});
 	});
 
@@ -33,7 +33,7 @@ See /examples/basic
 </ul>
 <h3>Populating a node using a javascript object</h3>
 <pre>
-<code>	
+<code>
 	app.get('/', function(req, res) {
 		res.render('home', {
 			selectors: {
@@ -42,7 +42,7 @@ See /examples/basic
 					title: 'yahoo',
 					innerHTML: 'yahoo'
 				}
-			}	
+			}
 		});
 	});
 </code>
@@ -59,7 +59,7 @@ All these values will override the existing value except className which will be
 
 With partials if you do not specify a class name for the keys in the data the keys will be converted into a class.
 <pre>
-<code>	
+<code>
 	app.get('/', function(req, res) {
 		res.render('home', {
 			selectors: {
@@ -74,22 +74,16 @@ With partials if you do not specify a class name for the keys in the data the ke
 						}
 					]
 				}
-			}	
+			}
 		});
 	});
-	
-	
-	
-	sizlate.startup(app, function(app) {
-		app.listen(8000);
-		console.log('check out http://localhost:8000');	
-	});
+
+
+
+	app.listen(8000);
+	console.log('check out http://localhost:8000');
 </code>
 </pre>
-
-<p>
-Note that you need to start your server is the startup callback so that the partials have been loaded.
-</p>
 
 See /examples/partial
 
@@ -117,7 +111,7 @@ Do not specify file extensions for templates or partials. Examples have all been
 
 Its now using Cheerio instead of JSOM which should make things much faster.
 
-Other than the changes mentioned above the API should remain the same. 
+Other than the changes mentioned above the API should remain the same.
 
 Any problems please do let me know.
 
@@ -125,7 +119,7 @@ Thanks
 
 Simon
 
-Release log : 
+Release log :
 0.6.0 - forcing html5 doctype.
 0.5.0 - fix to partials, modified examples.
 
