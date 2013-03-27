@@ -4,7 +4,7 @@
   <head>
     <meta charset='utf-8' />
     <meta http-equiv="X-UA-Compatible" content="chrome=1" />
-    <meta name="description" content="Sizlate : use sizzle selectors for express.js templating" />
+    <meta name="description" content="Sizlate : Sizzle selector templating engine" />
 
     <link rel="stylesheet" type="text/css" media="screen" href="stylesheets/stylesheet.css">
 
@@ -19,7 +19,7 @@
           <a id="forkme_banner" href="https://github.com/simonmcmanus/sizlate">View on GitHub</a>
 
           <h1 id="project_title">Sizlate</h1>
-          <h2 id="project_tagline">use sizzle selectors for express.js templating</h2>
+          <h2 id="project_tagline">Sizzle selector templating engine</h2>
 
             <section id="downloads">
               <a class="zip_download_link" href="https://github.com/simonmcmanus/sizlate/zipball/master">Download this project as a .zip file</a>
@@ -33,7 +33,7 @@
       <section id="main_content" class="inner">
         <h1>Sizlate</h1>
 
-<p>Sizlate is an experimental HTML templating engine for <a href="http://expressjs.com">Express.js</a>.</p>
+<p>Sizlate is an HTML templating engine for <a href="http://expressjs.com">Express.js</a>.</p>
 
 <p>Sizlate requires NO special syntax, your templates only contain valid HTML.</p>
 
@@ -46,12 +46,12 @@
 <h3>Simple text example</h3>
 
 <pre>
-<code>  
+<code>
     app.get('/', function(req, res) {
         res.render('home', {
             selectors: {
                 'a': 'hi there'
-            }   
+            }
         });
     });
 
@@ -66,7 +66,7 @@
 </ul><h3>Populating a node using a javascript object</h3>
 
 <pre>
-<code>  
+<code>
     app.get('/', function(req, res) {
         res.render('home', {
             selectors: {
@@ -75,7 +75,7 @@
                     title: 'yahoo',
                     innerHTML: 'yahoo'
                 }
-            }   
+            }
         });
     });
 </code>
@@ -90,7 +90,7 @@
 <p>With partials if you do not specify a class name for the keys in the data the keys will be converted into a class.</p>
 
 <pre>
-<code>  
+<code>
     app.get('/', function(req, res) {
         res.render('home', {
             selectors: {
@@ -105,22 +105,16 @@
                         }
                     ]
                 }
-            }   
+            }
         });
     });
-    
-    
-    
-    sizlate.startup(app, function(app) {
-        app.listen(8000);
-        console.log('check out http://localhost:8000'); 
-    });
+
+
+
+    app.listen(8000);
+    console.log('check out http://localhost:8000');
 </code>
 </pre>
-
-<p>
-Note that you need to start your server is the startup callback so that the partials have been loaded.
-</p>
 
 <p>See /examples/partial</p>
 
@@ -141,7 +135,7 @@ Note that you need to start your server is the startup callback so that the part
 
 <p>Its now using Cheerio instead of JSOM which should make things much faster.</p>
 
-<p>Other than the changes mentioned above the API should remain the same. </p>
+<p>Other than the changes mentioned above the API should remain the same.</p>
 
 <p>Any problems please do let me know.</p>
 
@@ -149,7 +143,7 @@ Note that you need to start your server is the startup callback so that the part
 
 <p>Simon</p>
 
-<p>Release log : 
+<p>Release log :
 0.6.0 - forcing html5 doctype.
 0.5.0 - fix to partials, modified examples.</p>
       </section>
