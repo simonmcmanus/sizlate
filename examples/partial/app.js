@@ -7,7 +7,7 @@ var express = require('express');
 
 var http = require('http');
 var path = require('path');
-var sizlate= require('sizlate');
+//var sizlate= require('sizlate');
 
 var app = express();
 
