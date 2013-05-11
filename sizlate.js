@@ -11,6 +11,24 @@ var checkForInputs = function($node, data) {
 		}
 	});
 };
+
+var updateNodeWithObject = function($node, obj) {
+	for(var key in obj){
+		switch(key) {
+			case 'selectors':
+				$node.html(exports.doRender($node.html(), obj[key]));
+			break;
+			case 'className':
+				$node.addClass(obj[key]);
+			break;
+			case'innerHTML' :
+				$node.html(obj[key]);
+			break;
+			default: 
+				$node.attr(key, obj[key]);
+		}
+	}
+};
 var updateNode = function($node, selector, data) {
 	switch(typeof data) {
 		case "string":
@@ -28,16 +46,7 @@ var updateNode = function($node, selector, data) {
 			}
 		break;
 		case "object":
-			for(var key in data){
-				if(key === 'selectors') { // allow nested selectors
-					$node.html(exports.doRender($node.html(), data[key]));
-				}
-				if(key == 'className'){
-					$node.addClass(data[key]);
-				}else {
-					$node.attr(key, data[key]);
-				}
-			}
+			updateNodeWithObject($node, data);
 		break;
 	}
 	return $node;
@@ -87,7 +96,6 @@ exports.doRender = function(str, selectors) {
 };
 
 exports.__express = function(filename, options, callback) {
-	var fs = require('fs');
 	var selectors = options.selectors;
 	var wait = false;
 	var count = 0; // keep track of total number of callbacks to wait for
@@ -135,8 +143,4 @@ exports.__express = function(filename, options, callback) {
 	if(!wait) {
 		doRendering();
 	}
-
-	// its doing this before its fetch the parital
-	// 
-
 };
