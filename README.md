@@ -9,9 +9,9 @@ Sizlate requires NO special syntax, your templates only contain valid HTML.
 Templates are populated using sizzle selectors (as used in jQuery).
 
 <h1>Install</h1>
-	<code>
-		npm install sizlate;
-	</code>
+
+	npm install sizlate;
+
 <h2>Examples</h2>
 
 <h3>Simple text example</h3>
