@@ -120,8 +120,3 @@ Any problems please do let me know.
 Thanks
 
 Simon
-
-Release log :
-0.6.0 - forcing html5 doctype.
-0.5.0 - fix to partials, modified examples.
-
