@@ -26,8 +26,9 @@ app.get('/', function(req, res){
       'ul#list': {
         partial: 'part',
         data: [
-          { '.name': 'Bob' },
-          { '.name': {innerHTML: 'anna'} }
+          { '.name': 'Bob1' },
+          { '.name': 'Bob2' },
+          { '.name': {innerHTML: 'anna3'} }
         ]
       }
     }

@@ -23,7 +23,7 @@ app.get('/', function(req, res){
       'div.3': {
         className: 'nestedSelector',
         selectors: {
-          a: 'change links to this'
+          a: ['change links to this', 'asd', 'asd']
         }
       }
     }

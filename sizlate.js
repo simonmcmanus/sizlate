@@ -16,7 +16,11 @@ var updateNodeWithObject = function($node, obj) {
 	for(var key in obj){
 		switch(key) {
 			case 'selectors':
-				$node.html(exports.doRender($node.html(), obj[key]));
+				// we need to iterate over the selectors here. 
+				var selectors = obj[key];
+				for(var selector in selectors) {
+					$node.find(selector).html(selectors[selector]);
+				}
 			break;
 			case 'className':
 				$node.addClass(obj[key]);
@@ -27,6 +31,7 @@ var updateNodeWithObject = function($node, obj) {
 			default: 
 				$node.attr(key, obj[key]);
 		}
+		return $node;
 	}
 };
 var updateNode = function($node, selector, data) {
@@ -46,7 +51,7 @@ var updateNode = function($node, selector, data) {
 			}
 		break;
 		case "object":
-			updateNodeWithObject($node, data);
+			$node = updateNodeWithObject($node, data);
 		break;
 	}
 	return $node;
@@ -81,6 +86,7 @@ exports.classifyKeys = function(data, options) {
 };
 
 exports.doRender = function(str, selectors) {
+	console.log('doRender--->', str, selectors)
 	if(!selectors){
 		return str;
 	}
@@ -136,7 +142,7 @@ exports.__express = function(filename, options, callback) {
 			    console.error("Could not open file: %s", err);
 			    process.exit(1);
 			  }
-			  callback(null, exports.doRender(data, options.selectors)	 );
+			  callback(null, exports.doRender(data, options.selectors)	);
 			});
 		}
 	}

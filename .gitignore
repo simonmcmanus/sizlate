@@ -1,3 +1,5 @@
 node_modules
 .DS_Store
 examples/partial/.DS_Store
+
+examples/nested/.DS_Store
