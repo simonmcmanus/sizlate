@@ -115,8 +115,4 @@ Its now using Cheerio instead of JSOM which should make things much faster.
 
 Other than the changes mentioned above the API should remain the same.
 
-Any problems please do let me know.
-
-Thanks
-
-Simon
+Any problems please create an issue.
