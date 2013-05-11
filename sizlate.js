@@ -86,7 +86,6 @@ exports.classifyKeys = function(data, options) {
 };
 
 exports.doRender = function(str, selectors) {
-	console.log('doRender--->', str, selectors)
 	if(!selectors){
 		return str;
 	}

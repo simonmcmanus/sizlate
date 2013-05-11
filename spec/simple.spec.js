@@ -36,7 +36,6 @@ describe('When given an object ', function() {
 	});
 });
 
-
 describe('When given an object containing innerHTML ', function() {
 	it("it should set the innerHTML", function(done) {
 		var out = sizlate.doRender('<div class="one"></div>', {'.one': { 'innerHTML': 'bobby'}});
