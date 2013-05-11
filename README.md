@@ -10,7 +10,7 @@ Templates are populated using sizzle selectors (as used in jQuery).
 
 <h1>Install</h1>
 
-	npm install sizlate;
+	npm install sizlate
 
 <h2>Examples</h2>
 
