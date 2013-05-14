@@ -36,6 +36,15 @@ describe('When given an object ', function() {
 	});
 });
 
+describe('When given an object with more than one attribute', function() {
+	it("it should set the appropriate attributes", function(done) {
+		var out = sizlate.doRender('<div class="one"></div>', {'.one': { 'data-thing': 'bobby', 'data-foobar': 'beepboop'}});
+		var expected = '<div class="one" data-thing="bobby" data-foobar="beepboop"></div>';
+		expect(expected).toEqual(out);
+		done();
+	});
+});
+
 describe('When given an object containing innerHTML ', function() {
 	it("it should set the innerHTML", function(done) {
 		var out = sizlate.doRender('<div class="one"></div>', {'.one': { 'innerHTML': 'bobby'}});

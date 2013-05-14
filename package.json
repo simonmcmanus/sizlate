@@ -14,5 +14,11 @@
   "dependencies": {
     "request": "*",
     "cheerio": "~0.10.5"
+  },
+  "devDependencies": {
+    "jasmine-node": "~1.7.1"
+  },
+  "scripts": {
+    "test": "node node_modules/jasmine-node/bin/jasmine-node ./spec/nested.spec.js ./spec/simple.spec.js"
   }
 }
