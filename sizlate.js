@@ -31,8 +31,8 @@ var updateNodeWithObject = function($node, obj) {
 			default: 
 				$node.attr(key, obj[key]);
 		}
-		return $node;
 	}
+	return $node;
 };
 var updateNode = function($node, selector, data) {
 	switch(typeof data) {
