@@ -28,7 +28,7 @@ app.get('/', function(req, res){
         data: [
           { '.name': 'Bob1' },
           { '.name': 'Bob2' },
-          { '.name': {innerHTML: 'anna3'} }
+          { '.name': {innerHTML: 'Bob3'} }
         ]
       }
     }

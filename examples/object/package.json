@@ -1,8 +1,8 @@
 {
-  "name": "sizlate-nested-example",
+  "name": "sizlate-object-example",
   "version": "0.0.1",
   "author": "Simon McManus  mcmanus.simon@gmail.com",
-  "description": "Sizlate nested example",
+  "description": "Sizlate Object example",
   "engines": {
     "node": ">=0.6"
   },

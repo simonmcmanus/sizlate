@@ -1,8 +1,3 @@
-
-/**
- * Module dependencies.
- */
-
 var express = require('express');
 var http = require('http');
 var path = require('path');
@@ -23,7 +18,7 @@ app.get('/', function(req, res){
       'div.3': {
         className: 'nestedSelector',
         selectors: {
-          a: ['change links to this', 'asd', 'asd']
+          a: 'change links to this'
         }
       }
     }

@@ -1,15 +1,11 @@
 {
-  "name": "sizlate partial example",
+  "name": "sizlate-partial-example",
   "version": "0.0.1",
   "author": "Simon McManus  mcmanus.simon@gmail.com",
-  "repository": {
-    "type": "git",
-    "url": "git://github.com/simonmcmanus/sizlate.git"
-  },
+  "description": "Sizlate partial example",
   "engines": {
     "node": ">=0.6"
   },
-  "main": "sizlate.js",
   "dependencies": {
     "sizlate": "0.8.1",
     "express": "~3.2.4"
