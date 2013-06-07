@@ -7,6 +7,9 @@
     "type": "git",
     "url": "git://github.com/simonmcmanus/sizlate.git"
   },
+  "scripts": {
+    "test": "grunt test"
+  },
   "engines": {
     "node": ">=0.6"
   },
@@ -16,6 +19,7 @@
     "cheerio": "~0.10.5"
   },
   "devDependencies": {
-    "should": "~1.2.2"
+    "should": "~1.2.2",
+    "grunt": "0.4.1"
   }
 }
