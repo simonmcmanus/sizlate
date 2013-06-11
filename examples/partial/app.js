@@ -7,7 +7,9 @@ var express = require('express');
 
 var http = require('http');
 var path = require('path');
-//var sizlate= require('sizlate');
+
+
+var sizlate = require('../../sizlate.js');
 
 var app = express();
 
@@ -24,8 +26,9 @@ app.get('/', function(req, res){
       'ul#list': {
         partial: 'part',
         data: [
-          { '.name': 'Bob' },
-          { '.name': 'Anna' }
+          { '.name': 'Bob1' },
+          { '.name': 'Bob2' },
+          { '.name': {innerHTML: 'Bob3'} }
         ]
       }
     }

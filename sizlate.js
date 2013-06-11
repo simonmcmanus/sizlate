@@ -1,6 +1,6 @@
 var fs = require('fs');
 var cheerio = require('cheerio');
-exports.version = '0.8.1';
+exports.version = '0.8.3';
 
 var checkForInputs = function($node, data) {
 	$node.each(function(i, elem) {
@@ -10,6 +10,29 @@ var checkForInputs = function($node, data) {
 			$(this[0]).html(data);
 		}
 	});
+};
+
+var updateNodeWithObject = function($node, obj) {
+	for(var key in obj){
+		switch(key) {
+			case 'selectors':
+				// we need to iterate over the selectors here. 
+				var selectors = obj[key];
+				for(var selector in selectors) {
+					$node.find(selector).html(selectors[selector]);
+				}
+			break;
+			case 'className':
+				$node.addClass(obj[key]);
+			break;
+			case'innerHTML' :
+				$node.html(obj[key]);
+			break;
+			default: 
+				$node.attr(key, obj[key]);
+		}
+	}
+	return $node;
 };
 var updateNode = function($node, selector, data) {
 	switch(typeof data) {
@@ -28,16 +51,7 @@ var updateNode = function($node, selector, data) {
 			}
 		break;
 		case "object":
-			for(var key in data){
-				if(key === 'selectors') { // allow nested selectors
-					$node.html(exports.doRender($node.html(), data[key]));
-				}
-				if(key == 'className'){
-					$node.addClass(data[key]);
-				}else {
-					$node.attr(key, data[key]);
-				}
-			}
+			$node = updateNodeWithObject($node, data);
 		break;
 	}
 	return $node;
@@ -87,7 +101,6 @@ exports.doRender = function(str, selectors) {
 };
 
 exports.__express = function(filename, options, callback) {
-	var fs = require('fs');
 	var selectors = options.selectors;
 	var wait = false;
 	var count = 0; // keep track of total number of callbacks to wait for
@@ -128,15 +141,11 @@ exports.__express = function(filename, options, callback) {
 			    console.error("Could not open file: %s", err);
 			    process.exit(1);
 			  }
-			  callback(null, exports.doRender(data, options.selectors)	 );
+			  callback(null, exports.doRender(data, options.selectors)	);
 			});
 		}
 	}
 	if(!wait) {
 		doRendering();
 	}
-
-	// its doing this before its fetch the parital
-	// 
-
 };

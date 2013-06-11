@@ -8,7 +8,9 @@ Sizlate requires NO special syntax, your templates only contain valid HTML.
 
 Templates are populated using sizzle selectors (as used in jQuery).
 
-Sizlate will be available as an npm package very soon.
+<h1>Install</h1>
+
+	npm install sizlate
 
 <h2>Examples</h2>
 
@@ -113,13 +115,4 @@ Its now using Cheerio instead of JSOM which should make things much faster.
 
 Other than the changes mentioned above the API should remain the same.
 
-Any problems please do let me know.
-
-Thanks
-
-Simon
-
-Release log :
-0.6.0 - forcing html5 doctype.
-0.5.0 - fix to partials, modified examples.
-
+Any problems please create an issue.

@@ -1,0 +1,13 @@
+{
+  "name": "sizlate-object-example",
+  "version": "0.0.1",
+  "author": "Simon McManus  mcmanus.simon@gmail.com",
+  "description": "Sizlate Object example",
+  "engines": {
+    "node": ">=0.6"
+  },
+  "dependencies": {
+    "sizlate": "0.8.1",
+    "express": "~3.2.4"
+  }
+}
