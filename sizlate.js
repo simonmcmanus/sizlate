@@ -110,7 +110,7 @@ exports.__express = function(filename, options, callback) {
 			if(selectors[key].data && selectors[key].data.length > 0){ // make sure we are passed in data and that the data is not empty.
 				wait = true;
 				count++;
-				fs.readFile(options.settings.views + '/partials/' + selectors[key].partial + '.sizlate', 'utf8', function (key, err, data) {
+				fs.readFile(options.settings.views + '/partials/' + selectors[key].partial + '.'+ options.settings['view engine'], 'utf8', function (key, err, data) {
 					selectors[key] = exports.doRender(data, exports.classifyKeys(selectors[key].data, selectors[key]));	// adding and then stripping body tag for jsdom.
 					complete++;
 					if(complete === 1) {
