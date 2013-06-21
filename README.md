@@ -14,8 +14,6 @@ Templates are populated using sizzle selectors (as used in jQuery).
 
 <h2>Examples</h2>
 
-
-
 <h3>Simple text example</h3>
 <pre>
 <code>
@@ -30,7 +28,6 @@ Templates are populated using sizzle selectors (as used in jQuery).
 </code>
 </pre>
 See /examples/basic
-
 
 <ul>
 <li>Note that the text in the template is overridden. This allows you to pre-populate a design templates with dummy data. </li>
