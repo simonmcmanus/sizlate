@@ -13,20 +13,31 @@ if(typeof exports === 'undefined') {
 
 
 
-var domLoad = function(str) {
+var serverDomLoad = function(str) {
 	return cheerio.load(str);
 };
 
-(function(exports, dom) {
+var clientDomLoad = function(str) {
+	return $(str);
+};
+
+(function(exports, domLoad) {
+
 
 	var checkForInputs = function($node, data) {
+
+		$node.html(data);
 		$node.each(function(i, elem) {
-			if(this[0].name === 'input') {
-				$(this[0]).attr('value', data);
-			}else {
-				$(this[0]).html(data);
-			}
+
+			//domLoad(elem);
+
+			// if(this[0].name === 'input') {
+			// 	$(this[0]).attr('value', data);
+			// }else {
+			// }
 		});
+
+		return $node;
 	};
 
 	var updateNodeWithObject = function($node, obj) {
@@ -55,7 +66,7 @@ var domLoad = function(str) {
 		switch(typeof data) {
 			case "string":
 				if(data !== ""){
-					checkForInputs($node, data);
+					$node = checkForInputs($node, data);
 				}
 			break;
 			case "number": // TODO - confirm - this seems wrong - why only numbers to ids?
@@ -64,7 +75,7 @@ var domLoad = function(str) {
 				}else if(selector == ".data-id") {
 					$node.attr('data-id', data);
 				}else {
-					checkForInputs($node, data);
+					$node = checkForInputs($node, data);
 				}
 			break;
 			case "object":
@@ -79,7 +90,16 @@ var domLoad = function(str) {
 			if(typeof selectors[selector] === 'function') {
 				break;
 			}
-			var $domNode = $(selector);
+
+			var $domNode;
+			if(typeof $ === 'function'){
+				$domNode = $(selector); // cheerio
+			}else {
+				$domNode = $.filter(selector); // jquery
+			}
+
+
+
 			if($domNode) {
 				$domNode = updateNode($domNode, selector, selectors[selector]);
 			}
@@ -111,9 +131,15 @@ var domLoad = function(str) {
 		var selectorCount = selectors.length;
 		var out = [];
 		while(selectorCount--){
-			$ = domLoad(str);
-			selectorIterator(selectors[selectorCount], $);
-			out.push($.html());
+			$html = domLoad(str);
+			selectorIterator(selectors[selectorCount], $html);
+
+
+			if($html[0]) { // clientside
+				out.push($html[0].outerHTML);
+			}else { // serverside
+				out.push($html.html());
+			}
 		}
 		return out.join('');
 	};
@@ -168,4 +194,4 @@ var domLoad = function(str) {
 		}
 	};
 
-})(typeof exports === 'undefined' ? sizlate : exports, domLoad);
+})(typeof exports === 'undefined' ? sizlate : exports, typeof exports === 'undefined' ? clientDomLoad : serverDomLoad);
