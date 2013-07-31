@@ -26,15 +26,20 @@ var clientDomLoad = function(str) {
 
 	var checkForInputs = function($node, data) {
 
-		$node.html(data);
+//		$node.html(data);
+//		
+//console.log($node);
 		$node.each(function(i, elem) {
-
 			//domLoad(elem);
-			
-			// if(this[0].name === 'input') {
-			// 	$(this[0]).attr('value', data);
-			// }else {
-			// }
+			//
+
+			var type = elem.tagName || this[i].name;
+			if(type.toUpperCase() === 'INPUT') {
+				console.log('IM AN INPUT');
+				$node.eq(i).attr('value', data);
+			}else {
+				$node.eq(i).html(data);
+			}
 		});
 
 		return $node;

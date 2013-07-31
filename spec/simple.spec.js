@@ -17,7 +17,6 @@ describe('When calling doRender ', function() {
 		it("it should set the innerHTML", function() {
 			var out = sizlate.doRender('<div></div>', {'div': 'hi'});
 			var expected = '<div>hi</div>';
-			
 			expect(out).toEqual(expected);
 		});
 	});
@@ -71,5 +70,16 @@ describe('When calling doRender ', function() {
 			expect(expected).toEqual(out);
 		});
 	});
+
+
+
+	describe('When given an input is should set the value attribute.', function() {
+		it("it should set the class but not remove existing classes.", function() {
+			var out = sizlate.doRender('<input id="typo"></input>', {'#typo': 'newValue'});
+			var expected = '<input id="typo" value="newValue">';
+			expect(out).toEqual(expected);
+		});
+	});
+
 
 });
