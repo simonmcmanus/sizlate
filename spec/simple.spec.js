@@ -73,8 +73,8 @@ describe('When calling doRender ', function() {
 
 
 
-	describe('When given an input is should set the value attribute.', function() {
-		it("it should set the class but not remove existing classes.", function() {
+	describe('When given an input ', function() {
+		it("it should set the value attribute..", function() {
 			var out = sizlate.doRender('<input id="typo"></input>', {'#typo': 'newValue'});
 			var expected = '<input id="typo" value="newValue">';
 			expect(out).toEqual(expected);
