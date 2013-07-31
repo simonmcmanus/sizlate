@@ -1,10 +1,7 @@
 
 if(typeof exports === 'undefined') { 
-	console.log('cleintside');
 	sizlate = {};
-
 }else { // running serverside
-	console.log('serverside');
 	var fs = require('fs');
 	var cheerio = require('cheerio');
 	exports.version = '0.9.';
@@ -22,20 +19,16 @@ var clientDomLoad = function(str) {
 };
 
 (function(exports, domLoad) {
-
-
+	/**
+	 * In the case of input we should update the value and not just set the innerHTML property. 
+	 * @param  {Object} $node sizzle object
+	 * @param  {String} data  The value to be set on the html.
+	 * @return {Object}       The update $node.
+	 */
 	var checkForInputs = function($node, data) {
-
-//		$node.html(data);
-//		
-//console.log($node);
 		$node.each(function(i, elem) {
-			//domLoad(elem);
-			//
-
 			var type = elem.tagName || this[i].name;
 			if(type.toUpperCase() === 'INPUT') {
-				console.log('IM AN INPUT');
 				$node.eq(i).attr('value', data);
 			}else {
 				$node.eq(i).html(data);
@@ -102,8 +95,6 @@ var clientDomLoad = function(str) {
 			}else {
 				$domNode = $.filter(selector); // jquery
 			}
-
-
 
 			if($domNode) {
 				$domNode = updateNode($domNode, selector, selectors[selector]);
