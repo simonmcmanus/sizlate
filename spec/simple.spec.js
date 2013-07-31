@@ -1,5 +1,10 @@
-var sizlate = require('../sizlate.js');
+if(typeof require != 'undefined') { 
+	console.log('===>> serverside');
+	var sizlate = require('../sizlate.js');
+}
 
+
+console.log('sizlate in tests is: ', sizlate);
 describe('When given tag selector ', function() {
 	it("it should set the innerHTML", function(done) {
 		var out = sizlate.doRender('<div></div>', {'div': 'hi'});
