@@ -1,5 +1,5 @@
 
-if(typeof exports === 'undefined') { 
+if(typeof exports === 'undefined') {
 	sizlate = {};
 
 	sizlate.fetchAndRender = function(url) {
@@ -39,7 +39,7 @@ var variations = {
 	serverside: {
 		domLoad: function(str) {
 			return cheerio.load(str);
-		}, 
+		},
 		get: function(file, callback) {
 			fs.readFile( file, 'utf8', callback);
 		}
@@ -83,7 +83,7 @@ var variations = {
 				case'innerHTML' :
 					$node.html(obj[key]);
 				break;
-				default: 
+				default:
 					$node.attr(key, obj[key]);
 			}
 		}
@@ -151,7 +151,7 @@ var variations = {
 		if(!selectors){
 			return str;
 		}
-		var selectors = ( typeof selectors[0] == 'undefined' ) ? [selectors] : selectors; // make sure we have an array.
+		selectors = ( typeof selectors[0] == 'undefined' ) ? [selectors] : selectors; // make sure we have an array.
 		var selectorCount = selectors.length;
 		var out = [];
 		while(selectorCount--){
@@ -219,11 +219,11 @@ var variations = {
 					callback(null, exports.doRender(data, options.selectors)	);
 				});
 			}
-		}
+		};
 		if(!wait) {
 			doRendering();
 		}
 	};
 
-})(typeof exports === 'undefined' ? sizlate : exports, typeof exports === 'undefined' ? variations.clientside : variations.serverside);	
+})(typeof exports === 'undefined' ? sizlate : exports, typeof exports === 'undefined' ? variations.clientside : variations.serverside);
 
