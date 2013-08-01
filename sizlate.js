@@ -24,27 +24,30 @@ if(typeof exports === 'undefined') {
 }
 
 
-
-
-var serverDomLoad = function(str) {
-	return cheerio.load(str);
+// functions which do different things if they are run in the browser or node.
+var variations = {
+	clientside: {
+		domLoad: function(str) {
+			return $(str);
+		},
+		get: function(file, options, callback) {
+			$.get('/targets/views/' + file, function(markup) {
+				callback(null, markup);
+			});
+		}
+	},
+	serverside: {
+		domLoad: function(str) {
+			return cheerio.load(str);
+		},
+		get: function(file, callback) {
+			fs.readFile( file, 'utf8', callback);
+		}
+	}
 };
 
-var clientDomLoad = function(str) {
-	return $(str);
-};
 
-var serverGet = function( file, callback ) {
-	fs.readFile(options.settings.views + file, 'utf8', callback);
-};
-
-var clientGet = function(file, callback) {
-	$.get('/targets/views/' + file, function(markup) {
-		callback(null, markup);
-	});
-};
-
-(function(exports, domLoad) {
+(function(exports, variation) {
 	/**
 	 * In the case of input we should update the value and not just set the innerHTML property.
 	 * @param  {Object} $node sizzle object
@@ -153,7 +156,7 @@ var clientGet = function(file, callback) {
 		var selectorCount = selectors.length;
 		var out = [];
 		while(selectorCount--){
-			$html = domLoad(str);
+			$html = variation.domLoad(str);
 			selectorIterator(selectors[selectorCount], $html);
 
 
@@ -174,7 +177,6 @@ var clientGet = function(file, callback) {
 			'view engine': 'sizlate'
 		};
 
-		console.log('here');
 		var selectors = options.selectors;
 		var wait = false;
 		var count = 0; // keep track of total number of callbacks to wait for
@@ -184,9 +186,7 @@ var clientGet = function(file, callback) {
 				if(selectors[key].data && selectors[key].data.length > 0){ // make sure we are passed in data and that the data is not empty.
 					wait = true;
 					count++;
-
-					console.log('--->', options.settings.views + '/partials/' + selectors[key].partial + '.'+ options.settings['view engine']);
-					fs.readFile(options.settings.views + '/partials/' + selectors[key].partial + '.'+ options.settings['view engine'], 'utf8', function (key, err, data) {
+					variation.get(options.settings.views + '/partials/' + selectors[key].partial + '.'+ options.settings['view engine'], function (key, err, data) {
 						selectors[key] = exports.doRender(data, exports.classifyKeys(selectors[key].data, selectors[key]));	// adding and then stripping body tag for jsdom.
 						complete++;
 						if(complete === 1) {
@@ -199,28 +199,25 @@ var clientGet = function(file, callback) {
 
 		var doRendering = function() {
 			if(options.layout) {
-				console.log('layouy', options.settings.views + '/' + options.layout + '.'+ options.settings['view engine']);
-				fs.readFile(options.settings.views + '/' + options.layout + '.'+ options.settings['view engine'], 'utf8', function(error, template) {
-
-					fs.readFile(filename, 'utf8', function(err,data){
-					  if(err) {
-					    console.error("Could not open file: %s", err);
-					    process.exit(1);
-					  }
-					  var selectors = {};
-					  selectors[options.container || '#container'] = data;
-					  var markup = exports.doRender(template,  selectors) ;
-					  callback(null, exports.doRender(markup, options.selectors));
+				variation.get(options.settings.views + '/' + options.layout + '.'+ options.settings['view engine'], function(error, template) {
+					variation.get(filename, function(err,data){
+						if(err) {
+							console.error("Could not open file: %s", err);
+							process.exit(1);
+						}
+						var selectors = {};
+						selectors[options.container || '#container'] = data;
+						var markup = exports.doRender(template,  selectors) ;
+						callback(null, exports.doRender(markup, options.selectors));
 					});
 				});
 			} else { // no layouts specified, just do the render.
-
-				fs.readFile(filename, 'utf8', function(err,data){
-				  if(err) {
-				    console.error("Could not open file: %s", err);
-				    process.exit(1);
-				  }
-				  callback(null, exports.doRender(data, options.selectors)	);
+				variation.get(filename, function(err,data){
+					if(err) {
+						console.error("Could not open file: %s", err);
+						process.exit(1);
+					}
+					callback(null, exports.doRender(data, options.selectors)	);
 				});
 			}
 		}
@@ -229,4 +226,4 @@ var clientGet = function(file, callback) {
 		}
 	};
 
-})(typeof exports === 'undefined' ? sizlate : exports, typeof exports === 'undefined' ? clientDomLoad : serverDomLoad);
+})(typeof exports === 'undefined' ? sizlate : exports, typeof exports === 'undefined' ? variations.clientside : variations.serverside);
