@@ -1,16 +1,8 @@
+if(typeof require != 'undefined') { 
+	sizlate = require('../sizlate.js');
+}
 
 describe('When calling doRender ', function() {
-
-
-	beforeEach(function() {
-		if(typeof require != 'undefined') { 
-			sizlate = require('../sizlate.js');
-		}else {
-		}
-	});
-
-
-	
 
 	describe('When given tag selector ', function() {
 
@@ -34,7 +26,7 @@ describe('When calling doRender ', function() {
 		it("it should set the innerHTML", function() {
 			var out = sizlate.doRender('<div class="one"></div>', {'.one': 'hi'});
 			var expected = '<div class="one">hi</div>';
-			expect(expected).toEqual(out);
+			expect(out).toEqual(expected);
 		});
 	});
 
@@ -42,7 +34,7 @@ describe('When calling doRender ', function() {
 		it("it should set the appropriate attributes", function() {
 			var out = sizlate.doRender('<div class="one"></div>', {'.one': { 'data-thing': 'bobby'}});
 			var expected = '<div class="one" data-thing="bobby"></div>';
-			expect(expected).toEqual(out);
+			expect(out).toEqual(expected);
 		});
 	});
 
@@ -50,28 +42,25 @@ describe('When calling doRender ', function() {
 		it("it should set the appropriate attributes", function() {
 			var out = sizlate.doRender('<div class="one"></div>', {'.one': { 'data-thing': 'bobby', 'data-foobar': 'beepboop'}});
 			var expected = '<div class="one" data-thing="bobby" data-foobar="beepboop"></div>';
-			expect(expected).toEqual(out);
+			expect(out).toEqual(expected);
 		});
 	});
 
-	xdescribe('When given an object containing innerHTML ', function() {
+	describe('When given an object containing innerHTML ', function() {
 		it("it should set the innerHTML", function() {
 			var out = sizlate.doRender('<div class="one"></div>', {'.one': { 'innerHTML': 'bobby'}});
 			var expected = '<div class="one">bobby</div>';
-			expect(expected).toEqual(out);
+			expect(out).toEqual(expected);
 		});
 	});
-
 
 	describe('When given an object containing className ', function() {
 		it("it should set the class but not remove existing classes.", function() {
 			var out = sizlate.doRender('<div class="one"></div>', {'.one': { 'className': 'bobby'}});
 			var expected = '<div class="one bobby"></div>';
-			expect(expected).toEqual(out);
+			expect(out).toEqual(expected);
 		});
 	});
-
-
 
 	describe('When given an input ', function() {
 		it("it should set the value attribute..", function() {
@@ -80,8 +69,6 @@ describe('When calling doRender ', function() {
 			expect(out).toEqual(expected);
 		});
 	});
-
-
 });
 
 describe('When given a value to edit', function() {

@@ -1,22 +1,46 @@
-var sizlate = require('../sizlate.js');
+if(typeof require != 'undefined') { 
+	var sizlate = require('../sizlate.js');
+}
 
-xdescribe('When simple express called ', function() {
-	it("simple express.", function(done) {
-		sizlate.__express('', {
-			layout: 'layout',
+describe('When __express is called with layout:false ', function() {
+	it("is should render the header view.", function(done) {
+		sizlate.__express(__dirname+'/views/heading.sizlate', {
+			layout: false,
 			settings: {
-				views: '/asda/'
+				views: __dirname + '..//'
 			},
 			selectors: {
-				a: 'hi a'
+				'h1': 'hello there'
 			}
-		}, function() {
-			console.log(arguments);
+		}, function(error, markup) {
+			var expected = '<h1>hello there</h1>';
+			expect(markup.replace(/\n/g, '')).toEqual(expected);
+			done();
 		});
-
-
-		var expected = '<div id="one"><a href="sd">wotcha</a></div>';
-		//expect(out).toEqual(expected);
-		done();
+		
 	 });
 });
+
+
+describe('When __express is called with a layout specified', function() {
+	it("is should render the header view within the specified layout.", function(done) {
+		sizlate.__express(__dirname+'/views/heading.sizlate', {
+			layout: 'layout',
+			container: '#container',
+			settings: {
+				views: __dirname + '/views'
+			},
+			selectors: {
+				'h1': 'hello there'
+			}
+		}, function(error, markup) {
+			var expected = '<html><head>	<title>Wooooo</title></head><body>	<div id="container"><h1>hello there</h1></div></body></html>';
+			expect(markup.replace(/\n/g, '')).toEqual(expected);
+			done();
+		});
+		
+	 });
+});
+
+
+describe('When passed a settings.views path all files views should be requested from the specified folder.', function() {});
