@@ -1,10 +1,14 @@
 
 <<<<<<< HEAD
+<<<<<<< HEAD
 if(typeof exports === 'undefined') {
 	console.log('cleintside');
 =======
 if(typeof exports === 'undefined') { 
 >>>>>>> b92042e... tidy up
+=======
+if(typeof exports === 'undefined') {
+>>>>>>> 928b50a... improved tests
 	sizlate = {};
 
 	sizlate.fetchAndRender = function(url) {
@@ -44,7 +48,7 @@ var variations = {
 	serverside: {
 		domLoad: function(str) {
 			return cheerio.load(str);
-		}, 
+		},
 		get: function(file, callback) {
 			fs.readFile( file, 'utf8', callback);
 		}
@@ -170,7 +174,7 @@ var variations = {
 		if(!selectors){
 			return str;
 		}
-		var selectors = ( typeof selectors[0] == 'undefined' ) ? [selectors] : selectors; // make sure we have an array.
+		selectors = ( typeof selectors[0] == 'undefined' ) ? [selectors] : selectors; // make sure we have an array.
 		var selectorCount = selectors.length;
 		var out = [];
 		while(selectorCount--){
@@ -238,15 +242,19 @@ var variations = {
 					callback(null, exports.doRender(data, options.selectors)	);
 				});
 			}
-		}
+		};
 		if(!wait) {
 			doRendering();
 		}
 	};
 
 <<<<<<< HEAD
+<<<<<<< HEAD
 })(typeof exports === 'undefined' ? sizlate : exports, typeof exports === 'undefined' ? clientDomLoad : serverDomLoad);
 =======
 })(typeof exports === 'undefined' ? sizlate : exports, typeof exports === 'undefined' ? variations.clientside : variations.serverside);	
+=======
+})(typeof exports === 'undefined' ? sizlate : exports, typeof exports === 'undefined' ? variations.clientside : variations.serverside);
+>>>>>>> 928b50a... improved tests
 
 >>>>>>> 5b4102a... moved readfile into variations
