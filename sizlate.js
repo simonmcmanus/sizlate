@@ -151,8 +151,7 @@ var variations = {
 		if(!selectors){
 			return str;
 		}
-
-		var selectors = ( typeof selectors[0] == 'undefined' ) ? [selectors] : selectors; // make sure we have an array.
+		selectors = ( typeof selectors[0] == 'undefined' ) ? [selectors] : selectors; // make sure we have an array.
 		var selectorCount = selectors.length;
 		var out = [];
 		while(selectorCount--){
@@ -220,7 +219,7 @@ var variations = {
 					callback(null, exports.doRender(data, options.selectors)	);
 				});
 			}
-		}
+		};
 		if(!wait) {
 			doRendering();
 		}

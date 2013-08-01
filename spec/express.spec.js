@@ -17,7 +17,6 @@ describe('When __express is called with layout:false ', function() {
 			expect(markup.replace(/\n/g, '')).toEqual(expected);
 			done();
 		});
-		
 	 });
 });
 
