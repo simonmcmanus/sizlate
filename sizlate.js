@@ -1,6 +1,22 @@
 
 if(typeof exports === 'undefined') { 
 	sizlate = {};
+
+	sizlate.fetchAndRender = function(url) {
+		$.ajax({
+			type: 'GET',
+			url: url || window.location	,
+			contentType: 'sizlate',
+			success: function(d) {
+				d.selectors.layout = false;
+				exports.__express(d.template, d.selectors, function(error, data) {
+					$('#container').html(data);
+					console.log('RENDERED: ', data);
+				});
+			}
+		});
+	};
+
 }else { // running serverside
 	var fs = require('fs');
 	var cheerio = require('cheerio');
@@ -16,6 +32,16 @@ var serverDomLoad = function(str) {
 
 var clientDomLoad = function(str) {
 	return $(str);
+};
+
+var serverGet = function( file, callback ) {
+	fs.readFile(options.settings.views + file, 'utf8', callback);
+};
+
+var clientGet = function(file, callback) {
+	$.get('/targets/views/' + file, function(markup) {
+		callback(null, markup);
+	});
 };
 
 (function(exports, domLoad) {
@@ -140,6 +166,14 @@ var clientDomLoad = function(str) {
 	};
 
 	exports.__express = function(filename, options, callback) {
+
+		// setup defaults
+		options.settings  = {
+			views: (options && options.settings && options.settings.views) || __dirname,
+			'view engine': 'sizlate'
+		};
+
+		console.log('here');
 		var selectors = options.selectors;
 		var wait = false;
 		var count = 0; // keep track of total number of callbacks to wait for
@@ -149,6 +183,8 @@ var clientDomLoad = function(str) {
 				if(selectors[key].data && selectors[key].data.length > 0){ // make sure we are passed in data and that the data is not empty.
 					wait = true;
 					count++;
+
+					console.log('--->', options.settings.views + '/partials/' + selectors[key].partial + '.'+ options.settings['view engine']);
 					fs.readFile(options.settings.views + '/partials/' + selectors[key].partial + '.'+ options.settings['view engine'], 'utf8', function (key, err, data) {
 						selectors[key] = exports.doRender(data, exports.classifyKeys(selectors[key].data, selectors[key]));	// adding and then stripping body tag for jsdom.
 						complete++;
@@ -162,7 +198,9 @@ var clientDomLoad = function(str) {
 
 		var doRendering = function() {
 			if(options.layout) {
+				console.log('layouy', options.settings.views + '/' + options.layout + '.'+ options.settings['view engine']);
 				fs.readFile(options.settings.views + '/' + options.layout + '.'+ options.settings['view engine'], 'utf8', function(error, template) {
+
 					fs.readFile(filename, 'utf8', function(err,data){
 					  if(err) {
 					    console.error("Could not open file: %s", err);
@@ -175,6 +213,7 @@ var clientDomLoad = function(str) {
 					});
 				});
 			} else { // no layouts specified, just do the render.
+
 				fs.readFile(filename, 'utf8', function(err,data){
 				  if(err) {
 				    console.error("Could not open file: %s", err);
