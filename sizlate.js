@@ -29,8 +29,6 @@ if(domain === 'serverside') {
 
 
 // functions which do different things if they are run in the browser or node.
-// 
-// change to exports.....
 exports.variations = {
 	clientside: {
 		domLoad: function(str) {
