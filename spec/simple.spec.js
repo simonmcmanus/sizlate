@@ -2,27 +2,26 @@ if(typeof require != 'undefined') {
 	sizlate = require('../sizlate.js');
 }
 
-describe('Given calling doRender ', function() {
+describe('Given calling doRender', function() {
 	var out;
 
-	describe("Given some data has been set up", function(){
 
-		beforeEach(function(){
-			data = "stuff";
+
+	describe('When called with a tag selector (div) and a string value', function() {
+		beforeEach(function() {
+			out = sizlate.doRender('<div></div>', {'div': 'hi'});
 		});
 
-		describe('When called with a tag selector ', function() {
-			var expected = '<div>hi</div>';
-
-			beforeEach(function() {
-				out = sizlate.doRender('<div></div>', {'div': 'hi'});
-			});
-
-			it("should set the innerHTML", function() {
-				expect(out).toEqual(expected);
-			});
+		it("should set the div innerHTML to the string value", function() {
+			expect(out).toEqual('<div>hi</div>');
 		});
 	});
+
+
+
+
+
+
 
 
 	describe('When given a id selector ', function() {
@@ -33,45 +32,94 @@ describe('Given calling doRender ', function() {
 		});
 	});
 
-	describe('When given a id selector ', function() {
-		it("it should set the innerHTML", function() {
-			var out = sizlate.doRender('<div class="one"></div>', {'.one': 'hi'});
-			var expected = '<div class="one">hi</div>';
-			expect(out).toEqual(expected);
+
+
+	describe('Given html with a class ', function() {
+		var htmlIn = '<div class="one"></div>';
+		describe('given a class selector', function() {
+
+			var selector = '.one';
+			var selectors = {};
+			var out;
+
+			describe('Given a string value of "hi" ', function() {
+
+				beforeEach(function() {
+					selectors[selector] = 'hi';
+				});
+
+				describe('When doRender is called with the selectors ', function() {
+					it('Should set the innerHTML of div to "hi"', function() {
+						out = sizlate.doRender(htmlIn, selectors);
+						expect(out).toEqual('<div class="one">hi</div>');
+					});
+				});
+
+			});
+
+
+
+			describe('Given a an object', function() {
+
+				describe('... containing a innerHTML property', function() {
+					beforeEach(function() {
+						selectors[selector] = { innerHTML: 'booo'};
+					});
+
+					describe('When doRender is called with the selectors ', function() {
+						it('Should set the innerHTML of div', function() {
+							out = sizlate.doRender(htmlIn, selectors);
+							expect(out).toEqual('<div class="one">booo</div>');
+						});
+					});
+
+					describe('... and a className property', function() {
+						beforeEach(function() {
+							selectors[selector].className = 'booo';
+						});
+
+						describe('When doRender is called with the selectors ', function() {
+							it('Should set the innerHTML of div', function() {
+								out = sizlate.doRender(htmlIn, selectors);
+								expect(out).toEqual('<div class="one booo">booo</div>');
+							});
+						});
+						
+					});
+
+				});
+
+				describe(' containing a className property', function() {
+
+					beforeEach(function() {
+						selectors[selector] = { className: 'booot'};
+					});
+
+					describe('When doRender is called with the selectors ', function() {
+						it('Should set the className of the div but not remove the existing class', function() {
+							out = sizlate.doRender(htmlIn, selectors);
+							expect(out).toEqual('<div class="one booot"></div>');
+						});
+					});
+				});
+
+				describe('containing a data-* property', function() {
+
+					beforeEach(function() {
+						selectors[selector] = { 'data-thing': 'booot'};
+					});
+
+					describe('When doRender is called with the selectors ', function() {
+						it('Should set the className of the div but not remove the existing class', function() {
+							out = sizlate.doRender(htmlIn, selectors);
+							expect(out).toEqual('<div class="one" data-thing="booot"></div>');
+						});
+					});
+				});
+			});
 		});
 	});
 
-	describe('When given an object ', function() {
-		it("it should set the appropriate attributes", function() {
-			var out = sizlate.doRender('<div class="one"></div>', {'.one': { 'data-thing': 'bobby'}});
-			var expected = '<div class="one" data-thing="bobby"></div>';
-			expect(out).toEqual(expected);
-		});
-	});
-
-	describe('When given an object with more than one attribute', function() {
-		it("it should set the appropriate attributes", function() {
-			var out = sizlate.doRender('<div class="one"></div>', {'.one': { 'data-thing': 'bobby', 'data-foobar': 'beepboop'}});
-			var expected = '<div class="one" data-thing="bobby" data-foobar="beepboop"></div>';
-			expect(out).toEqual(expected);
-		});
-	});
-
-	describe('When given an object containing innerHTML ', function() {
-		it("it should set the innerHTML", function() {
-			var out = sizlate.doRender('<div class="one"></div>', {'.one': { 'innerHTML': 'bobby'}});
-			var expected = '<div class="one">bobby</div>';
-			expect(out).toEqual(expected);
-		});
-	});
-
-	describe('When given an object containing className ', function() {
-		it("it should set the class but not remove existing classes.", function() {
-			var out = sizlate.doRender('<div class="one"></div>', {'.one': { 'className': 'bobby'}});
-			var expected = '<div class="one bobby"></div>';
-			expect(out).toEqual(expected);
-		});
-	});
 
 	describe('Given an input with an id ', function() {
 		var htmlInput = '<input id="typo"></input>';
