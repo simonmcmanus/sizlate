@@ -2,19 +2,30 @@ if(typeof require != 'undefined') {
 	sizlate = require('../sizlate.js');
 }
 
-describe('When calling doRender ', function() {
+describe('Given calling doRender ', function() {
+	var out;
 
-	describe('When given tag selector ', function() {
+	describe("Given some data has been set up", function(){
 
-		it("it should set the innerHTML", function() {
-			var out = sizlate.doRender('<div></div>', {'div': 'hi'});
+		beforeEach(function(){
+			data = "stuff";
+		});
+
+		describe('When called with a tag selector ', function() {
 			var expected = '<div>hi</div>';
-			expect(out).toEqual(expected);
+
+			beforeEach(function() {
+				out = sizlate.doRender('<div></div>', {'div': 'hi'});
+			});
+
+			it("should set the innerHTML", function() {
+				expect(out).toEqual(expected);
+			});
 		});
 	});
 
+
 	describe('When given a id selector ', function() {
-		
 		it("it should set the innerHTML", function() {		
 			var out = sizlate.doRender('<div id="one"></div>', {'#one': 'hi'});
 			var expected = '<div id="one">hi</div>';
@@ -62,11 +73,17 @@ describe('When calling doRender ', function() {
 		});
 	});
 
-	describe('When given an input ', function() {
-		it("it should set the value attribute..", function() {
-			var out = sizlate.doRender('<input id="typo"></input>', {'#typo': 'newValue'});
-			var expected = '<input id="typo" value="newValue">';
-			expect(out).toEqual(expected);
+	describe('Given an input with an id ', function() {
+		var htmlInput = '<input id="typo"></input>';
+		var expected = '<input id="typo" value="newValue">';
+
+		describe('When doRender is called with a selector of the same id and a value ', function() {
+			var selectors = {'#typo': 'newValue'};
+
+			it("it should set the value attribute..", function() {
+				var out = sizlate.doRender(htmlInput, selectors);
+				expect(out).toEqual(expected);
+			});
 		});
 	});
 });
