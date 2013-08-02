@@ -6,24 +6,26 @@ if(serverside) {
 
 	
 	var sizlate = require('../sizlate.js');
-	console.log('RUNNING SERVERSIDE', sizlate);
 }
+
+
+
+
 
 describe('When __express is called with layout:false ', function() {
 
 	beforeEach(function() {
 
 		var htmlOut = '<div><span></span><span id="insertHere"></span></div>';
-		// override $.get to avoid network requests.
-		// 
-		// 
 		if(serverside) {
+			// not strictly necessary (as could use fs.readfile) but keeps things DRY
 			spyOn(sizlate.variations.serverside, 'get').andCallFake(function(url, callback) {
 				callback(null, htmlOut);
 			});
 		} else {
-			spyOn($, 'get').andCallFake(function(url, callback) {
-				callback(htmlOut);
+			// override $.get to avoid network requests.
+			spyOn(sizlate.variations.clientside, 'get').andCallFake(function(url, callback) {
+				callback(null, htmlOut);
 			});			
 		}
 
@@ -40,7 +42,6 @@ describe('When __express is called with layout:false ', function() {
 				'#insertHere': 'hello there'
 			}
 		}, function(error, markup) {
-			console.log(error, markup);
 			var expected = '<div><span></span><span id="insertHere">hello there</span></div>';
 			expect(markup.replace(/\n/g, '')).toEqual(expected);
 
@@ -49,25 +50,64 @@ describe('When __express is called with layout:false ', function() {
 });
 
 
-xdescribe('When __express is called with a layout specified', function() {
-	it("is should render the header view within the specified layout.", function(done) {
+// this is a damn good test but is failing due to a bug clientside.
+xdescribe('When __express is called with a layout specified  ', function() {
+
+	beforeEach(function() {
+
+		// returns the requested file html
+		var picker = function(url) {
+			var out;
+			switch(url) {
+				case '/spec/views/layout.sizlate':
+					out = '<html><head></head><body><div id="container"></div></body></html>';
+				break;
+				case '/spec/views/heading.sizlate':
+					out = '<div><span></span><span id="insertHere"></span></div>';
+				break;
+			}
+			return out;
+		};
+
+		if(serverside) {
+			// not strictly necessary (as could use fs.readfile) but keeps things DRY
+			spyOn(sizlate.variations.serverside, 'get').andCallFake(function(url, callback) {
+				callback(null, picker(url));
+			});
+		} else {
+			// override $.get to avoid network requests.
+			spyOn(sizlate.variations.clientside, 'get').andCallFake(function(url, callback) {
+				callback(null, picker(url));
+			});			
+		}
+
+	});8
+
+
+	it("is should render the header view.", function() {
 		sizlate.__express('heading', {
 			layout: 'layout',
-			container: '#container',
 			settings: {
 				views: '/spec/views'
 			},
 			selectors: {
-				'h1': 'hello there'
+				'#insertHere': 'hello there'
 			}
 		}, function(error, markup) {
-			console.log('markup', markup);
-			var expected = '<html><head>	<title>Wooooo</title></head><body>	<div id="container"><h1>hello there</h1></div></body></html>';
+			var expected = '<html><head></head><body><div id="container"><div><span></span><span id="insertHere">hello there</span></div></div></body></html>';
+			console.log(markup);
 			expect(markup.replace(/\n/g, '')).toEqual(expected);
-			done();
+
 		});
-	});
+	 });
 });
 
+
+
+
+
+// should default to #contaier
+// 
+// // check top level and nested items.
 
 describe('When passed a settings.views path all files views should be requested from the specified folder.', function() {});

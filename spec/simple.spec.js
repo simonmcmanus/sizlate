@@ -5,24 +5,24 @@ if(typeof require != 'undefined') {
 describe('Given calling doRender ', function() {
 	var out;
 
-	describe("Given some data has been set up", function(){
 
-		beforeEach(function(){
-			data = "stuff";
+
+	describe('When called with a tag selector ', function() {
+		beforeEach(function() {
+			out = sizlate.doRender('<div></div>', {'div': 'hi'});
 		});
 
-		describe('When called with a tag selector ', function() {
-			var expected = '<div>hi</div>';
-
-			beforeEach(function() {
-				out = sizlate.doRender('<div></div>', {'div': 'hi'});
-			});
-
-			it("should set the innerHTML", function() {
-				expect(out).toEqual(expected);
-			});
+		it("should set the innerHTML", function() {
+			expect(out).toEqual('<div>hi</div>');
 		});
 	});
+
+
+
+
+
+
+
 
 
 	describe('When given a id selector ', function() {
