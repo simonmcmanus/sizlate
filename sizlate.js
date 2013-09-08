@@ -2,10 +2,8 @@ var sizlate = {
 	'version': '0.9'
 };
 
-
-var domain = (typeof require !== 'undefined') ? 'serverside' : 'clientside';
-
-
+// should maybe use jQuery?
+var domain = (typeof $ === 'undefined') ? 'serverside' : 'clientside';
 
 if(domain === 'serverside') {
 	var fs = require('fs');
@@ -27,7 +25,6 @@ if(domain === 'serverside') {
 	};
 }
 
-
 // functions which do different things if they are run in the browser or node.
 exports.variations = {
 	clientside: {
@@ -45,7 +42,6 @@ exports.variations = {
 			return cheerio.load(str);
 		},
 		get: function(file, callback) {
-			
 			fs.readFile( __dirname + file, 'utf8', callback);
 		}
 	}
@@ -67,7 +63,6 @@ var checkForInputs = function($node, data) {
 			$node.eq(i).html(data);
 		}
 	});
-
 	return $node;
 };
 
