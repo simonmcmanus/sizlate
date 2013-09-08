@@ -5,8 +5,6 @@ if(typeof require != 'undefined') {
 describe('Given calling doRender', function() {
 	var out;
 
-
-
 	describe('When called with a tag selector (div) and a string value', function() {
 		beforeEach(function() {
 			out = sizlate.doRender('<div></div>', {'div': 'hi'});
@@ -17,13 +15,6 @@ describe('Given calling doRender', function() {
 		});
 	});
 
-
-
-
-
-
-
-
 	describe('When given a id selector ', function() {
 		it("it should set the innerHTML", function() {		
 			var out = sizlate.doRender('<div id="one"></div>', {'#one': 'hi'});
@@ -31,8 +22,6 @@ describe('Given calling doRender', function() {
 			expect(out).toEqual(expected);
 		});
 	});
-
-
 
 	describe('Given html with a class ', function() {
 		var htmlIn = '<div class="one"></div>';

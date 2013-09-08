@@ -1,13 +1,9 @@
 
 var serverside = (typeof require !== 'undefined');
 
-
 if(serverside) { 
-
-	
 	var sizlate = require('../sizlate.js');
 }
-
 
 
 
@@ -51,7 +47,7 @@ describe('When __express is called with layout:false ', function() {
 
 
 // this is a damn good test but is failing due to a bug clientside.
-xdescribe('When __express is called with a layout specified  ', function() {
+describe('When __express is called with a layout specified  ', function() {
 
 	beforeEach(function() {
 
@@ -80,29 +76,52 @@ xdescribe('When __express is called with a layout specified  ', function() {
 				callback(null, picker(url));
 			});			
 		}
+	});
 
-	});8
+
+	// it("is should render the header view.", function() {
+	// 	sizlate.__express('heading', {
+	// 		layout: 'layout',
+	// 		settings: {
+	// 			views: '/spec/views'
+	// 		},
+	// 		selectors: {
+	// 			'#insertHere': 'hello there'
+	// 		}
+	// 	}, function(error, markup) {
+	// 		var expected = '<html><head></head><body><div id="container"><div><span></span><span id="insertHere">hello there</span></div></div></body></html>';
+	// 		console.log(markup);
+	// 		expect(markup.replace(/\n/g, '')).toEqual(expected);
+
+	// 	});
+	//  });
+});
+
+describe('When __express is called with a partial..', function() {
 
 
 	it("is should render the header view.", function() {
 		sizlate.__express('heading', {
-			layout: 'layout',
+			layout: false,
 			settings: {
-				views: '/spec/views'
+				views: 'spec/views'
 			},
 			selectors: {
-				'#insertHere': 'hello there'
+				'ul': {
+					partial: 'partial',
+					data: [
+						{'.name': 'bob1'},
+						{'.name': 'bob2'},
+						{'.name': 'bob3'}
+					]
+				}
 			}
 		}, function(error, markup) {
-			var expected = '<html><head></head><body><div id="container"><div><span></span><span id="insertHere">hello there</span></div></div></body></html>';
-			console.log(markup);
-			expect(markup.replace(/\n/g, '')).toEqual(expected);
+			console.log(markup)
+		})
+	})
 
-		});
-	 });
 });
-
-
 
 
 
