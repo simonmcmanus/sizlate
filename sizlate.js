@@ -92,6 +92,7 @@ exports.doRender = function(str, selectors) {
 	var selectors = ( typeof selectors[0] == 'undefined' ) ? [selectors] : selectors; // make sure we have an array.
 	var selectorCount = selectors.length;
 	var out = [];
+	selectors = selectors.reverse();
 	while(selectorCount--){
 		$ = cheerio.load(str);
 		selectorIterator(selectors[selectorCount], $);
