@@ -62,7 +62,7 @@ var checkForInputs = function($node, data) {
 		}else {
 			$node.eq(i).html(data);
 		}
-	});
+	});	
 	return $node;
 };
 
