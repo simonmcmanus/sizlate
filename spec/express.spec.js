@@ -1,10 +1,7 @@
 
 var serverside = (typeof require !== 'undefined');
 
-
 if(serverside) { 
-
-	
 	var sizlate = require('../sizlate.js');
 }
 
@@ -100,7 +97,31 @@ describe('When __express is called with a layout specified  ', function() {
 	//  });
 });
 
+describe('When __express is called with a partial..', function() {
 
+
+	it("is should render the header view.", function() {
+		sizlate.__express('heading', {
+			layout: false,
+			settings: {
+				views: 'spec/views'
+			},
+			selectors: {
+				'ul': {
+					partial: 'partial',
+					data: [
+						{'.name': 'bob1'},
+						{'.name': 'bob2'},
+						{'.name': 'bob3'}
+					]
+				}
+			}
+		}, function(error, markup) {
+			console.log(markup)
+		})
+	})
+
+});
 
 
 
