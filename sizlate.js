@@ -28,6 +28,9 @@ var updateNodeWithObject = function($node, obj) {
 			case'innerHTML' :
 				$node.html(obj[key]);
 			break;
+			case'innerText' :
+				$node.text(obj[key]);
+			break;
 			default: 
 				$node.attr(key, obj[key]);
 		}
