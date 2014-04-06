@@ -14,6 +14,7 @@ var checkForInputs = function($node, data) {
 
 var updateNodeWithObject = function($node, obj) {
 	for(var key in obj){
+	
 		switch(key) {
 			case 'selectors':
 				// we need to iterate over the selectors here. 
@@ -23,20 +24,33 @@ var updateNodeWithObject = function($node, obj) {
 				}
 			break;
 			case 'className':
-				$node.addClass(obj[key]);
+				var value = newValue( $node.attr("class"), obj[key] );
+				$node.addClass( value );
 			break;
 			case'innerHTML' :
-				$node.html(obj[key]);
+				var value = newValue( $node.html(), obj[key] );
+				$node.html( value );
 			break;
 			case'innerText' :
-				$node.text(obj[key]);
+				var value = newValue( $node.text(), obj[key] );
+				$node.text( value );
 			break;
-			default: 
-				$node.attr(key, obj[key]);
+			default:
+				var value = newValue( $node.attr(key), obj[key] );
+				$node.attr( key, value );
 		}
+	
 	}
 	return $node;
 };
+
+var newValue = function( oldValue, newValue ){
+	if ( typeof newValue == "object" && newValue.regex && newValue.value ) {
+		return oldValue.replace( newValue.regex, newValue.value );
+	}
+	return newValue;
+};
+
 var updateNode = function($node, selector, data) {
 	switch(typeof data) {
 		case "string":

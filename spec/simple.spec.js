@@ -81,3 +81,34 @@ describe('When given a text value', function() {
 		done();
 	});
 });
+
+
+describe('When given a regex', function() {
+	it("it should allow simple replacing", function(done) {
+		var out = sizlate.doRender('<div class="one">existing value</div>', {
+			'.one': {
+				'innerText' : {
+					regex : /existing (value)/ig,
+					value : "new $1"
+				}
+			}
+		});
+		var expected = '<div class="one">new value</div>';
+		expect(expected).toEqual(out);
+		done();
+	});
+	
+	it("it should allow prepending a URL", function(done) {
+		var out = sizlate.doRender('<a href="/some-path">existing value</a>', {
+			'a': {
+				'href' : {
+					regex : /(.+)/ig,
+					value : "http://yahoo.com$1"
+				}
+			}
+		});
+		var expected = '<a href="http://yahoo.com/some-path">existing value</a>';
+		expect(expected).toEqual(out);
+		done();
+	});
+});
