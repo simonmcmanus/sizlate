@@ -112,3 +112,17 @@ describe('When given a regex', function() {
 		done();
 	});
 });
+
+
+describe('When given a function', function() {
+	it("it should allow anything you like", function(done) {
+		var out = sizlate.doRender('<div class="one">existing value</div>', {
+			'.one': {
+				'innerText' : function( old ){ return old.replace("existing","new")+" BOOM!"; }
+			}
+		});
+		var expected = '<div class="one">new value BOOM!</div>';
+		expect(expected).toEqual(out);
+		done();
+	});
+});
