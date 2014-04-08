@@ -12,36 +12,37 @@ var checkForInputs = function($node, data) {
 	});
 };
 
-var updateNodeWithObject = function($node, obj) {
+var updateNodeWithObject = function($selection, obj) {
 	for(var key in obj){
-	
-		switch(key) {
-			case 'selectors':
-				// we need to iterate over the selectors here. 
-				var selectors = obj[key];
-				for(var selector in selectors) {
-					$node.find(selector).html(selectors[selector]);
-				}
-			break;
-			case 'className':
-				var value = newValue( $node.attr("class"), obj[key] );
-				$node.addClass( value );
-			break;
-			case'innerHTML' :
-				var value = newValue( $node.html(), obj[key] );
-				$node.html( value );
-			break;
-			case'innerText' :
-				var value = newValue( $node.text(), obj[key] );
-				$node.text( value );
-			break;
-			default:
-				var value = newValue( $node.attr(key), obj[key] );
-				$node.attr( key, value );
-		}
-	
+		$selection.each(function(){
+			var $node = $(this);
+			switch(key) {
+				case 'selectors':
+					// we need to iterate over the selectors here. 
+					var selectors = obj[key];
+					for(var selector in selectors) {
+						$node.find(selector).html(selectors[selector]);
+					}
+				break;
+				case 'className':
+					var value = newValue( $node.attr("class"), obj[key] );
+					$node.addClass( value );
+				break;
+				case'innerHTML' :
+					var value = newValue( $node.html(), obj[key] );
+					$node.html( value );
+				break;
+				case'innerText' :
+					var value = newValue( $node.text(), obj[key] );
+					$node.text( value );
+				break;
+				default:
+					var value = newValue( $node.attr(key), obj[key] );
+					$node.attr( key, value );
+			}
+		});
 	}
-	return $node;
+	return $selection;
 };
 
 var newValue = function( oldValue, newValue ){
