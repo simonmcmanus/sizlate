@@ -2,12 +2,13 @@ var fs = require('fs');
 var cheerio = require('cheerio');
 exports.version = '0.8.3';
 
-var checkForInputs = function($node, data) {
-	$node.each(function(i, elem) {
-		if(this[0].name === 'input') {
-			$(this[0]).attr('value', data);
-		}else {
-			$(this[0]).html(data);
+var checkForInputs = function( $selection, data) {
+	$selection.each(function(i, elem) {
+		var node = ( this instanceof Array ) ? this[0] : this;
+		if( node.name === 'input') {
+			$(node).attr('value', data);
+		} else {
+			$(node).html(data);
 		}
 	});
 };
@@ -130,6 +131,7 @@ exports.__express = function(filename, options, callback) {
 			if(selectors[key].data && selectors[key].data.length > 0){ // make sure we are passed in data and that the data is not empty.
 				wait = true;
 				count++;
+				console.log(1,options.settings.views + '/partials/' + selectors[key].partial + '.'+ options.settings['view engine']);
 				fs.readFile(options.settings.views + '/partials/' + selectors[key].partial + '.'+ options.settings['view engine'], 'utf8', function (key, err, data) {
 					selectors[key] = exports.doRender(data, exports.classifyKeys(selectors[key].data, selectors[key]));	// adding and then stripping body tag for jsdom.
 					complete++;
@@ -143,6 +145,7 @@ exports.__express = function(filename, options, callback) {
 
 	var doRendering = function() {
 		if(options.layout) {
+			console.log(2,options.settings.views + '/' + options.layout + '.'+ options.settings['view engine']);
 			fs.readFile(options.settings.views + '/' + options.layout + '.'+ options.settings['view engine'], 'utf8', function(error, template) {
 				fs.readFile(filename, 'utf8', function(err,data){
 				  if(err) {
@@ -156,6 +159,7 @@ exports.__express = function(filename, options, callback) {
 				});
 			});
 		} else { // no layouts specified, just do the render.
+			console.log(3,filename);
 			fs.readFile(filename, 'utf8', function(err,data){
 			  if(err) {
 			    console.error("Could not open file: %s", err);
