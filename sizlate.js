@@ -2,41 +2,59 @@ var fs = require('fs');
 var cheerio = require('cheerio');
 exports.version = '0.8.3';
 
-var checkForInputs = function($node, data) {
-	$node.each(function(i, elem) {
-		if(this[0].name === 'input') {
-			$(this[0]).attr('value', data);
-		}else {
-			$(this[0]).html(data);
+var checkForInputs = function( $selection, data) {
+	$selection.each(function(i, elem) {
+		var node = ( this instanceof Array ) ? this[0] : this;
+		if( node.name === 'input') {
+			$(node).attr('value', data);
+		} else {
+			$(node).html(data);
 		}
 	});
 };
 
-var updateNodeWithObject = function($node, obj) {
+var updateNodeWithObject = function($selection, obj) {
 	for(var key in obj){
-		switch(key) {
-			case 'selectors':
-				// we need to iterate over the selectors here. 
-				var selectors = obj[key];
-				for(var selector in selectors) {
-					$node.find(selector).html(selectors[selector]);
-				}
-			break;
-			case 'className':
-				$node.addClass(obj[key]);
-			break;
-			case'innerHTML' :
-				$node.html(obj[key]);
-			break;
-			case'innerText' :
-				$node.text(obj[key]);
-			break;
-			default: 
-				$node.attr(key, obj[key]);
-		}
+		$selection.each(function(){
+			var $node = $(this);
+			switch(key) {
+				case 'selectors':
+					// we need to iterate over the selectors here. 
+					var selectors = obj[key];
+					for(var selector in selectors) {
+						$node.find(selector).html(selectors[selector]);
+					}
+				break;
+				case 'className':
+					var value = newValue( $node.attr("class"), obj[key] );
+					$node.addClass( value );
+				break;
+				case'innerHTML' :
+					var value = newValue( $node.html(), obj[key] );
+					$node.html( value );
+				break;
+				case'innerText' :
+					var value = newValue( $node.text(), obj[key] );
+					$node.text( value );
+				break;
+				default:
+					var value = newValue( $node.attr(key), obj[key] );
+					$node.attr( key, value );
+			}
+		});
 	}
-	return $node;
+	return $selection;
 };
+
+var newValue = function( oldValue, newValue ){
+	if ( typeof newValue == "object" && newValue.regex && newValue.value ) {
+		return oldValue.replace( newValue.regex, newValue.value );
+	} else if ( typeof newValue == "function" ){
+		return newValue(oldValue);
+	}
+	return newValue;
+};
+
 var updateNode = function($node, selector, data) {
 	switch(typeof data) {
 		case "string":
@@ -114,6 +132,7 @@ exports.__express = function(filename, options, callback) {
 			if(selectors[key].data && selectors[key].data.length > 0){ // make sure we are passed in data and that the data is not empty.
 				wait = true;
 				count++;
+				console.log(1,options.settings.views + '/partials/' + selectors[key].partial + '.'+ options.settings['view engine']);
 				fs.readFile(options.settings.views + '/partials/' + selectors[key].partial + '.'+ options.settings['view engine'], 'utf8', function (key, err, data) {
 					selectors[key] = exports.doRender(data, exports.classifyKeys(selectors[key].data, selectors[key]));	// adding and then stripping body tag for jsdom.
 					complete++;
@@ -127,6 +146,7 @@ exports.__express = function(filename, options, callback) {
 
 	var doRendering = function() {
 		if(options.layout) {
+			console.log(2,options.settings.views + '/' + options.layout + '.'+ options.settings['view engine']);
 			fs.readFile(options.settings.views + '/' + options.layout + '.'+ options.settings['view engine'], 'utf8', function(error, template) {
 				fs.readFile(filename, 'utf8', function(err,data){
 				  if(err) {
@@ -140,6 +160,7 @@ exports.__express = function(filename, options, callback) {
 				});
 			});
 		} else { // no layouts specified, just do the render.
+			console.log(3,filename);
 			fs.readFile(filename, 'utf8', function(err,data){
 			  if(err) {
 			    console.error("Could not open file: %s", err);
