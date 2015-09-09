@@ -48,6 +48,7 @@ See /examples/basic
 		});
 	});
 </code>
+</pre>
 <h3>Using regex</h3>
 <pre>
 <code>
@@ -65,6 +66,8 @@ See /examples/basic
 	});
 </code>
 </pre>
+
+
 See /examples/object
 
 
