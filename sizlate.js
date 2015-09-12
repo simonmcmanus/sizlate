@@ -1,6 +1,4 @@
-var sizlate = {
-	'version': '0.9'
-};
+var sizlate = {};
 
 // should maybe use jQuery?
 var domain = (typeof $ === 'undefined') ? 'serverside' : 'clientside';
@@ -63,7 +61,7 @@ var checkForInputs = function($node, data) {
 		}else {
 			$node.eq(i).html(data);
 		}
-	});	
+	});
 	return $node;
 };
 
@@ -159,12 +157,10 @@ exports.doRender = function(str, selectors) {
 	var selectorCount = selectors.length;
 	var out = [];
 
-
 	while(selectorCount--){
 		$html = exports.variations[domain].domLoad(str);
 
 		selectorIterator(selectors[selectorCount], $html);
-
 
 		if($html[0]) { // clientside
 			out.push($html[0].outerHTML);
