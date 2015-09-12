@@ -1,4 +1,4 @@
-if(typeof require != 'undefined') { 
+if(typeof require != 'undefined') {
 	var sizlate = require('../sizlate.js');
 }
 
@@ -18,7 +18,7 @@ describe('When given a id selector ', function() {
 		var startTime = new Date().getTime();
 		var i = 1000;
 		while ( --i > 0 ) {
-			sizlate.doRender('<div id="one"></div>', {'#one': 'hi'});	
+			sizlate.doRender('<div id="one"></div>', {'#one': 'hi'});
 		}
 		expect(new Date().getTime() - startTime).toBeLessThan(400);
 	});

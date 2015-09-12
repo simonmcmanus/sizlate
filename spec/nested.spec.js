@@ -1,8 +1,6 @@
-if(typeof require != 'undefined') { 
+if(typeof require != 'undefined') {
 	var sizlate = require('../sizlate.js');
 }
-
-
 
 describe('When given a nested selector ', function() {
 	it("it should render the nested selector.", function() {
