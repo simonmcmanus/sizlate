@@ -1,4 +1,4 @@
-if(typeof require != 'undefined') { 
+if(typeof require != 'undefined') {
 	sizlate = require('../sizlate.js');
 }
 
@@ -16,7 +16,7 @@ describe('Given calling doRender', function() {
 	});
 
 	describe('When given a id selector ', function() {
-		it("it should set the innerHTML", function() {		
+		it("it should set the innerHTML", function() {
 			var out = sizlate.doRender('<div id="one"></div>', {'#one': 'hi'});
 			var expected = '<div id="one">hi</div>';
 			expect(out).toEqual(expected);
@@ -73,7 +73,7 @@ describe('Given calling doRender', function() {
 								expect(out).toEqual('<div class="one booo">booo</div>');
 							});
 						});
-						
+
 					});
 
 				});
