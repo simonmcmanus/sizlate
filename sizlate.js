@@ -1,6 +1,4 @@
 var sizlate = {};
-
-// should maybe use jQuery?
 var domain = (typeof $ === 'undefined') ? 'serverside' : 'clientside';
 
 if(domain === 'serverside') {
@@ -8,19 +6,19 @@ if(domain === 'serverside') {
 	var cheerio = require('cheerio');
 } else { // running clientside
 	exports = sizlate;
-	sizlate.fetchAndRender = function(url) {
-		$.ajax({
-			type: 'GET',
-			url: url || window.location	,
-			contentType: 'sizlate',
-			success: function(d) {
-				d.selectors.layout = false;
-				exports.__express(d.template, d.selectors, function(error, data) {
-					$('#container').html(data);
-				});
-			}
-		});
-	};
+	// sizlate.fetchAndRender = function(url) {
+	// 	$.ajax({
+	// 		type: 'GET',
+	// 		url: url || window.location	,
+	// 		contentType: 'sizlate',
+	// 		success: function(d) {
+	// 			d.selectors.layout = false;
+	// 			exports.__express(d.template, d.selectors, function(error, data) {
+	// 				$('#container').html(data);
+	// 			});
+	// 		}
+	// 	});
+	// };
 }
 
 // functions which do different things if they are run in the browser or node.
