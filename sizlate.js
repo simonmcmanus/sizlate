@@ -62,7 +62,7 @@ var checkForInputs = function($node, data) {
 	return $node;
 };
 
-var updateNodeWithObject = function($node, obj) {
+var updateNodeWithObject = function($selection, obj) {
 	for(var key in obj){
 		switch(key) {
 			case 'selectors':
@@ -81,9 +81,20 @@ var updateNodeWithObject = function($node, obj) {
 			default:
 				$node.attr(key, obj[key]);
 		}
+
 	}
-	return $node;
+	return $selection;
 };
+
+var newValue = function( oldValue, newValue ){
+	if ( typeof newValue == "object" && newValue.regex && newValue.value ) {
+		return oldValue.replace( newValue.regex, newValue.value );
+	} else if ( typeof newValue == "function" ){
+		return newValue(oldValue);
+	}
+	return newValue;
+};
+
 var updateNode = function($node, selector, data) {
 	switch(typeof data) {
 		case "string":
@@ -152,7 +163,7 @@ exports.doRender = function(str, selectors) {
 	selectors = ( typeof selectors[0] == 'undefined' ) ? [selectors] : selectors; // make sure we have an array.
 	var selectorCount = selectors.length;
 	var out = [];
-
+	selectors = selectors.reverse();
 	while(selectorCount--){
 		$html = exports.variations[domain].domLoad(str);
 
@@ -216,6 +227,7 @@ exports.__express = function(filename, options, callback) {
 					process.exit(1);
 				}
 				callback(null, exports.doRender(data, options.selectors));
+
 			});
 		}
 	};

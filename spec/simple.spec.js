@@ -124,3 +124,22 @@ describe('Given calling doRender', function() {
 		});
 	});
 });
+
+describe('When given a value to edit', function() {
+	it("it should perform the expected transformation", function(done) {
+		var out = sizlate.doRender('<div class="one"></div>', {'.one': { 'className': 'bobby'}});
+		var expected = '<div class="one bobby"></div>';
+		expect(expected).toEqual(out);
+		done();
+	});
+});
+
+describe('When given a text value', function() {
+	it("it should escape HTML values", function(done) {
+		var out = sizlate.doRender('<div class="one"></div>', {'.one': { 'innerText': 'Well this is a little <b>awkward</b>'}});
+		var expected = '<div class="one">Well this is a little &lt;b&gt;awkward&lt;/b&gt;</div>';
+		expect(expected).toEqual(out);
+		done();
+	});
+});
+

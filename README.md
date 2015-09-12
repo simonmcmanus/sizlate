@@ -49,6 +49,25 @@ See /examples/basic
 	});
 </code>
 </pre>
+<h3>Using regex</h3>
+<pre>
+<code>
+	app.get('/', function(req, res) {
+		res.render('home', {
+			selectors: {
+				'a': {
+					href: {
+						regex : /.*/,
+						value : 'http://yahoo.com$1'
+					}
+				}
+			}
+		});
+	});
+</code>
+</pre>
+
+
 See /examples/object
 
 
