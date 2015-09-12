@@ -1,6 +1,4 @@
-var sizlate = {
-	'version': '0.9'
-};
+var sizlate = {};
 
 // should maybe use jQuery?
 var domain = (typeof $ === 'undefined') ? 'serverside' : 'clientside';
@@ -49,7 +47,7 @@ exports.variations = {
 
 
 /**
- * In the case of input we should update the value and not just set the innerHTML property. 
+ * In the case of input we should update the value and not just set the innerHTML property.
  * @param  {Object} $node sizzle object
  * @param  {String} data  The value to be set on the html.
  * @return {Object}       The update $node.
@@ -62,7 +60,7 @@ var checkForInputs = function($node, data) {
 		}else {
 			$node.eq(i).html(data);
 		}
-	});	
+	});
 	return $node;
 };
 
@@ -70,7 +68,7 @@ var updateNodeWithObject = function($node, obj) {
 	for(var key in obj){
 		switch(key) {
 			case 'selectors':
-				// we need to iterate over the selectors here. 
+				// we need to iterate over the selectors here.
 				var selectors = obj[key];
 				for(var selector in selectors) {
 					$node.find(selector).html(selectors[selector]);
@@ -157,12 +155,10 @@ exports.doRender = function(str, selectors) {
 	var selectorCount = selectors.length;
 	var out = [];
 
-
 	while(selectorCount--){
 		$html = exports.variations[domain].domLoad(str);
 
 		selectorIterator(selectors[selectorCount], $html);
-
 
 		if($html[0]) { // clientside
 			out.push($html[0].outerHTML);
@@ -229,4 +225,3 @@ exports.__express = function(filename, options, callback) {
 		doRendering();
 	}
 };
-
