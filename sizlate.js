@@ -50,19 +50,31 @@ exports.variations = {
  * @param  {String} data  The value to be set on the html.
  * @return {Object}       The update $node.
  */
-var checkForInputs = function($node, data) {
-	$node.each(function(i, elem) {
-		var type = elem.tagName || this[i].name;
-		if(type.toUpperCase() === 'INPUT') {
-			$node.eq(i).attr('value', data);
-		}else {
-			$node.eq(i).html(data);
-		}
-	});
-	return $node;
-};
+// var checkForInputs = function($node, data) {
+// 	$node.each(function(i, elem) {
+// 		var type = elem.tagName || this[i].name;
+// 		if(type.toUpperCase() === 'INPUT') {
+// 			$node.eq(i).attr('value', data);
+// 		}else {
+// 			$node.eq(i).html(data);
+// 		}
+// 	});
+// 	return $node;
+// };
 
-var updateNodeWithObject = function($selection, obj) {
+
+var checkForInputs = function( $selection, data) {
+	$selection.each(function(i, elem) {
+		var node = ( this instanceof Array ) ? this[0] : this;
+		if( node.name.toUpperCase() === 'INPUT') {
+			$(node).attr('value', data);
+		} else {
+			$(node).html(data);
+ 		}
+ 	});
+ }
+
+var updateNodeWithObject = function($node, obj) {
 	for(var key in obj){
 		switch(key) {
 			case 'selectors':
@@ -83,11 +95,13 @@ var updateNodeWithObject = function($selection, obj) {
 		}
 
 	}
-	return $selection;
+	return $node;
 };
 
 var newValue = function( oldValue, newValue ){
+	console.log('new', newValue);
 	if ( typeof newValue == "object" && newValue.regex && newValue.value ) {
+
 		return oldValue.replace( newValue.regex, newValue.value );
 	} else if ( typeof newValue == "function" ){
 		return newValue(oldValue);
@@ -183,9 +197,10 @@ exports.__express = function(filename, options, callback) {
 	// setup defaults
 	options.settings  = {
 		views: (options && options.settings && options.settings.views) || './',
-		'view engine': 'sizlate'
+		'view engine': options.settings['view engine'] || 'sizlate'
 	};
 
+	console.log(options.settings['view engine'] );
 	var selectors = options.selectors;
 	var wait = false;
 	var count = 0; // keep track of total number of callbacks to wait for
@@ -208,6 +223,7 @@ exports.__express = function(filename, options, callback) {
 
 	var doRendering = function() {
 		if(options.layout) {
+			console.log(options.settings['view engine']);
 			exports.variations[domain].get(options.settings.views + '/' + options.layout + '.'+ options.settings['view engine'], function(error, template) {
 				exports.variations[domain].get(options.settings.views + '/' + filename + '.'+ options.settings['view engine'], function(err,data){
 					if(err) {
