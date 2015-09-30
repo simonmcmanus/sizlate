@@ -223,12 +223,17 @@ exports.__express = function(filename, options, callback) {
 	var complete = 0; // completed callbacks count.
 	for(var key in selectors) {
 		if(selectors[key] && selectors[key].partial){// this is a partial.
+			console.log('-->', selectors[key].data, selectors[key].data.length );
 			if(selectors[key].data && selectors[key].data.length > 0){ // make sure we are passed in data and that the data is not empty.
+
 				wait = true;
 				count++;
+				console.log('c', exports.variations[domain].get, options.settings.views + '/partials/' + selectors[key].partial + '.'+ options.settings['view engine'])
 				exports.variations[domain].get(options.settings.views + '/partials/' + selectors[key].partial + '.'+ options.settings['view engine'], function (key, err, data) {
+					console.log('c',exports.doRender, data, selectors[key].data, selectors[key]));
 					selectors[key] = exports.doRender(data, exports.classifyKeys(selectors[key].data, selectors[key]));	// adding and then stripping body tag for jsdom.
 					complete++;
+					console.log(complete);
 					if(complete === 1) {
 						doRendering();
 					}
