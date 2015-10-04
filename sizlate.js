@@ -1,47 +1,8 @@
 var sizlate = {};
-var domain = (typeof $ === 'undefined') ? 'serverside' : 'clientside';
 
-if(domain === 'serverside') {
-	var fs = require('fs');
-	var cheerio = require('cheerio');
-} else { // running clientside
-	exports = sizlate;
-	// sizlate.fetchAndRender = function(url) {
-	// 	$.ajax({
-	// 		type: 'GET',
-	// 		url: url || window.location	,
-	// 		contentType: 'sizlate',
-	// 		success: function(d) {
-	// 			d.selectors.layout = false;
-	// 			exports.__express(d.template, d.selectors, function(error, data) {
-	// 				$('#container').html(data);
-	// 			});
-	// 		}
-	// 	});
-	// };
-}
 
-// functions which do different things if they are run in the browser or node.
-exports.variations = {
-	clientside: {
-		domLoad: function(str) {
-			return $(str);
-		},
-		get: function(file, callback) {
-			$.get('/views/' + file, function(markup) {
-				callback(null, markup); // passing null error param to keep same interface as fs.readfile.
-			});
-		}
-	},
-	serverside: {
-		domLoad: function(str) {
-			return cheerio.load(str);
-		},
-		get: function(file, callback) {
-			fs.readFile( __dirname + file, 'utf8', callback);
-		}
-	}
-};
+var fs = require('fs');
+var cheerio = require('cheerio');
 
 
 
@@ -51,32 +12,7 @@ exports.variations = {
  * @param  {String} data  The value to be set on the html.
  * @return {Object}       The update $node.
  */
-<<<<<<< HEAD
-var checkForInputs = function($node, data) {
-	$node.each(function(i, elem) {
-		var type = elem.tagName || this[i].name;
-		if(type.toUpperCase() === 'INPUT') {
-			$node.eq(i).attr('value', data);
-		}else {
-			$node.eq(i).html(data);
-		}
-	});
-	return $node;
-};
 
-
-=======
-// var checkForInputs = function($node, data) {
-// 	$node.each(function(i, elem) {
-// 		var type = elem.tagName || this[i].name;
-// 		if(type.toUpperCase() === 'INPUT') {
-// 			$node.eq(i).attr('value', data);
-// 		}else {
-// 			$node.eq(i).html(data);
-// 		}
-// 	});
-// 	return $node;
-// };
 
 
 var checkForInputs = function( $selection, data) {
@@ -90,7 +26,6 @@ var checkForInputs = function( $selection, data) {
  	});
  }
 
->>>>>>> b27d31d... merged in latest but also broken most of the tests :(
 var updateNodeWithObject = function($node, obj) {
 	for(var key in obj){
 		switch(key) {
@@ -271,3 +206,4 @@ exports.__express = function(filename, options, callback) {
 		doRendering();
 	}
 };
+exports.doRender = require('./lib/do-render');
