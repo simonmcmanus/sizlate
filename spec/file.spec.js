@@ -1,4 +1,4 @@
-// var express = require('../lib/express.js');
+// var express = require('../lib/express');
 // var cheerio = require("cheerio");
 //
 // describe('When given a file with partials', function() {

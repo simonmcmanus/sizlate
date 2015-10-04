@@ -1,21 +1,21 @@
-// var sizlate = require('../sizlate')
+ var sizlate = require('../sizlate')
 // 	assert = require('assert');
 //
-// describe('When given a regex', function() {
-// 	it("it should allow simple replacing", function(done) {
-// 		var out = sizlate.doRender('<div class="one">existing value</div><div class="one">existing something</div>', {
-// 			'.one': {
-// 				'innerText' : {
-// 					regex : /existing ([a-z]+)/ig,
-// 					value : "new $1"
-// 				}
-// 			}
-// 		});
-// 		var expected = '<div class="one">new value</div><div class="one">new something</div>';
-// 		expect(out).toEqual(expected);
-// 		done();
-// 	});
-//
+describe('When given a regex', function() {
+	it("it should allow simple replacing", function(done) {
+		var out = sizlate.doRender('<div class="one">existing value</div><div class="one">existing something</div>', {
+			'.one': {
+				'innerText' : {
+					regex : /existing ([a-z]+)/ig,
+					value : "new $1"
+				}
+			}
+		});
+		var expected = '<div class="one">new value</div><div class="one">new something</div>';
+		expect(out).toEqual(expected);
+		done();
+	});
+// //
 // 	it("it should allow prepending a URL", function(done) {
 // 		var out = sizlate.doRender('<a href="/some-path">existing value</a>', {
 // 			'a': {
@@ -29,9 +29,9 @@
 // 		expect(out).toEqual(expected);
 // 		done();
 // 	});
-// });
-//
-//
+});
+
+
 // describe('When given a function', function() {
 // 	it("it should allow anything you like", function(done) {
 // 		var out = sizlate.doRender('<div class="one">value A</div><div class="one">value B</div>', {
