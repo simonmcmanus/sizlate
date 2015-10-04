@@ -1,4 +1,6 @@
-var sizlate = require('../sizlate');
+if(typeof require != 'undefined') {
+	sizlate = require('../sizlate.js');
+}
 
 
 describe('Given calling doRender', function() {
@@ -90,20 +92,20 @@ describe('Given calling doRender', function() {
 						});
 					});
 				});
-				//
-				// describe('containing a data-* property', function() {
-				//
-				// 	beforeEach(function() {
-				// 		selectors[selector] = { 'data-thing': 'booot'};
-				// 	});
-				//
-				// 	describe('When doRender is called with the selectors ', function() {
-				// 		it('Should set the className of the div but not remove the existing class', function() {
-				// 			out = sizlate.doRender(htmlIn, selectors);
-				// 			expect(out).toEqual('<div class="one" data-thing="booot"></div>');
-				// 		});
-				// 	});
-				// });
+
+				describe('containing a data-* property', function() {
+
+					beforeEach(function() {
+						selectors[selector] = { 'data-thing': 'booot'};
+					});
+
+					describe('When doRender is called with the selectors ', function() {
+						it('Should set the className of the div but not remove the existing class', function() {
+							out = sizlate.doRender(htmlIn, selectors);
+							expect(out).toEqual('<div class="one" data-thing="booot"></div>');
+						});
+					});
+				});
 			});
 		});
 	});
