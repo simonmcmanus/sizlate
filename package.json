@@ -17,7 +17,8 @@
   },
   "devDependencies": {
     "jasmine-node": "~1.7.1",
-    "jquery": "^2.1.4"
+    "jquery": "^2.1.4",
+    "watchify": "^3.4.0"
   },
   "browser": {
     "./server/dom.js": "./client/dom.js",
@@ -25,6 +26,8 @@
   },
   "scripts": {
     "test": "node node_modules/jasmine-node/bin/jasmine-node ./spec/*",
-    "build-client": "node ./node_modules/browserify/bin/cmd.js ./client/client.js > ./sizlate-client.js"
+    "test-watch": "node node_modules/jasmine-node/bin/jasmine-node --autotest ./spec/*",
+    "build-client": "node ./node_modules/browserify/bin/cmd.js ./client/client.js > ./sizlate-client.js",
+    "watch": "node ./node_modules/watchify/bin/cmd.js ./client/client.js -o ./sizlate-client.js"
   }
 }
