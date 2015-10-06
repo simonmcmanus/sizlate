@@ -1,6 +1,7 @@
- var sizlate = require('../sizlate')
-// 	assert = require('assert');
-//
+if(typeof require != 'undefined') {
+	sizlate = require('../sizlate.js');
+}
+
 describe('When given a regex', function() {
 	it("it should allow simple replacing", function(done) {
 		var out = sizlate.doRender('<div class="one">existing value</div><div class="one">existing something</div>', {
