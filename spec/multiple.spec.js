@@ -3,7 +3,7 @@ if(typeof require != 'undefined') {
 }
 
 describe('When given a regex', function() {
-	it("it should allow simple replacing", function(done) {
+	it("it should allow simple replacing", function() {
 		var out = sizlate.doRender('<div class="one">existing value</div><div class="one">existing something</div>', {
 			'.one': {
 				'innerText' : {
@@ -14,7 +14,6 @@ describe('When given a regex', function() {
 		});
 		var expected = '<div class="one">new value</div><div class="one">new something</div>';
 		expect(out).toEqual(expected);
-		done();
 	});
 // //
 // 	it("it should allow prepending a URL", function(done) {
