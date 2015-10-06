@@ -12,3 +12,8 @@ exports.find = function ($domNode, selector) {
     }
     return $out;
 };
+
+// only available in the browser
+exports.getMarkup = function($page) {
+return $page[0].outerHTML;
+};

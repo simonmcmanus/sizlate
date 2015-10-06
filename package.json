@@ -28,6 +28,6 @@
     "test": "node node_modules/jasmine-node/bin/jasmine-node ./spec/*",
     "test-watch": "node node_modules/jasmine-node/bin/jasmine-node --autotest ./spec/*",
     "build-client": "node ./node_modules/browserify/bin/cmd.js ./client/client.js > ./sizlate-client.js",
-    "watch": "node ./node_modules/watchify/bin/cmd.js ./client/client.js -o ./sizlate-client.js"
+    "watch": "node ./node_modules/watchify/bin/cmd.js ./client/client.js -o ./sizlate-client.js --verbose"
   }
 }
