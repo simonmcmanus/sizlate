@@ -17,6 +17,11 @@ exports.find = function ($domNode, selector) {
     return $out;
 };
 
+// only available in the browser
+exports.getMarkup = function($page) {
+return $page[0].outerHTML;
+};
+
 },{"jquery":9}],3:[function(require,module,exports){
 /**
  * In the case of input we should update the value and not just set the innerHTML property.
@@ -61,8 +66,12 @@ module.exports = function(str, selectors) {
         });
 	}
 
-    console.log('page is', $page);
-	return $page[0].outerHTML;
+
+    if(dom.getMarkup) { // browserside
+        return dom.getMarkup($page);
+    } else {
+        return $page.html();
+    }
 };
 
 },{"../server/dom.js":2,"./selector-iterator":6,"./update-node":8}],5:[function(require,module,exports){
