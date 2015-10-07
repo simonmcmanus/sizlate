@@ -169,6 +169,7 @@ module.exports = function($node, obj) {
 				// if we need to apply something the each value we need to iterate over each dom node.
 				if (obj[key].regex || typeof obj[key] === 'function') {
 					$node.each(function(i, $node) {
+						debugger
 						let newText = newValue(this.text(), obj[key]);
 						this.text(newText);
 					})
