@@ -7,7 +7,7 @@ describe('When given tag selector ', function() {
 		var startTime = new Date().getTime();
 		var i = 1000;
 		while ( --i > 0 ) {
-			sizlate.doRender('<div></div>', {'div': 'hi'});
+			sizlate.render('<div></div>', {'div': 'hi'});
 		}
 		expect(new Date().getTime() - startTime).toBeLessThan(400);
 	});
@@ -18,7 +18,7 @@ describe('When given a id selector ', function() {
 		var startTime = new Date().getTime();
 		var i = 1000;
 		while ( --i > 0 ) {
-			sizlate.doRender('<div id="one"></div>', {'#one': 'hi'});
+			sizlate.render('<div id="one"></div>', {'#one': 'hi'});
 		}
 		expect(new Date().getTime() - startTime).toBeLessThan(400);
 	});
@@ -29,7 +29,7 @@ describe('When given an object ', function() {
 		var startTime = new Date().getTime();
 		var i = 1000;
 		while ( --i > 0 ) {
-			sizlate.doRender('<div class="one"></div>', {'.one': { 'data-thing': 'bobby'}});
+			sizlate.render('<div class="one"></div>', {'.one': { 'data-thing': 'bobby'}});
 		}
 		expect(new Date().getTime() - startTime).toBeLessThan(400);
 	});
@@ -40,7 +40,7 @@ describe('When given an object with more than one attribute', function() {
 		var startTime = new Date().getTime();
 		var i = 1000;
 		while ( --i > 0 ) {
-			sizlate.doRender('<div class="one"></div>', {'.one': { 'data-thing': 'bobby', 'data-foobar': 'beepboop'}});
+			sizlate.render('<div class="one"></div>', {'.one': { 'data-thing': 'bobby', 'data-foobar': 'beepboop'}});
 		}
 		expect(new Date().getTime() - startTime).toBeLessThan(400);
 	});
@@ -51,7 +51,7 @@ describe('When given an object containing innerHTML ', function() {
 		var startTime = new Date().getTime();
 		var i = 1000;
 		while ( --i > 0 ) {
-			sizlate.doRender('<div class="one"></div>', {'.one': { 'innerHTML': 'bobby'}});
+			sizlate.render('<div class="one"></div>', {'.one': { 'innerHTML': 'bobby'}});
 		}
 		expect(new Date().getTime() - startTime).toBeLessThan(400);
 	});
@@ -63,7 +63,7 @@ describe('When given an object containing className ', function() {
 		var startTime = new Date().getTime();
 		var i = 1000;
 		while ( --i > 0 ) {
-			sizlate.doRender('<div class="one"></div>', {'.one': { 'className': 'bobby'}});
+			sizlate.render('<div class="one"></div>', {'.one': { 'className': 'bobby'}});
 		}
 		expect(new Date().getTime() - startTime).toBeLessThan(400);
 	});
