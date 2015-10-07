@@ -4,7 +4,7 @@ if(typeof require != 'undefined') {
 
 describe('When given a nested selector ', function() {
 	it("it should render the nested selector.", function() {
-		var out = sizlate.doRender('<div id="one"><a href="sd"></a></div>', {'#one': { selectors: { a: 'wotcha'} }});
+		var out = sizlate.render('<div id="one"><a href="sd"></a></div>', {'#one': { selectors: { a: 'wotcha'} }});
 		var expected = '<div id="one"><a href="sd">wotcha</a></div>';
 		expect(out).toEqual(expected);
 	 });
