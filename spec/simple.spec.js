@@ -127,19 +127,17 @@ describe('Given calling render', function() {
 });
 
 describe('When given a value to edit', function() {
-	it("it should perform the expected transformation", function(done) {
+	it("it should perform the expected transformation", function() {
 		var out = sizlate.render('<div class="one"></div>', {'.one': { 'className': 'bobby'}});
 		var expected = '<div class="one bobby"></div>';
 		expect(out).toEqual(expected);
-		done();
 	});
 });
 
 describe('When given a text value', function() {
-	it("it should escape HTML values", function(done) {
+	it("it should escape HTML values", function() {
 		// // var out = sizlate.render('<div class="one"></div>', {'.one': { 'innerHTML': 'Well this is a little <b>awkward</b>'}});
 		// // var expected = '<div class="one">Well this is a little &lt;b&gt;awkward&lt;/b&gt;</div>';
 		// expect(expected).toEqual(out);
-		done();
 	});
 });
