@@ -1,5 +1,9 @@
 
 
+Express Users
+
+This version of sizlate does not support express. Please use sizlate-express.
+
 <h1>Sizlate</h1>
 
 Sizlate is an HTML templating engine for <a href="http://expressjs.com">Express.js</a>.
