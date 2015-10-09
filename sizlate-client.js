@@ -19,11 +19,11 @@ exports.find = function ($domNode, selector) {
 
 // only available in the browser
 exports.getMarkup = function($page) {
-    if($page[0]) {
-        return $page[0].outerHTML;
-    }else {
-        return '';
-    }
+    var out = [];
+    $page.each(function(i, item) {
+        out.push(item.outerHTML);
+    })
+    return out.join('');
 
 };
 
@@ -31,6 +31,11 @@ exports.getMarkup = function($page) {
 exports.each = function(node) {
     return $(node).each;
 }
+
+// jqueryify node
+exports.get = function(item) {
+    return $(item);
+};
 
 },{"jquery":10}],3:[function(require,module,exports){
 /**
@@ -147,6 +152,8 @@ module.exports = function (oldValue, newValue) {
 
 var newValue = require('./new-value');
 
+var dom = require('../server/dom');
+
 module.exports = function($node, obj) {
 	// Iterate over the actions to be applied to the dom node.
 	for (var key in obj){
@@ -166,9 +173,10 @@ module.exports = function($node, obj) {
 
 				// if we need to apply something the each value we need to iterate over each dom node.
 				if (obj[key].regex || typeof obj[key] === 'function') {
-					$node.each(function(i, $node) {
-						let newText = newValue(this.html(), obj[key]);
-						this.html( obj[key] );
+					$node.each(function(i, node) {
+						var $domNode = dom.get(node);
+						let newText = newValue($domNode.html(), obj[key]);
+						$domNode.html( obj[key] );
 					})
 				}else {
 					$node.html( obj[key] );
@@ -178,20 +186,24 @@ module.exports = function($node, obj) {
 
 				// if we need to apply something the each value we need to iterate over each dom node.
 				if (obj[key].regex || typeof obj[key] === 'function') {
-					$node.each(function(i, $node) {
-						let newText = newValue(this.text(), obj[key]);
-						this.text(newText);
+					$node.each(function(i, node) {
+						var $domNode = dom.get(this);
+						let newText = newValue($domNode.text(), obj[key]);
+						console.log('hi text', node[i], this, $domNode , newText);
+						$domNode.text(newText);
 					})
 				}else {
+					console.log('hi there bob');
 					$node.text(obj[key]);
 				}
 			break;
 
 			default:
 				if (obj[key].regex || typeof obj[key] === 'function') {
-					$node.each(function() {
-						let newText = newValue(this.attr(key), obj[key]);
-						this.attr(key, newText);
+					$node.each(function (i, node) {
+						var $domNode = dom.get(node);
+						let newText = newValue($domNode.attr(key), obj[key]);
+						$domNode.attr(key, newText);
 					})
 				}else {
 					$node.attr( key, obj[key] );
@@ -201,7 +213,7 @@ module.exports = function($node, obj) {
 	return $node;
 };
 
-},{"./new-value":6}],9:[function(require,module,exports){
+},{"../server/dom":2,"./new-value":6}],9:[function(require,module,exports){
 'use strict';
 var checkForInputs = require('./check-for-inputs');
 var updateNodeWithObject = require('./update-node-with-object');

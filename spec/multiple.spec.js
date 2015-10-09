@@ -38,6 +38,6 @@ describe('When given a function', function() {
 			}
 		});
 		var expected = '<div class="one">amaze A</div><div class="one">amaze B</div>';
-		expect(expected).toEqual(out);
+		expect(out).toEqual(expected);
 	});
 });
