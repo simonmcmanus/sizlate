@@ -16,7 +16,7 @@ describe('When given a regex', function() {
 		expect(out).toEqual(expected);
 	});
 
-	it("it should allow prepending a URL", function(done) {
+	it("it should allow prepending a URL", function() {
 		var out = sizlate.render('<a href="/some-path">link</a>', {
 			'a': {
 				'href' : {
@@ -27,12 +27,11 @@ describe('When given a regex', function() {
 		});
 		var expected = '<a href="http://yahoo.com/some-path">link</a>';
 		expect(out).toEqual(expected);
-		done();
 	});
 });
 
 describe('When given a function', function() {
-	it("it should allow anything you like", function(done) {
+	it("it should allow anything you like", function() {
 		var out = sizlate.render('<div class="one">value A</div><div class="one">value B</div>', {
 			'.one': {
 				'innerText' : function( text ){ return text.replace(/value/ig,"amaze"); }
@@ -40,6 +39,5 @@ describe('When given a function', function() {
 		});
 		var expected = '<div class="one">amaze A</div><div class="one">amaze B</div>';
 		expect(expected).toEqual(out);
-		done();
 	});
 });
