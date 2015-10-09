@@ -23,10 +23,10 @@ exports.getMarkup = function($page) {
 
 };
 
-// iterate of dom nodes.
-exports.each = function(node) {
-    return $(node).each;
-}
+// // iterate of dom nodes.
+// exports.each = function(node) {
+//     return $(node).each;
+// }
 
 // jqueryify node
 exports.get = function(item) {
