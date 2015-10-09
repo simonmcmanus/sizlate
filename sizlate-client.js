@@ -19,8 +19,18 @@ exports.find = function ($domNode, selector) {
 
 // only available in the browser
 exports.getMarkup = function($page) {
-return $page[0].outerHTML;
+    if($page[0]) {
+        return $page[0].outerHTML;
+    }else {
+        return '';
+    }
+
 };
+
+// iterate of dom nodes.
+exports.each = function(node) {
+    return $(node).each;
+}
 
 },{"jquery":10}],3:[function(require,module,exports){
 /**
@@ -169,7 +179,6 @@ module.exports = function($node, obj) {
 				// if we need to apply something the each value we need to iterate over each dom node.
 				if (obj[key].regex || typeof obj[key] === 'function') {
 					$node.each(function(i, $node) {
-						debugger
 						let newText = newValue(this.text(), obj[key]);
 						this.text(newText);
 					})
