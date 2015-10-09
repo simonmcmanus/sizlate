@@ -15,11 +15,11 @@ exports.find = function ($domNode, selector) {
 
 // only available in the browser
 exports.getMarkup = function($page) {
-    if($page[0]) {
-        return $page[0].outerHTML;
-    }else {
-        return '';
-    }
+    var out = [];
+    $page.each(function(i, item) {
+        out.push(item.outerHTML);
+    })
+    return out.join('');
 
 };
 
