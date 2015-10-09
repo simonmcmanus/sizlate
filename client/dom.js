@@ -27,3 +27,8 @@ exports.getMarkup = function($page) {
 exports.each = function(node) {
     return $(node).each;
 }
+
+// jqueryify node
+exports.get = function(item) {
+    return $(item);
+};
