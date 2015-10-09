@@ -27,10 +27,10 @@ exports.getMarkup = function($page) {
 
 };
 
-// iterate of dom nodes.
-exports.each = function(node) {
-    return $(node).each;
-}
+// // iterate of dom nodes.
+// exports.each = function(node) {
+//     return $(node).each;
+// }
 
 // jqueryify node
 exports.get = function(item) {
@@ -173,8 +173,8 @@ module.exports = function($node, obj) {
 
 				// if we need to apply something the each value we need to iterate over each dom node.
 				if (obj[key].regex || typeof obj[key] === 'function') {
-					$node.each(function(i, node) {
-						var $domNode = dom.get(node);
+					$node.each(function() {
+						var $domNode = dom.get(this);
 						let newText = newValue($domNode.html(), obj[key]);
 						$domNode.html( obj[key] );
 					})
@@ -186,22 +186,20 @@ module.exports = function($node, obj) {
 
 				// if we need to apply something the each value we need to iterate over each dom node.
 				if (obj[key].regex || typeof obj[key] === 'function') {
-					$node.each(function(i, node) {
+					$node.each(function() {
 						var $domNode = dom.get(this);
 						let newText = newValue($domNode.text(), obj[key]);
-						console.log('hi text', node[i], this, $domNode , newText);
 						$domNode.text(newText);
 					})
 				}else {
-					console.log('hi there bob');
 					$node.text(obj[key]);
 				}
 			break;
 
 			default:
 				if (obj[key].regex || typeof obj[key] === 'function') {
-					$node.each(function (i, node) {
-						var $domNode = dom.get(node);
+					$node.each(function () {
+						var $domNode = dom.get(this);
 						let newText = newValue($domNode.attr(key), obj[key]);
 						$domNode.attr(key, newText);
 					})
