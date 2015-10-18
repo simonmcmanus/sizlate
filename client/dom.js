@@ -1,6 +1,5 @@
 'use strict';
 
-var $ = require('jquery');
 exports.load = function (str) {
     return $(str);
 };
