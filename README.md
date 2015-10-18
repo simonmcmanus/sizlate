@@ -19,7 +19,7 @@ Can can pass render a string of html, or a dom Node. If you specify a DOM node t
 <h3>Simple text example</h3>
 <pre>
 <code>
-var html = '<div id="example"></div>';
+var html = '&lt;div&gt; id="example"&gt;&lt;/div&gt;';
 var selectors = {
 	'#example': 'Hello World'
 };
@@ -28,6 +28,28 @@ var out = sizlate.render(html, selectors);
 </code>
 </pre>
 See /examples
+
+
+<h3>Clientside</h3>
+<pre>
+<code>
+var domNode = document.getElementById('area');
+var selectors = {'div': '-'};
+sizlate.render(domNode, selectors);
+</code>
+</pre>
+
+<pre>
+<code>
+var $domNode = $('#araa');
+var selectors = {'div': '-'};
+sizlate.render($domNode, selectors);
+</code>
+</pre>
+
+
+
+
 
 
 <h1>Express Users</h1>

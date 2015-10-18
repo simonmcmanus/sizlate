@@ -13,21 +13,15 @@ exports.find = function ($domNode, selector) {
 };
 
 // only available in the browser
-exports.getMarkup = function($page) {
+exports.getMarkup = function ($page) {
     var out = [];
-    $page.each(function(i, item) {
+    $page.each(function (i, item) {
         out.push(item.outerHTML);
-    })
+    });
     return out.join('');
-
 };
 
-// // iterate of dom nodes.
-// exports.each = function(node) {
-//     return $(node).each;
-// }
-
 // jqueryify node
-exports.get = function(item) {
+exports.get = function (item) {
     return $(item);
 };
