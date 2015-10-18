@@ -1,9 +1,10 @@
-var sizlate = require('../sizlate.js')
-	assert = require('assert');
+if(typeof require != 'undefined') {
+	sizlate = require('../sizlate.js');
+}
 
 describe('When given a regex', function() {
-	it("it should allow simple replacing", function(done) {
-		var out = sizlate.doRender('<div class="one">existing value</div><div class="one">existing something</div>', {
+	it("it should allow simple replacing", function() {
+		var out = sizlate.render('<div class="one">existing value</div><div class="one">existing something</div>', {
 			'.one': {
 				'innerText' : {
 					regex : /existing ([a-z]+)/ig,
@@ -12,12 +13,11 @@ describe('When given a regex', function() {
 			}
 		});
 		var expected = '<div class="one">new value</div><div class="one">new something</div>';
-		expect(expected).toEqual(out);
-		done();
+		expect(out).toEqual(expected);
 	});
-	
-	it("it should allow prepending a URL", function(done) {
-		var out = sizlate.doRender('<a href="/some-path">existing value</a>', {
+
+	it("it should allow prepending a URL", function() {
+		var out = sizlate.render('<a href="/some-path">link</a>', {
 			'a': {
 				'href' : {
 					regex : /(.+)/ig,
@@ -25,22 +25,19 @@ describe('When given a regex', function() {
 				}
 			}
 		});
-		var expected = '<a href="http://yahoo.com/some-path">existing value</a>';
-		expect(expected).toEqual(out);
-		done();
+		var expected = '<a href="http://yahoo.com/some-path">link</a>';
+		expect(out).toEqual(expected);
 	});
 });
 
-
 describe('When given a function', function() {
-	it("it should allow anything you like", function(done) {
-		var out = sizlate.doRender('<div class="one">value A</div><div class="one">value B</div>', {
+	it("it should allow anything you like", function() {
+		var out = sizlate.render('<div class="one">value A</div><div class="one">value B</div>', {
 			'.one': {
 				'innerText' : function( text ){ return text.replace(/value/ig,"amaze"); }
 			}
 		});
 		var expected = '<div class="one">amaze A</div><div class="one">amaze B</div>';
 		expect(out).toEqual(expected);
-		done();
 	});
 });

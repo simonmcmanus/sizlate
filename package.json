@@ -16,9 +16,18 @@
     "cheerio": "~0.10.5"
   },
   "devDependencies": {
-    "jasmine-node": "~1.7.1"
+    "jasmine-node": "~1.7.1",
+    "jquery": "*",
+    "watchify": "*"
+  },
+  "browser": {
+    "./server/dom.js": "./client/dom.js",
+    "fs": "./client/fs.js"
   },
   "scripts": {
-    "test": "node node_modules/jasmine-node/bin/jasmine-node ./spec/*"
+    "test": "node node_modules/jasmine-node/bin/jasmine-node ./spec/*",
+    "test-watch": "node node_modules/jasmine-node/bin/jasmine-node --autotest ./spec/*",
+    "build-client": "node ./node_modules/browserify/bin/cmd.js ./client/client.js > ./sizlate-client.js",
+    "watch": "node ./node_modules/watchify/bin/cmd.js ./client/client.js -o ./sizlate-client.js --verbose"
   }
 }
