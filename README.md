@@ -17,7 +17,7 @@ Can can pass render a string of html, or a dom Node. If you specify a DOM node t
 
 ```js
 
-var html = '&lt;div&gt; id="example"&gt;&lt;/div&gt;';
+var html = '<div> id="example"></div>';
 var selectors = {
 	'#example': 'Hello World'
 };
