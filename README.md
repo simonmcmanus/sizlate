@@ -6,7 +6,7 @@ Sizlate requires NO special syntax, your templates only contain valid HTML.
 
 Templates are populated using sizzle selectors (as used in jQuery).
 
-From v1.0.0 Sizlate works in the browser. It needs to be compiled with Browserify.
+From v1.0.0 Sizlate works in the browser.
 
 Can can pass render a string of html, or a dom Node. If you specify a DOM node the rendering will happen on the page.
 
