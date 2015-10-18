@@ -1,6 +1,0 @@
-<h1>Nested test</h1>
-
-
-<div class="1">ok</div>
-<div class="2">ok</div>
-<div class="3"><a>fail</a></div>
