@@ -1,4 +1,4 @@
-<h1>Sizlate</h1>
+#Sizlate
 
 Sizlate is an HTML templating engine.
 
@@ -9,10 +9,10 @@ Templates are populated using sizzle selectors (as used in jQuery).
 Can can pass render a string of html, or a dom Node. If you specify a DOM node the rendering will happen on the page.
 
 
-<h2>Examples</h2>
+##Examples
 
 
-<h3>Simple text example</h3>
+###Simple text example
 
 
 ```js
@@ -27,7 +27,7 @@ var out = sizlate.render(html, selectors);
 See /examples
 
 
-<h3>Clientside</h3>
+###Clientside
 
 From v1.0.0 Sizlate works in the browser.
 
@@ -43,14 +43,9 @@ var selectors = {'div': 'new content'};
 sizlate.render($domNode, selectors);
 ```
 
+#Express
 
-
-
-
-
-<h1>Express Users</h1>
-
-This new version of sizlate does not support express.
+From sizlate v1 Express is not supported.
 
 For the moment you will need to use an older version of sizlate.
 
