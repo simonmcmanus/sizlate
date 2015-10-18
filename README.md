@@ -2,50 +2,46 @@
 
 Sizlate is an HTML templating engine.
 
-Sizlate requires NO special syntax, your templates only contain valid HTML.
+Sizlate requires no special syntax, your templates only contain valid HTML.
 
 Templates are populated using sizzle selectors (as used in jQuery).
 
-From v1.0.0 Sizlate works in the browser.
-
 Can can pass render a string of html, or a dom Node. If you specify a DOM node the rendering will happen on the page.
 
-<h1>Install</h1>
-
-	npm install sizlate
 
 <h2>Examples</h2>
 
+
 <h3>Simple text example</h3>
-<pre>
-<code>
+
+
+```js
+
 var html = '&lt;div&gt; id="example"&gt;&lt;/div&gt;';
 var selectors = {
 	'#example': 'Hello World'
 };
 var out = sizlate.render(html, selectors);
 
-</code>
-</pre>
+```
 See /examples
 
 
 <h3>Clientside</h3>
-<pre>
-<code>
-var domNode = document.getElementById('area');
-var selectors = {'div': '-'};
-sizlate.render(domNode, selectors);
-</code>
-</pre>
 
-<pre>
-<code>
-var $domNode = $('#araa');
-var selectors = {'div': '-'};
+From v1.0.0 Sizlate works in the browser.
+
+```js
+var domNode = document.getElementById('area');
+var selectors = {'div': 'new content'};
+sizlate.render(domNode, selectors);
+```
+
+```js
+var $domNode = $('#area');
+var selectors = {'div': 'new content'};
 sizlate.render($domNode, selectors);
-</code>
-</pre>
+```
 
 
 
