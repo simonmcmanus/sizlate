@@ -17,8 +17,8 @@
   },
   "devDependencies": {
     "jasmine-node": "~1.7.1",
-    "jquery": "^2.1.4",
-    "watchify": "^3.4.0"
+    "jquery": "*",
+    "watchify": "*"
   },
   "browser": {
     "./server/dom.js": "./client/dom.js",
