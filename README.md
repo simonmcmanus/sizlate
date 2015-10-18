@@ -1,12 +1,6 @@
-
-
-Express Users
-
-This version of sizlate does not support express. Please use sizlate-express.
-
 <h1>Sizlate</h1>
 
-Sizlate is an HTML templating engine for <a href="http://expressjs.com">Express.js</a>.
+Sizlate is an HTML templating engine.
 
 Sizlate requires NO special syntax, your templates only contain valid HTML.
 
@@ -21,13 +15,11 @@ Templates are populated using sizzle selectors (as used in jQuery).
 <h3>Simple text example</h3>
 <pre>
 <code>
-	app.get('/', function(req, res) {
-		res.render('home', {
-			selectors: {
-				'a': 'hi there'
-			}
-		});
-	});
+var html = '<div id="example"></div>';
+var selectors = {
+	'#example': 'Hello World'
+};
+var out = sizlate.render(html, selectors);
 
 </code>
 </pre>
@@ -126,6 +118,15 @@ See the examples folder for more examples.
 
 Requires <a href="http://expressjs.com/">express.js</a> and <a href="http://nodejs.org/">node.js</a>.
 
+
+
+Express Users
+
+This version of sizlate does not support express.
+
+For the moment you will need to use an older version of sizlate.
+
+The functionality is being moved into https://github.com/simonmcmanus/sizlate-express
 
 
 <h1>Express 3.0 Changes with Sizlate 0.7.0</h1>
