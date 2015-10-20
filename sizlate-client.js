@@ -9,30 +9,25 @@ exports.load = function (str) {
 };
 
 exports.find = function ($domNode, selector) {
-    var $out = $domNode.filter(selector);
-    if (!$domNode.length) { // filter doesnt catch em all.
-        $out = $.find(selector); // jquery
+    var out = $domNode.filter(selector);;
+    if (out.length > 0) { // filter doesnt catch em all.
+        return out;
+    }else {
+        return $domNode.find(selector); // jquery
     }
-    return $out;
 };
 
 // only available in the browser
-exports.getMarkup = function($page) {
+exports.getMarkup = function ($page) {
     var out = [];
-    $page.each(function(i, item) {
+    $page.each(function (i, item) {
         out.push(item.outerHTML);
-    })
+    });
     return out.join('');
-
 };
 
-// // iterate of dom nodes.
-// exports.each = function(node) {
-//     return $(node).each;
-// }
-
 // jqueryify node
-exports.get = function(item) {
+exports.get = function (item) {
     return $(item);
 };
 
@@ -42,10 +37,9 @@ exports.get = function(item) {
  * @param  {Object} $node sizzle object
  * @param  {String} data  The value to be set on the html.
  */
-module.exports = function($node, data) {
-	$node.each(function(i, elem) {
+module.exports = function ($node, data) {
+	$node.each(function (i, elem) {
         var type = elem.tagName || this[i].name;
-
 		if(type.toUpperCase() === 'INPUT') {
 			$node.eq(i).attr('value', data);
 		}else {
@@ -58,20 +52,20 @@ module.exports = function($node, data) {
 },{}],4:[function(require,module,exports){
 'use strict';
 
-module.exports = function(data, options) {
-	if(!options.classifyKeys || typeof data == "undefined"){
-		return data;
-	}
-	var c = data.length;
-	var retArray = [];
-	while(c--) {
-		var newObj = {};
-		for(var key in data[c]){
-			newObj['.'+key] = data[c][key];
-		}
-		retArray.push(newObj);
-	}
-	return retArray;
+module.exports = function (data, options) {
+    if (!options.classifyKeys || typeof data === 'undefined') {
+        return data;
+    }
+    var c = data.length;
+    var retArray = [];
+    while (c--) {
+        var newObj = {};
+        for (var key in data[c]){
+            newObj['.' + key] = data[c][key];
+        }
+        retArray.push(newObj);
+    }
+    return retArray;
 };
 
 },{}],5:[function(require,module,exports){
@@ -81,25 +75,23 @@ var dom = require('../server/dom.js');
 
 var updateNode =  require('./update-node');
 
-module.exports = function(str, selectors) {
+module.exports = function (str, selectors) {
     if (!selectors){
         return str;
     }
-    selectors = ( typeof selectors[0] === 'undefined' ) ? [selectors] : selectors; // make sure we have an array.
+    selectors = (typeof selectors[0] === 'undefined') ? [selectors] : selectors; // make sure we have an array.
     var selectorCount = selectors.length;
-    var out = [];
     selectors = selectors.reverse();
+    console.log(str);
     var $page = dom.load(str);
     // iterate over the array.
     while (selectorCount--){
-        Object.keys(selectors[selectorCount]).forEach(function(selector) {
-//             $page(selector).text(selectors[selectorCount][selector]);
-             updateNode(dom.find($page, selector), selector, selectors[selectorCount][selector]);
+        Object.keys(selectors[selectorCount]).forEach(function (selector) {
+            updateNode(dom.find($page, selector), selector, selectors[selectorCount][selector]);
         });
-	}
+    }
 
-
-    if(dom.getMarkup) { // browserside
+    if (dom.getMarkup) { // browserside
         return dom.getMarkup($page);
     } else {
         return $page.html();
@@ -108,7 +100,6 @@ module.exports = function(str, selectors) {
 
 },{"../server/dom.js":2,"./update-node":8}],6:[function(require,module,exports){
 'use strict';
-
 
 // given a regex or function updates the value.
 module.exports = function (oldValue, newValue) {
@@ -127,61 +118,57 @@ var newValue = require('./new-value');
 
 var dom = require('../server/dom');
 
-module.exports = function($node, obj) {
-	// Iterate over the actions to be applied to the dom node.
-	for (var key in obj){
-		switch(key) {
-			case 'selectors':
+module.exports = function ($node, obj) {
+    // Iterate over the actions to be applied to the dom node.
+    for (var key in obj){
+        switch (key) {
+            case 'selectors':
+                var selectors = obj[key];
+                for (var selector in selectors) {
+                    $node.find(selector).html(selectors[selector]);
+                }
+            break;
+            case 'className':
+                $node.addClass(obj[key]);
+            break;
+            case'innerHTML' :
+                // if we need to apply something the each value we need to iterate over each dom node.
+                if (obj[key].regex || typeof obj[key] === 'function') {
+                    $node.each(function () {
+                        var $domNode = dom.get(this);
+                        $domNode.html(obj[key]);
+                    });
+                }else {
+                    $node.html(obj[key]);
+                }
+            break;
+            case'innerText' :
 
-			// this needs to be documented.
-				var selectors = obj[key];
-				for(var selector in selectors) {
-					$node.find(selector).html(selectors[selector]);
-				}
-			break;
-			case 'className':
-				$node.addClass( obj[key] );
-			break;
-			case'innerHTML' :
+                // if we need to apply something the each value we need to iterate over each dom node.
+                if (obj[key].regex || typeof obj[key] === 'function') {
+                    $node.each(function () {
+                        var $domNode = dom.get(this);
+                        var newText = newValue($domNode.text(), obj[key]);
+                        $domNode.text(newText);
+                    });
+                }else {
+                    $node.text(obj[key]);
+                }
+            break;
 
-				// if we need to apply something the each value we need to iterate over each dom node.
-				if (obj[key].regex || typeof obj[key] === 'function') {
-					$node.each(function() {
-						var $domNode = dom.get(this);
-						let newText = newValue($domNode.html(), obj[key]);
-						$domNode.html( obj[key] );
-					})
-				}else {
-					$node.html( obj[key] );
-				}
-			break;
-			case'innerText' :
-
-				// if we need to apply something the each value we need to iterate over each dom node.
-				if (obj[key].regex || typeof obj[key] === 'function') {
-					$node.each(function() {
-						var $domNode = dom.get(this);
-						let newText = newValue($domNode.text(), obj[key]);
-						$domNode.text(newText);
-					})
-				}else {
-					$node.text(obj[key]);
-				}
-			break;
-
-			default:
-				if (obj[key].regex || typeof obj[key] === 'function') {
-					$node.each(function () {
-						var $domNode = dom.get(this);
-						let newText = newValue($domNode.attr(key), obj[key]);
-						$domNode.attr(key, newText);
-					})
-				}else {
-					$node.attr( key, obj[key] );
-				}
-		}
-	}
-	return $node;
+            default:
+                if (obj[key].regex || typeof obj[key] === 'function') {
+                    $node.each(function () {
+                        var $domNode = dom.get(this);
+                        let newText = newValue($domNode.attr(key), obj[key]);
+                        $domNode.attr(key, newText);
+                    });
+                }else {
+                    $node.attr(key, obj[key]);
+                }
+        }
+    }
+    return $node;
 };
 
 },{"../server/dom":2,"./new-value":6}],8:[function(require,module,exports){
@@ -189,27 +176,43 @@ module.exports = function($node, obj) {
 var checkForInputs = require('./check-for-inputs');
 var updateNodeWithObject = require('./update-node-with-object');
 
-module.exports = function ($node, selector, data, $) {
+function updateNode($node, selector, data, $) {
 
-	if (selector === '.id'){
-		$node.attr('id', data);
-		return $node;
-	}
-	switch (typeof data) {
-		case 'string':
-			if (data !== ''){
-				$node = checkForInputs($node, data, $);
-			}
-		break;
-		case 'number':
-				$node = checkForInputs($node, data, $);
-		break;
-		case 'object':
-			$node = updateNodeWithObject($node, data, $);
-		break;
-	}
-	return $node;
-};
+    if (selector === '.id'){
+        $node.attr('id', data);
+        return $node;
+    }
+    switch (typeof data) {
+        case 'string':
+            if (data !== ''){
+                $node = checkForInputs($node, data, $);
+            }
+        break;
+        case 'number':
+            $node = checkForInputs($node, data, $);
+        break;
+        case 'object':
+            if (data.length) {
+                var $parent = $node.parent();
+                var $newNode = $node.clone();
+                data.forEach(function (item, c) {
+                    console.log('iii',$node, $parent);
+                    var $itemNode = $newNode.clone();
+                    if (c === 0) {
+                        $node.remove();
+                    }
+                    var $out = updateNode($itemNode , selector, data[c], $);
+                    $parent.append($out);
+                });
+            } else {
+                $node = updateNodeWithObject($node, data, $);
+            }
+        break;
+    }
+    return $node;
+}
+
+module.exports = updateNode;
 
 },{"./check-for-inputs":3,"./update-node-with-object":7}],9:[function(require,module,exports){
 exports.render = require('./lib/do-render');
