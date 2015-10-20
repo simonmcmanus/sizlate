@@ -24,6 +24,12 @@ var out = sizlate.render(html, selectors);
 
 ```
 
+```html
+<div><a href="">UPDATED</a></div>
+```
+
+
+
 ###ClassName
 
 ```js
@@ -85,8 +91,6 @@ console.log(out);
 
 ```
 
-
-
 ###Nested selector
 
 ```js
@@ -98,7 +102,7 @@ var selectors = {
 };
 var out = sizlate.render(html, selectors);
 console.log(out);
-
+```
 
 
 See /examples
