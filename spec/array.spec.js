@@ -37,7 +37,6 @@ describe('When given an array ', function() {
         };
 
         var out = sizlate.render(html, selectors);
-        console.log('OUT' ,out);
         var expected = '<ul><li>change links to this</li><li>change links to this2</li></ul>';
         expect(out).toEqual(expected);
      });

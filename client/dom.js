@@ -5,11 +5,12 @@ exports.load = function (str) {
 };
 
 exports.find = function ($domNode, selector) {
-    var $out = $domNode.filter(selector);
-    if (!$domNode.length) { // filter doesnt catch em all.
-        $out = $.find(selector); // jquery
+    var out = $domNode.filter(selector);;
+    if (out.length > 0) { // filter doesnt catch em all.
+        return out;
+    }else {
+        return $domNode.find(selector); // jquery
     }
-    return $out;
 };
 
 // only available in the browser
