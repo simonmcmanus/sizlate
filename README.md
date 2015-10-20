@@ -25,7 +25,9 @@ var out = sizlate.render(html, selectors);
 ```
 
 ```html
-<div><a href="">UPDATED</a></div>
+<div>
+	<a href="">UPDATED</a>
+</div>
 ```
 
 
@@ -41,6 +43,11 @@ var selectors = {
 };
 var out = sizlate.render(html, selectors);
 console.log(out);
+```
+```html
+<div>
+	<a class="class1 class2"></a>
+</div>
 ```
 
 ###Arrays
@@ -59,6 +66,13 @@ var selectors = {
 var out = sizlate.render(html, selectors);
 console.log(out);
 ```
+```html
+<ul>
+	<li>change links to this</li>
+	<li>change links to this2</li>
+	<li href="df">aaa</li>
+</ul>
+```
 
 ###Object
 ```js
@@ -72,7 +86,11 @@ var selectors = {
 };
 var out = sizlate.render(html, selectors);
 console.log(out);
-
+```
+```html
+<div>
+	<a href="http://yahoo.com" title="yahoo">yahoo</a>
+</div>
 ```
 
 ###Regular Expression
@@ -88,20 +106,11 @@ var selectors = {
 };
 var out = sizlate.render(html, selectors);
 console.log(out);
-
 ```
-
-###Nested selector
-
-```js
-var html = '<div><div class="class1"><a></a></div></div>';
-var selectors = {
-        selectors: {
-          a: 'change links to this'
-        }
-};
-var out = sizlate.render(html, selectors);
-console.log(out);
+```html
+<div>
+	<a>new text</a>
+</div>
 ```
 
 
