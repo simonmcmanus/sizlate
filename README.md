@@ -42,7 +42,6 @@ var selectors = {
     }
 };
 var out = sizlate.render(html, selectors);
-console.log(out);
 ```
 ```html
 <div>
@@ -64,7 +63,6 @@ var selectors = {
     ]
 };
 var out = sizlate.render(html, selectors);
-console.log(out);
 ```
 ```html
 <ul>
@@ -85,7 +83,6 @@ var selectors = {
     }
 };
 var out = sizlate.render(html, selectors);
-console.log(out);
 ```
 ```html
 <div>
@@ -105,7 +102,6 @@ var selectors = {
     }
 };
 var out = sizlate.render(html, selectors);
-console.log(out);
 ```
 ```html
 <div>
@@ -113,24 +109,27 @@ console.log(out);
 </div>
 ```
 
-
 See /examples
 
 
 ###Clientside
 
-From v1.0.0 Sizlate works in the browser.
+From v1.0.0 Sizlate works in the browser. You can pass it a string of html or a dom node. For example:
 
-```js
-var domNode = document.getElementById('area');
-var selectors = {'div': 'new content'};
-sizlate.render(domNode, selectors);
-```
 
 ```js
 var $domNode = $('#area');
 var selectors = {'div': 'new content'};
 sizlate.render($domNode, selectors);
+```
+You will need to have jQuery (window.$) on the page, or something zepto that provides a jQuery like api.
+
+You don't have to use jQuery to select the dom node, eg:
+
+```js
+var domNode = document.getElementById('area');
+var selectors = {'div': 'new content'};
+sizlate.render(domNode, selectors);
 ```
 
 #Express
