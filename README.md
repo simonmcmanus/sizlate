@@ -1,4 +1,4 @@
-#Sizlate
+# Sizlate
 
 [![Build Status](https://travis-ci.org/simonmcmanus/sizlate.svg?branch=master)](https://travis-ci.org/simonmcmanus/sizlate)
 
