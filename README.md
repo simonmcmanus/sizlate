@@ -6,27 +6,24 @@ Sizlate requires no special syntax, your templates only contain valid HTML.
 
 Templates are populated using sizzle selectors (as used in jQuery).
 
-Can can pass render a string of html, or a dom Node. If you specify a DOM node the rendering will happen on the page.
+You can pass render a string of html, or a dom Node.
 
+If you specify a DOM node attached to the main document the rendering will happen on the page.
 
 ##Examples
-
 
 ###Simple text example
 
 ```js
-
-var html = '<div> id="example"></div>';
+var html = '<div><a></a></div>';
 var selectors = {
-	'#example': 'Hello World'
+	'div a': 'UPDATED'
 };
 var out = sizlate.render(html, selectors);
-
 ```
-
 ```html
 <div>
-	<a href="">UPDATED</a>
+	<a>UPDATED</a>
 </div>
 ```
 
