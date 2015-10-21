@@ -12,7 +12,6 @@
   },
   "main": "sizlate.js",
   "dependencies": {
-    "request": "*",
     "cheerio": "~0.10.5"
   },
   "devDependencies": {
