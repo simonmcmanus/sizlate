@@ -12,9 +12,9 @@ You can pass render a string of html, or a dom Node.
 
 If you specify a DOM node attached to the main document the rendering will happen on the page.
 
-##Examples
+## Examples
 
-###Simple text
+### Simple text
 
 ```js
 var html = '<div><a></a></div>';
@@ -28,7 +28,7 @@ var out = sizlate.render(html, selectors);
 	<a>UPDATED</a>
 </div>
 ```
-###ClassName
+### ClassName
 
 ```js
 var html = '<div><a class="class1"></a></div>';
@@ -45,7 +45,7 @@ var out = sizlate.render(html, selectors);
 </div>
 ```
 
-###Arrays
+### Arrays
 ```js
 var html = '<ul><li></li></ul>';
 var selectors = {
@@ -68,7 +68,7 @@ var out = sizlate.render(html, selectors);
 </ul>
 ```
 
-###Object
+### Object
 ```js
 var html = '<div><a></a></div>';
 var selectors = {
@@ -86,7 +86,7 @@ var out = sizlate.render(html, selectors);
 </div>
 ```
 
-###Regular Expression
+### Regular Expression
 ```js
 var html = '<div><a>existing text</a></div>';
 var selectors = {
@@ -108,7 +108,7 @@ var out = sizlate.render(html, selectors);
 See /examples
 
 
-###Clientside
+### Clientside
 
 From v1.0.0 Sizlate works in the browser. You can pass it a string of html or a dom node. For example:
 
@@ -127,7 +127,7 @@ var selectors = {'div': 'new content'};
 sizlate.render(domNode, selectors);
 ```
 
-#Express
+# Express
 
 From sizlate v1 Express is not supported.
 
