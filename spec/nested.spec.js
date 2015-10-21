@@ -15,7 +15,6 @@ describe('When given a nested selector ', function() {
         };
 
         var out = sizlate.render(markup, selectors);
-        console.log(out);
         var expected = '<div id="one"><a href="sd">wotcha</a></div>';
         expect(out).toEqual(expected);
      });

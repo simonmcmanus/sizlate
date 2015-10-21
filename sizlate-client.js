@@ -82,7 +82,6 @@ module.exports = function (str, selectors) {
     selectors = (typeof selectors[0] === 'undefined') ? [selectors] : selectors; // make sure we have an array.
     var selectorCount = selectors.length;
     selectors = selectors.reverse();
-    console.log(str);
     var $page = dom.load(str);
     // iterate over the array.
     while (selectorCount--){
@@ -196,13 +195,12 @@ function updateNode($node, selector, data, $) {
                 var $parent = $node.parent();
                 var $newNode = $node.clone();
                 data.forEach(function (item, c) {
-                    console.log('iii',$node, $parent);
                     var $itemNode = $newNode.clone();
                     if (c === 0) {
                         $node.remove();
                     }
-                    var $out = updateNode($itemNode , selector, data[c], $);
-                    $parent.append($out);
+                    var $updatedNode = updateNode($itemNode, selector, data[c], $);
+                    $parent.append($updatedNode);
                 });
             } else {
                 $node = updateNodeWithObject($node, data, $);

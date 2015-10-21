@@ -12,7 +12,7 @@ If you specify a DOM node attached to the main document the rendering will happe
 
 ##Examples
 
-###Simple text example
+###Simple text
 
 ```js
 var html = '<div><a></a></div>';
@@ -26,9 +26,6 @@ var out = sizlate.render(html, selectors);
 	<a>UPDATED</a>
 </div>
 ```
-
-
-
 ###ClassName
 
 ```js

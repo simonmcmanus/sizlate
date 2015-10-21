@@ -1,10 +1,14 @@
 var sizlate = require('sizlate');
 
-var html = '<div><div class="class1"><a></a></div></div>';
+
+var html = '<div><div id="one"><a href="sd"></a></div></div>';
 var selectors = {
+    '#one': {
         selectors: {
-          a: 'change links to this'
+            a: 'wotcha'
         }
+    }
 };
+
 var out = sizlate.render(html, selectors);
 console.log(out);
