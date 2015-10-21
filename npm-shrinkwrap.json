@@ -1,6 +1,6 @@
 {
   "name": "sizlate",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "dependencies": {
     "cheerio": {
       "version": "0.10.8",
