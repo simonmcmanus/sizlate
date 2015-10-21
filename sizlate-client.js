@@ -124,6 +124,7 @@ module.exports = function ($node, obj) {
             case 'selectors':
                 var selectors = obj[key];
                 for (var selector in selectors) {
+                    // really this should call update-node. so that it can handle something other than html.
                     $node.find(selector).html(selectors[selector]);
                 }
             break;
