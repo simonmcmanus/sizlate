@@ -1,5 +1,11 @@
 
 
+# 1.2.1
+
+adding ISC licence to package [view commit](http://github.com/$3/$4/commit/184dc4a8657159271faac6ec235da3815c18b600) 
+
+ 
+
 # 1.2.0
 
 do render returns a string of the markup [view commit](http://github.com/$3/$4/commit/92f3dc3c6d1888c4256bb93568b71ef3d9165baf)

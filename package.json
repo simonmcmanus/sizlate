@@ -1,6 +1,6 @@
 {
     "name": "sizlate",
-    "version": "1.2.0",
+    "version": "1.2.1",
     "license": "ISC",
     "description": "Templating engine using sizzle selectors.",
     "author": "Simon McManus  mcmanus.simon@gmail.com",
