@@ -1,5 +1,11 @@
 
 
+# 1.2.2
+
+adding licence and removing ralph from package.json [view commit](http://github.com/$3/$4/commit/2f5b2035fbfcf618c79e20bef9909866f60e2a23) 
+
+ 
+
 # 1.2.1
 
 adding ISC licence to package [view commit](http://github.com/$3/$4/commit/184dc4a8657159271faac6ec235da3815c18b600) 
