@@ -1,7 +1,7 @@
 # Sizlate
 
 [![Build Status](https://travis-ci.org/simonmcmanus/sizlate.svg?branch=master)](https://travis-ci.org/simonmcmanus/sizlate)
-
+[![Dependency Status](https://dependencyci.com/github/simonmcmanus/sizlate/badge)](https://dependencyci.com/github/simonmcmanus/sizlate)
 Sizlate is an HTML templating engine.
 
 Sizlate requires no special syntax, your templates only contain valid HTML.
