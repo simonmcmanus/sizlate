@@ -1,6 +1,7 @@
 {
   "name": "sizlate-standalone-example",
   "version": "0.0.1",
+  "license": "ISC",
   "author": "Simon McManus  mcmanus.simon@gmail.com",
   "description": "Sizlate standalone example",
   "engines": {
