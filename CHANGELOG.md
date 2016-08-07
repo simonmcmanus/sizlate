@@ -1,5 +1,13 @@
 
 
+# 1.2.3
+
+adding licence to example [view commit](http://github.com/$3/$4/commit/c3cb0a6b8829a5d648467047fcb1edad38078451) 
+
+correct spelling of licence [view commit](http://github.com/$3/$4/commit/e20ae55056a358be2e48f585b81885d283a02707) 
+
+ 
+
 # 1.2.2
 
 adding licence and removing ralph from package.json [view commit](http://github.com/$3/$4/commit/2f5b2035fbfcf618c79e20bef9909866f60e2a23) 
