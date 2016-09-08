@@ -20,7 +20,7 @@ describe('When given a id selector ', function() {
 		while ( --i > 0 ) {
 			sizlate.render('<div id="one"></div>', {'#one': 'hi'});
 		}
-		expect(new Date().getTime() - startTime).toBeLessThan(400);
+		expect(new Date().getTime() - startTime).toBeLessThan(500);
 	});
 });
 
@@ -53,7 +53,7 @@ describe('When given an object containing innerHTML ', function() {
 		while ( --i > 0 ) {
 			sizlate.render('<div class="one"></div>', {'.one': { 'innerHTML': 'bobby'}});
 		}
-		expect(new Date().getTime() - startTime).toBeLessThan(400);
+		expect(new Date().getTime() - startTime).toBeLessThan(500);
 	});
 });
 
