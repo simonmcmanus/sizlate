@@ -9,7 +9,7 @@ describe('When given tag selector ', function() {
 		while ( --i > 0 ) {
 			sizlate.render('<div></div>', {'div': 'hi'});
 		}
-		expect(new Date().getTime() - startTime).toBeLessThan(400);
+		expect(new Date().getTime() - startTime).toBeLessThan(500);
 	});
 });
 
