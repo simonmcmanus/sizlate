@@ -110,20 +110,36 @@ describe('Given calling render', function() {
 		});
 	});
 
-
 	describe('Given an input with an id ', function() {
-		var htmlInput = '<input id="typo"></input>';
-		var expected = '<input id="typo" value="newValue">';
+		var htmlDiv = '<div id="typo">eeeeeeegs</div>';
+		var expected = '<div id="typo">newValue</div>';
 
 		describe('When render is called with a selector of the same id and a value ', function() {
 			var selectors = {'#typo': 'newValue'};
 
-			it("it should set the value attribute..", function() {
-				var out = sizlate.render(htmlInput, selectors);
+			it("it should set the value", function() {
+				var out = sizlate.render(htmlDiv, selectors);
 				expect(out).toEqual(expected);
 			});
 		});
 	});
+
+	describe('Given an input with an id ', function() {
+		var htmlDiv = '<div id="typo"></div>';
+		var expected = '<div id="typo" data-bacon="true"></div>';
+
+		describe('When render is called with a selector of the same id and a value ', function() {
+			var selectors = {'#typo': {
+                'data-bacon': true
+            }};
+
+			it("it should set the value", function() {
+				var out = sizlate.render(htmlDiv, selectors);
+				expect(out).toEqual(expected);
+			});
+		});
+	});
+
 });
 
 describe('When given a value to edit', function() {
