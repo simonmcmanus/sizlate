@@ -13,7 +13,7 @@
     },
     "main": "sizlate.js",
     "dependencies": {
-        "cheerio": "~0.10.5"
+        "cheerio": "~0.22.0"
     },
     "devDependencies": {
         "jasmine-node": "~1.7.1",
