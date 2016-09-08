@@ -12,3 +12,8 @@ exports.find = function($item, selector) {
 exports.get = function(item) {
     return item;
 };
+
+
+exports.init = function(item) {
+    return cheerio(item)
+}
