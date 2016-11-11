@@ -9,7 +9,7 @@
         "url": "git://github.com/simonmcmanus/sizlate.git"
     },
     "engines": {
-        "node": ">=0.6"
+        "node": ">= 4"
     },
     "main": "sizlate.js",
     "dependencies": {
