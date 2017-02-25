@@ -1,5 +1,7 @@
 # Sizlate
 
+[![Greenkeeper badge](https://badges.greenkeeper.io/simonmcmanus/sizlate.svg)](https://greenkeeper.io/)
+
 [![Build Status](https://travis-ci.org/simonmcmanus/sizlate.svg?branch=master)](https://travis-ci.org/simonmcmanus/sizlate)
 [![Dependency Status](https://dependencyci.com/github/simonmcmanus/sizlate/badge)](https://dependencyci.com/github/simonmcmanus/sizlate)
 
