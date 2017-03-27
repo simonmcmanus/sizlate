@@ -124,6 +124,19 @@ describe('Given calling render', function() {
 		});
 	});
 
+    describe('Given a div', function() {
+		var htmlDiv = '<div class="typo">Hi</div>';
+
+		describe('When render is called with a selector with data null ', function() {
+			var selectors = {'.typo': null};
+
+			it("it should not change the html", function() {
+				var out = sizlate.render(htmlDiv, selectors);
+				expect(out).toEqual(htmlDiv);
+			});
+		});
+	});
+
 	describe('Given an input with an id ', function() {
 		var htmlDiv = '<div id="typo"></div>';
 		var expected = '<div id="typo" data-bacon="true"></div>';
