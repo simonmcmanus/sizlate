@@ -16,7 +16,7 @@
     "cheerio": "0.x.x"
   },
   "devDependencies": {
-    "jasmine-node": "~1.14.5",
+    "jasmine-node": "~1.15.0",
     "jquery": "*",
     "watchify": "*"
   },
