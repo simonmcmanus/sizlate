@@ -4,6 +4,8 @@ window.sizlate = require('../sizlate');
 },{"../sizlate":9}],2:[function(require,module,exports){
 'use strict'
 
+var updateNode = require('../lib/update-node')
+
 exports.load = function (str) {
   var template = document.createElement('template')
   var html = str.trim()
@@ -12,8 +14,8 @@ exports.load = function (str) {
 }
 
 exports.init = function (str) {
-    return str
-  }
+  return str
+}
 
 exports.find = function ($domNode, selector) {
   return $domNode.querySelectorAll(':scope ' + selector)
@@ -21,12 +23,12 @@ exports.find = function ($domNode, selector) {
 
 // only available in the browser
 exports.getMarkup = function ($page) {
-  return $page.firstChild.outerHTML
+  var container = document.createElement('div')
+  container.appendChild($page.cloneNode(true))
+  return container.innerHTML
 }
 
 exports.setMarkup = function ($node, markup) {
-  console.log('\->', $node, markup)
-
   $node.innerHTML = markup
 }
 
@@ -34,8 +36,50 @@ exports.setMarkup = function ($node, markup) {
 exports.get = function (item) {
   return item
 }
+exports.setAttribute = function ($node, attribute, value) {
+  $node.setAttribute(attribute, value)
+}
 
-},{}],3:[function(require,module,exports){
+
+exports.getAttribute = function ($node, attribute) {
+  return $node.getAttribute(attribute)
+}
+
+exports.addClass = function ($node, className) {
+  $node.classList.add(className)
+}
+
+exports.clone = function ($node) {
+  return $node.cloneNode()
+}
+
+exports.append = function ($parent, $node) {
+  return $parent.appendChild($node)
+}
+
+exports.parent = function($node) {
+  return $node.parentNode
+}
+
+exports.getText = function ($node) {
+  return $node.innerText
+}
+
+exports.setText = function ($node, value) {
+  return $node.innerText = value
+}
+
+
+exports.query = function($node, selector) {
+  return $node.querySelector(selector)
+}
+
+exports.updateNodes = function ($nodes, selector, data) {
+  $nodes.forEach(function ($node) {
+      updateNode($node, selector, data)  // might need to clone the node here. 
+  })
+}
+},{"../lib/update-node":8}],3:[function(require,module,exports){
 
 
 var dom = require('../server/dom')
@@ -88,7 +132,6 @@ module.exports = function (data, options) {
 
 var dom = require('../server/dom.js')
 
-var updateNode = require('./update-node')
 
 module.exports = function (str, selectors) {
   if (!selectors) {
@@ -103,13 +146,10 @@ module.exports = function (str, selectors) {
   while (selectorCount--) {
     Object.keys(selectors[selectorCount]).forEach(function (selector) {
       var $nodes = dom.find($page, selector)
-      console.log('nodes', $nodes)
-
-      $nodes.forEach(function ($node) {
-
-        updateNode($node, selector, selectors[selectorCount][selector])  
-
-      })
+      dom.updateNodes($nodes, selector, selectors[selectorCount][selector])
+      // $nodes.forEach(function ($node) {
+      //   updateNode($node, selector, selectors[selectorCount][selector])  // might need to clone the node here. 
+      // })
     })
   }
 
@@ -120,7 +160,7 @@ module.exports = function (str, selectors) {
   }
 }
 
-},{"../server/dom.js":2,"./update-node":8}],6:[function(require,module,exports){
+},{"../server/dom.js":2}],6:[function(require,module,exports){
 'use strict'
 
 // given a regex or function updates the value.
@@ -150,11 +190,13 @@ module.exports = function ($node, obj) {
         var selectors = obj[key]
         for (var selector in selectors) {
           // really this should call update-node. so that it can handle something other than html.
-          $node.find(selector).html(selectors[selector])
+
+          var $item = dom.query($node, selector)
+          dom.setMarkup($item, selectors[selector])        
         }
         break
       case 'className':
-        $node.classList.add(obj[key])
+        dom.addClass($node, obj[key])
         break
       case 'innerHTML' :
         // if we need to apply something the each value we need to iterate over each dom node.
@@ -171,12 +213,13 @@ module.exports = function ($node, obj) {
 
         // if we need to apply something the each value we need to iterate over each dom node.
         if (obj[key] && obj[key].regex || typeof obj[key] === 'function') {
-          console.log('nn', $node)
-          $node.each(function (i, node) {
-            var $node = dom.init(node)
-            var newText = newValue($node.text(), obj[key])
-            $node.text(newText)
-          })
+          //$node.each(function (i, node) {
+            //var $node = dom.init($node)
+            var newText = newValue(dom.getText($node), obj[key])
+            console.log('n',dom.getText($node))
+            //console.log('n', newText)
+            dom.setText($node, newText)
+          //})
         } else {
           $node.text(obj[key])
         }
@@ -184,12 +227,12 @@ module.exports = function ($node, obj) {
 
       default:
         if (obj[key] && obj[key].regex || typeof obj[key] === 'function') {
-          $node.each(function (i, node) {
-            var newText = newValue(node.attribs[key], obj[key])
-            node.attribs[key] = newText
-          })
+          //$node.each(function (i, node) {
+          var newText = newValue(dom.getAttribute($node, key), obj[key])
+          dom.setAttribute($node, key, newText)
+          //})
         } else {
-          $node.setAttribute(key, obj[key])
+          dom.setAttribute($node, key, obj[key])
         }
     }
   }
@@ -200,15 +243,14 @@ module.exports = function ($node, obj) {
 'use strict'
 var checkForInputs = require('./check-for-inputs')
 var updateNodeWithObject = require('./update-node-with-object')
+var dom = require('../server/dom')
 
-function updateNode ($node, selector, data, $) {
+function updateNode ($node, selector, data) {
 
-  console.log('update node', $node) // its a list at this point not a node. 
   if (selector === '.id') {
     $node.attr('id', data)
     return $node
   }
-  console.log(typeof data, $node, data)
   switch (typeof data) {
     case 'string':
       if (data !== '') {
@@ -225,22 +267,21 @@ function updateNode ($node, selector, data, $) {
       break
     case 'object':
       if (data && data.length) {
-        var $parent = $node.parent()
+        var $parent = dom.parent($node) 
         if (data.length === 1 && data[0] === false) { // [ false ]
           return $parent.remove()
-        }
-        var $newNode = $node.clone()
+        } 
+        var $newNode = dom.clone($node)
         data.forEach(function (item, c) {
-          var $itemNode = $newNode.clone()
+          var $itemNode = dom.clone($newNode)
           if (c === 0) {
             $node.remove()
           }
-          var $updatedNode = updateNode($itemNode, selector, data[c], $)
-          $parent.append($updatedNode)
+          var $updatedNode = updateNode($itemNode, selector, data[c])
+          dom.append($parent, $updatedNode)
         })
       } else {
-        console.log('->', 1)
-        $node = updateNodeWithObject($node, data, $)
+        $node = updateNodeWithObject($node, data)
       }
       break
   }
@@ -249,7 +290,7 @@ function updateNode ($node, selector, data, $) {
 
 module.exports = updateNode
 
-},{"./check-for-inputs":3,"./update-node-with-object":7}],9:[function(require,module,exports){
+},{"../server/dom":2,"./check-for-inputs":3,"./update-node-with-object":7}],9:[function(require,module,exports){
 exports.render = require('./lib/do-render')
 exports.classifyKeys = require('./lib/classify-keys')
 

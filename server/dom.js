@@ -1,5 +1,7 @@
 var cheerio = require('cheerio')
 
+var updateNode = require('../lib/update-node')
+
 exports.load = function (str) {
   return cheerio.load(str)
 }
@@ -17,7 +19,51 @@ exports.init = function (item) {
   return cheerio(item)
 }
 
-
 exports.setMarkup = function ($node, html) {
   $node.html(html)
+}
+
+exports.setAttribute = function ($node, attribute, value) {
+  $node.attr(attribute, value)
+} 
+
+exports.getAttribute = function ($node, attribute) {
+  return $node.attr(attribute)
+}
+
+exports.addClass = function ($node, className) {
+  $node.addClass(className)
+}
+
+exports.addClass = function ($node, className) {
+  $node.addClass(className)
+}
+
+exports.clone = function ($node) {
+  return $node.clone()
+}
+
+exports.append = function ($parent, $node) {
+  return $parent.append($node)
+}
+
+
+exports.parent = function ($node) {
+  return $node.parent()
+}
+
+exports.getText = function ($node) {
+  return $node.text()
+}
+
+exports.setText = function ($node, value) {
+  return $node.text(value)
+}
+
+exports.query = function ($node, selector) {
+  return $node.find(selector)
+}
+
+exports.updateNodes = function ($nodes, selector, data) {
+      updateNode($nodes, selector, data)  // might need to clone the node here. 
 }
