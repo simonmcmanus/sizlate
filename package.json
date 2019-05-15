@@ -13,10 +13,10 @@
   },
   "main": "sizlate.js",
   "dependencies": {
-    "cheerio": "0.x.x",
-    "jasmine": "^3.4.0"
+    "cheerio": "0.x.x"
   },
   "devDependencies": {
+    "jasmine": "^3.4.0",
     "jasmine-node": "~1.14.5",
     "watchify": "*"
   },
@@ -27,6 +27,7 @@
   "scripts": {
     "release": "ralph",
     "test": "node node_modules/jasmine-node/bin/jasmine-node ./spec/*",
+    "test:client": "jasmine ",
     "test-watch": "node node_modules/jasmine-node/bin/jasmine-node --autotest ./spec/*",
     "build-client": "node ./node_modules/browserify/bin/cmd.js ./client/client.js > ./sizlate-client.js",
     "watch": "node ./node_modules/watchify/bin/cmd.js ./client/client.js -o ./sizlate-client.js --verbose"

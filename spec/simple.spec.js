@@ -50,6 +50,7 @@ describe('Given calling render', function () {
           })
 
           describe('When render is called with the selectors ', function () {
+
             it('Should set the innerHTML of div', function () {
               out = sizlate.render(htmlIn, selectors)
               expect(out).toEqual('<div class="one">booo</div>')
