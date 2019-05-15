@@ -1,19 +1,23 @@
-var cheerio = require('cheerio');
+var cheerio = require('cheerio')
 
-exports.load = function(str) {
-    return cheerio.load(str);
-};
+exports.load = function (str) {
+  return cheerio.load(str)
+}
 
-exports.find = function($item, selector) {
-    return $item(selector);
-};
+exports.find = function ($item, selector) {
+  return $item(selector)
+}
 
 // jqueryify node
-exports.get = function(item) {
-    return item;
-};
+exports.get = function (item) {
+  return item
+}
+
+exports.init = function (item) {
+  return cheerio(item)
+}
 
 
-exports.init = function(item) {
-    return cheerio(item)
+exports.setMarkup = function ($node, html) {
+  $node.html(html)
 }

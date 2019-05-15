@@ -13,11 +13,11 @@
   },
   "main": "sizlate.js",
   "dependencies": {
-    "cheerio": "0.x.x"
+    "cheerio": "0.x.x",
+    "jasmine": "^3.4.0"
   },
   "devDependencies": {
     "jasmine-node": "~1.14.5",
-    "jquery": "*",
     "watchify": "*"
   },
   "browser": {
