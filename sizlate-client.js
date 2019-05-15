@@ -5,6 +5,7 @@ window.sizlate = require('../sizlate');
 'use strict'
 
 var updateNode = require('../lib/update-node')
+var newValue = require('../lib/new-value')
 
 exports.load = function (str) {
   var template = document.createElement('template')
@@ -79,7 +80,12 @@ exports.updateNodes = function ($nodes, selector, data) {
       updateNode($node, selector, data)  // might need to clone the node here. 
   })
 }
-},{"../lib/update-node":8}],3:[function(require,module,exports){
+
+exports.newValue = function ($node, selectors) {
+  var newText = newValue(exports.getText($node), selectors)
+  exports.setText($node, newText)
+}
+},{"../lib/new-value":6,"../lib/update-node":8}],3:[function(require,module,exports){
 
 
 var dom = require('../server/dom')
@@ -213,13 +219,7 @@ module.exports = function ($node, obj) {
 
         // if we need to apply something the each value we need to iterate over each dom node.
         if (obj[key] && obj[key].regex || typeof obj[key] === 'function') {
-          //$node.each(function (i, node) {
-            //var $node = dom.init($node)
-            var newText = newValue(dom.getText($node), obj[key])
-            console.log('n',dom.getText($node))
-            //console.log('n', newText)
-            dom.setText($node, newText)
-          //})
+          dom.newValue($node, obj[key])
         } else {
           $node.text(obj[key])
         }

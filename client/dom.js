@@ -1,6 +1,7 @@
 'use strict'
 
 var updateNode = require('../lib/update-node')
+var newValue = require('../lib/new-value')
 
 exports.load = function (str) {
   var template = document.createElement('template')
@@ -74,4 +75,9 @@ exports.updateNodes = function ($nodes, selector, data) {
   $nodes.forEach(function ($node) {
       updateNode($node, selector, data)  // might need to clone the node here. 
   })
+}
+
+exports.newValue = function ($node, selectors) {
+  var newText = newValue(exports.getText($node), selectors)
+  exports.setText($node, newText)
 }

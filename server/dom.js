@@ -1,6 +1,7 @@
 var cheerio = require('cheerio')
 
 var updateNode = require('../lib/update-node')
+var newValue = require('../lib/new-value')
 
 exports.load = function (str) {
   return cheerio.load(str)
@@ -66,4 +67,12 @@ exports.query = function ($node, selector) {
 
 exports.updateNodes = function ($nodes, selector, data) {
       updateNode($nodes, selector, data)  // might need to clone the node here. 
+}
+
+exports.newValue = function ($node, selectors) {
+  $node.each(function (i, node) {
+    var $node = exports.init(node)
+    var newText = newValue(exports.getText($node), selectors)
+    exports.setText($node, newText)
+  })
 }
