@@ -153,9 +153,6 @@ module.exports = function (str, selectors) {
     Object.keys(selectors[selectorCount]).forEach(function (selector) {
       var $nodes = dom.find($page, selector)
       dom.updateNodes($nodes, selector, selectors[selectorCount][selector])
-      // $nodes.forEach(function ($node) {
-      //   updateNode($node, selector, selectors[selectorCount][selector])  // might need to clone the node here. 
-      // })
     })
   }
 
