@@ -8,8 +8,8 @@ exports.load = function (str) {
 }
 
 exports.init = function (str) {
-    return str
-  }
+  return str
+}
 
 exports.find = function ($domNode, selector) {
   return $domNode.querySelectorAll(':scope ' + selector)
@@ -17,12 +17,12 @@ exports.find = function ($domNode, selector) {
 
 // only available in the browser
 exports.getMarkup = function ($page) {
-  return $page.firstChild.outerHTML
+  var container = document.createElement('div')
+  container.appendChild( $page.cloneNode(true) )
+  return container.innerHTML
 }
 
 exports.setMarkup = function ($node, markup) {
-  console.log('\->', $node, markup)
-
   $node.innerHTML = markup
 }
 

@@ -25,7 +25,7 @@ describe('When given a id selector ', function () {
 })
 
 describe('When given an object ', function () {
-  it('it should set the appropriate attributes', function () {
+  it('it should set the appropriate attributes in less than 400ms', function () {
     var startTime = new Date().getTime()
     var i = 1000
     while (--i > 0) {
@@ -36,7 +36,7 @@ describe('When given an object ', function () {
 })
 
 describe('When given an object with more than one attribute', function () {
-  it('it should set the appropriate attributes', function () {
+  it('it should set the appropriate attributes in less than 400ms', function () {
     var startTime = new Date().getTime()
     var i = 1000
     while (--i > 0) {
@@ -47,7 +47,7 @@ describe('When given an object with more than one attribute', function () {
 })
 
 describe('When given an object containing innerHTML ', function () {
-  it('it should set the innerHTML', function () {
+  it('it should set the innerHTML  in less that 400ms', function () {
     var startTime = new Date().getTime()
     var i = 1000
     while (--i > 0) {
@@ -58,7 +58,7 @@ describe('When given an object containing innerHTML ', function () {
 })
 
 describe('When given an object containing className ', function () {
-  it('it should set the class but not remove existing classes.', function () {
+  it('it should set the class but not remove existing classes  in less than 400ms', function () {
     var startTime = new Date().getTime()
     var i = 1000
     while (--i > 0) {
