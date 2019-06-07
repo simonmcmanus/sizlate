@@ -3,10 +3,9 @@
 var updateNode = require('../lib/update-node')
 var newValue = require('../lib/new-value')
 
-exports.load = function (str) {
+exports.load = function (html) {
   var template = document.createElement('template')
-  var html = str.trim()
-  template.innerHTML = html
+  template.innerHTML = html.trim()
   return template.content
 }
 
