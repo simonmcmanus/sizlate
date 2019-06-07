@@ -152,6 +152,8 @@ module.exports = function (str, selectors) {
   while (selectorCount--) {
     Object.keys(selectors[selectorCount]).forEach(function (selector) {
       var $nodes = dom.find($page, selector)
+
+      console.log('sele', $page, selector, $nodes)
       dom.updateNodes($nodes, selector, selectors[selectorCount][selector])
     })
   }
