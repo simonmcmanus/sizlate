@@ -26,7 +26,7 @@ exports.setMarkup = function ($node, html) {
 
 exports.setAttribute = function ($node, attribute, value) {
   $node.attr(attribute, value)
-} 
+}
 
 exports.getAttribute = function ($node, attribute) {
   return $node.attr(attribute)
@@ -48,7 +48,6 @@ exports.append = function ($parent, $node) {
   return $parent.append($node)
 }
 
-
 exports.parent = function ($node) {
   return $node.parent()
 }
@@ -66,7 +65,7 @@ exports.query = function ($node, selector) {
 }
 
 exports.updateNodes = function ($nodes, selector, data) {
-      updateNode($nodes, selector, data)  // might need to clone the node here. 
+  updateNode($nodes, selector, data) // might need to clone the node here. 
 }
 
 exports.newValue = function ($node, selectors) {
