@@ -4,9 +4,9 @@ var updateNode = require('../lib/update-node')
 var newValue = require('../lib/new-value')
 
 exports.load = function (html) {
-  var template = document.createElement('template')
+  var template = document.createElement('div')
   template.innerHTML = html.trim()
-  return template.content
+  return template.innerHTML
 }
 
 exports.init = function (str) {
@@ -14,7 +14,7 @@ exports.init = function (str) {
 }
 
 exports.find = function ($domNode, selector) {
-  return $domNode.querySelectorAll(':scope ' + selector)
+  return $domNode.querySelectorAll(selector)
 }
 
 // only available in the browser
@@ -36,7 +36,6 @@ exports.setAttribute = function ($node, attribute, value) {
   $node.setAttribute(attribute, value)
 }
 
-
 exports.getAttribute = function ($node, attribute) {
   return $node.getAttribute(attribute)
 }
@@ -53,7 +52,7 @@ exports.append = function ($parent, $node) {
   return $parent.appendChild($node)
 }
 
-exports.parent = function($node) {
+exports.parent = function ($node) {
   return $node.parentNode
 }
 
@@ -62,17 +61,17 @@ exports.getText = function ($node) {
 }
 
 exports.setText = function ($node, value) {
-  return $node.innerText = value
+  $node.innerText = value
+  return $node
 }
 
-
-exports.query = function($node, selector) {
+exports.query = function ($node, selector) {
   return $node.querySelector(selector)
 }
 
 exports.updateNodes = function ($nodes, selector, data) {
   $nodes.forEach(function ($node) {
-      updateNode($node, selector, data)  // might need to clone the node here. 
+    updateNode($node, selector, data)  // might need to clone the node here.
   })
 }
 
