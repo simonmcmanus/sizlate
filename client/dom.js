@@ -28,7 +28,6 @@ exports.setMarkup = function ($node, markup) {
   $node.innerHTML = markup
 }
 
-// jqueryify node
 exports.get = function (item) {
   return item
 }
