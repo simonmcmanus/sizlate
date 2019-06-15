@@ -26,10 +26,11 @@
   },
   "scripts": {
     "release": "ralph",
-    "test": "node node_modules/jasmine-node/bin/jasmine-node ./spec/*",
-    "test:client": "jasmine ",
+    "test": "npm run test:server && npm run test:client",
+    "test:server": "node node_modules/jasmine-node/bin/jasmine-node ./spec/*",
+    "test:client": "npm run client:build && jasmine ",
     "test-watch": "node node_modules/jasmine-node/bin/jasmine-node --autotest ./spec/*",
-    "build-client": "node ./node_modules/browserify/bin/cmd.js ./client/client.js > ./sizlate-client.js",
+    "client:build": "node ./node_modules/browserify/bin/cmd.js ./client/client.js > ./sizlate-client.js",
     "watch": "node ./node_modules/watchify/bin/cmd.js ./client/client.js -o ./sizlate-client.js --verbose"
   },
   "bundledDependencies": [

@@ -7,11 +7,10 @@ window.sizlate = require('../sizlate');
 var updateNode = require('../lib/update-node')
 var newValue = require('../lib/new-value')
 
-exports.load = function (str) {
-  var template = document.createElement('template')
-  var html = str.trim()
-  template.innerHTML = html
-  return template.content
+exports.load = function (html) {
+  var template = document.createElement('div')
+  template.innerHTML = html.trim()
+  return template.innerHTML
 }
 
 exports.init = function (str) {
@@ -19,7 +18,7 @@ exports.init = function (str) {
 }
 
 exports.find = function ($domNode, selector) {
-  return $domNode.querySelectorAll(':scope ' + selector)
+  return $domNode.querySelectorAll(selector)
 }
 
 // only available in the browser
@@ -33,14 +32,12 @@ exports.setMarkup = function ($node, markup) {
   $node.innerHTML = markup
 }
 
-// jqueryify node
 exports.get = function (item) {
   return item
 }
 exports.setAttribute = function ($node, attribute, value) {
   $node.setAttribute(attribute, value)
 }
-
 
 exports.getAttribute = function ($node, attribute) {
   return $node.getAttribute(attribute)
@@ -58,7 +55,7 @@ exports.append = function ($parent, $node) {
   return $parent.appendChild($node)
 }
 
-exports.parent = function($node) {
+exports.parent = function ($node) {
   return $node.parentNode
 }
 
@@ -67,17 +64,17 @@ exports.getText = function ($node) {
 }
 
 exports.setText = function ($node, value) {
-  return $node.innerText = value
+  $node.innerText = value
+  return $node
 }
 
-
-exports.query = function($node, selector) {
+exports.query = function ($node, selector) {
   return $node.querySelector(selector)
 }
 
 exports.updateNodes = function ($nodes, selector, data) {
   $nodes.forEach(function ($node) {
-      updateNode($node, selector, data)  // might need to clone the node here. 
+    updateNode($node, selector, data)  // might need to clone the node here.
   })
 }
 
@@ -85,6 +82,7 @@ exports.newValue = function ($node, selectors) {
   var newText = newValue(exports.getText($node), selectors)
   exports.setText($node, newText)
 }
+
 },{"../lib/new-value":6,"../lib/update-node":8}],3:[function(require,module,exports){
 
 
@@ -95,22 +93,12 @@ var dom = require('../server/dom')
  * @param  {String} data  The value to be set on the html.
  */
 module.exports = function ($node, data) {
-
-  //$node.forEach(function (i, elem) {
-    //var type = elem.tagName
-
-    // if (this[i] && this[i].name) {
-    //   type = this[i].name
-    // } else {
-    //   type = 'none'
-    // }
-    // if (type.toUpperCase() === 'INPUT') {
-    //   $node[i].attr('value', data)
-    // } else {
-
-      dom.setMarkup($node, data)
-    //}
-  //})
+  
+  if ($node[0].name.toUpperCase() === 'INPUT') {
+    dom.setAttribute($node, 'value', data)
+  } else {
+    dom.setMarkup($node, data)
+  }
   return $node
 }
 
@@ -138,8 +126,9 @@ module.exports = function (data, options) {
 
 var dom = require('../server/dom.js')
 
-
 module.exports = function (str, selectors) {
+
+  
   if (!selectors) {
     return str
   }
@@ -147,19 +136,23 @@ module.exports = function (str, selectors) {
   selectors = (typeof selectors[0] === 'undefined') ? [selectors] : selectors // make sure we have an array.
   var selectorCount = selectors.length
   selectors = selectors.reverse()
-  var $page = dom.load(str)
+  var $page
+  if (typeof str === 'string') {
+    $page = dom.load(str)
+  } else {
+    $page = str // its already a dom obj
+  }
   // iterate over the array.
   while (selectorCount--) {
     Object.keys(selectors[selectorCount]).forEach(function (selector) {
       var $nodes = dom.find($page, selector)
-
-      console.log('sele', $page, selector, $nodes)
       dom.updateNodes($nodes, selector, selectors[selectorCount][selector])
     })
   }
 
   if (dom.getMarkup) { // browserside
-    return dom.getMarkup($page)
+
+    return $page
   } else {
     return $page.html()
   }
@@ -244,8 +237,7 @@ var checkForInputs = require('./check-for-inputs')
 var updateNodeWithObject = require('./update-node-with-object')
 var dom = require('../server/dom')
 
-function updateNode ($node, selector, data) {
-
+function updateNode ($node, selector, data) { 
   if (selector === '.id') {
     $node.attr('id', data)
     return $node
