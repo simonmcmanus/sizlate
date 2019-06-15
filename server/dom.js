@@ -57,7 +57,7 @@ exports.getText = function ($node) {
 }
 
 exports.getTag = function ($node) {
-  return $node[0].name.toUpperCase()
+  return $node[0] && $node[0].name.toUpperCase()
 }
 
 exports.setText = function ($node, value) {
