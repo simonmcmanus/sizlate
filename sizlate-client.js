@@ -94,7 +94,7 @@ var dom = require('../server/dom')
  */
 module.exports = function ($node, data) {
   
-  if ($node[0].name.toUpperCase() === 'INPUT') {
+  if ($node[0] && $node[0].name.toUpperCase() === 'INPUT') {
     dom.setAttribute($node, 'value', data)
   } else {
     dom.setMarkup($node, data)
@@ -127,8 +127,6 @@ module.exports = function (data, options) {
 var dom = require('../server/dom.js')
 
 module.exports = function (str, selectors) {
-
-  
   if (!selectors) {
     return str
   }
