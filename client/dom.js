@@ -6,7 +6,7 @@ var newValue = require('../lib/new-value')
 exports.load = function (html) {
   var template = document.createElement('div')
   template.innerHTML = html.trim()
-  return template.innerHTML
+  return template
 }
 
 exports.init = function (str) {
@@ -53,6 +53,10 @@ exports.append = function ($parent, $node) {
 
 exports.parent = function ($node) {
   return $node.parentNode
+}
+
+exports.getTag = function ($node) {
+  return $node.tagName.toUpperCase()
 }
 
 exports.getText = function ($node) {

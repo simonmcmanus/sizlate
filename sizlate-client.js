@@ -10,7 +10,7 @@ var newValue = require('../lib/new-value')
 exports.load = function (html) {
   var template = document.createElement('div')
   template.innerHTML = html.trim()
-  return template.innerHTML
+  return template
 }
 
 exports.init = function (str) {
@@ -59,6 +59,10 @@ exports.parent = function ($node) {
   return $node.parentNode
 }
 
+exports.getTag = function ($node) {
+  return $node.tagName.toUpperCase()
+}
+
 exports.getText = function ($node) {
   return $node.innerText
 }
@@ -93,8 +97,7 @@ var dom = require('../server/dom')
  * @param  {String} data  The value to be set on the html.
  */
 module.exports = function ($node, data) {
-  
-  if ($node[0] && $node[0].name.toUpperCase() === 'INPUT') {
+  if (dom.getTag($node) === 'INPUT') {
     dom.setAttribute($node, 'value', data)
   } else {
     dom.setMarkup($node, data)
@@ -127,6 +130,7 @@ module.exports = function (data, options) {
 var dom = require('../server/dom.js')
 
 module.exports = function (str, selectors) {
+
   if (!selectors) {
     return str
   }
@@ -135,10 +139,13 @@ module.exports = function (str, selectors) {
   var selectorCount = selectors.length
   selectors = selectors.reverse()
   var $page
+  var sourceType = null // so we can out the same thing we got in.
   if (typeof str === 'string') {
     $page = dom.load(str)
+    sourceType = 'string'
   } else {
     $page = str // its already a dom obj
+    sourceType = 'dom'
   }
   // iterate over the array.
   while (selectorCount--) {
@@ -149,8 +156,11 @@ module.exports = function (str, selectors) {
   }
 
   if (dom.getMarkup) { // browserside
-
-    return $page
+    if (sourceType === 'string') {
+      return $page.innerHTML
+    } else if (sourceType === 'dom') {
+      return $page
+    }
   } else {
     return $page.html()
   }
