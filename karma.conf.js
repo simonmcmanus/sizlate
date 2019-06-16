@@ -33,6 +33,7 @@ module.exports = function (config) {
         'karma-browserify',
         'karma-serve-static',
         'karma-chrome-launcher',
+        'karma-firefox-launcher', 
         'karma-phantomjs-launcher',
         'karma-jasmine'
       ],
