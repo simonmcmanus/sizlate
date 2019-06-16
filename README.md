@@ -121,9 +121,11 @@ var $domNode = $('#area');
 var selectors = {'div': 'new content'};
 sizlate.render($domNode, selectors);
 ```
-You will need to have jQuery (window.$) on the page, or something like Zepto that provides a jQuery like api.
 
-That said, you don't have to use jQuery to select the dom node, eg:
+
+From version 2.0 sizlate does not require sizzle on the client 
+
+Here is an example of doing this in the client eg:
 
 ```js
 var domNode = document.getElementById('area');
