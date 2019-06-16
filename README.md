@@ -10,7 +10,7 @@ Sizlate is an HTML templating engine.
 
 Sizlate requires no special syntax, your templates only contain valid HTML.
 
-Templates are populated using sizzle selectors (as used in jQuery).
+Templates are populated using css selectors
 
 You can pass render a string of html, or a dom Node.
 
