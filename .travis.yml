@@ -10,4 +10,4 @@ before_install:
 before_script:
     - npm install
 addons:
-  firefox: "39.0"
+  firefox: "48.0"
