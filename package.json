@@ -19,7 +19,7 @@
     "jasmine": "^3.4.0",
     "jasmine-node": "~3.0.0",
     "karma": "~4.1.0",
-    "karma-browserify": "~6.0.0",
+    "karma-browserify": "~6.1.0",
     "karma-chrome-launcher": "~2.2.0",
     "karma-firefox-launcher": "~1.1.0",
     "karma-jasmine": "2.0.x",
