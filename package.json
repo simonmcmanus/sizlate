@@ -21,7 +21,7 @@
     "karma": "~4.1.0",
     "karma-browserify": "~6.0.0",
     "karma-chrome-launcher": "~2.2.0",
-    "karma-firefox-launcher": "~1.1.0",
+    "karma-firefox-launcher": "~1.2.0",
     "karma-jasmine": "2.0.x",
     "karma-phantomjs-launcher": "1.0.x",
     "karma-serve-static": "1.0.x",
