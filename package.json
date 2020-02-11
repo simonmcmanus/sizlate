@@ -22,7 +22,7 @@
     "karma-browserify": "~6.0.0",
     "karma-chrome-launcher": "~2.2.0",
     "karma-firefox-launcher": "~1.1.0",
-    "karma-jasmine": "2.0.x",
+    "karma-jasmine": "~3.1.1",
     "karma-phantomjs-launcher": "1.0.x",
     "karma-serve-static": "1.0.x",
     "watchify": "^3.11.1"
