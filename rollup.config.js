@@ -17,8 +17,7 @@ export default [
 		plugins: [
             alias({
                 entries: [
-
-                  {  find: '../server/dom', replacement: '../client/dom' }
+                    { find: '../server/dom', replacement: '../client/dom' }
                 
                 ]
             }),
