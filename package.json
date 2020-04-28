@@ -28,6 +28,7 @@
     "karma-firefox-launcher": "~1.1.0",
     "karma-jasmine": "2.0.x",
     "karma-phantomjs-launcher": "1.0.x",
+    "karma-rollup": "^1.0.1",
     "karma-serve-static": "1.0.x",
     "rollup": "^2.7.3"
   },
