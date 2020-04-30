@@ -18,7 +18,7 @@
   "unpkg": "sizlate-module.mjs",
   "dependencies": {
     "@std/esm": "^0.26.0",
-    "cheerio": "0.x.x",
+    "cheerio": "0.x.x"
   },
   "devDependencies": {
     "@rollup/plugin-alias": "^3.1.0",
@@ -35,7 +35,7 @@
     "karma-serve-static": "1.0.x",
     "rollup": "^2.7.3",
     "rollup-plugin-babel-minify": "^10.0.0",
-    "rollup-plugin-uglify": "^6.0.4",
+    "rollup-plugin-uglify": "^6.0.4"
   },
   "scripts": {
     "build": "rollup --config ./rollup.config.js",
