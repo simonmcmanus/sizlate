@@ -1,6 +1,6 @@
 {
   "name": "sizlate",
-  "version": "3.0.0",
+  "version": "3.0.1",
   "license": "MIT",
   "description": "Templating engine using css selectors.",
   "author": "Simon McManus  mcmanus.simon@gmail.com",
