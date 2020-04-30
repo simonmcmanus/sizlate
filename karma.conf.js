@@ -1,6 +1,14 @@
 // Karma configuration
 // Generated on Sat Jul 30 2016 09:01:27 GMT+0100 (BST)
 
+
+
+const resolve = require('@rollup/plugin-node-resolve');
+const commonjs = require('@rollup/plugin-commonjs');
+const pkg  = require('./package.json');
+const alias = require('@rollup/plugin-alias')
+
+
 module.exports = function (config) {
     config.set({
   
@@ -9,11 +17,11 @@ module.exports = function (config) {
   
       // frameworks to use
       // available frameworks: https://npmjs.org/browse/keyword/karma-adapter
-      frameworks: ['jasmine', 'browserify', 'serve-static'],
+      frameworks: ['jasmine', 'serve-static'],
   
       // list of files / patterns to load in the browser
       files: [
-        './spec/**.spec.js',
+        './spec/**.spec.mjs',
         { pattern: 'tests/spec/samples/*/*/**.html', included: false, served: true },
         { pattern: 'tests/spec/samples/*/*/*/*.html', included: false, served: true }
       ],
@@ -27,17 +35,38 @@ module.exports = function (config) {
       exclude: [
       ],
       preprocessors: {
-        './spec/**.spec.js': 'browserify'
+        './spec/**.spec.mjs': 'rollup'
       },
       plugins: [
-        'karma-browserify',
+        'karma-rollup',
         'karma-serve-static',
         'karma-chrome-launcher',
         'karma-firefox-launcher', 
         'karma-phantomjs-launcher',
         'karma-jasmine'
       ],
-  
+      
+      rollupPreprocessor: {
+        options:	{
+          input: 'sizlate.js',
+          output: {
+            name: 'sizlate',
+            file: pkg.module,
+                  format: 'es' 
+          },
+          plugins: [
+                  alias({
+                      entries: [
+                          { find: '../server/dom', replacement: '../client/dom' }
+                      
+                      ]
+                  }),
+            resolve(), // so Rollup can find node modules
+                  commonjs(), // so Rollup can convert node modules to an ES module
+          
+          ]
+        }
+      },
       // test results reporter to use
       // possible values: 'dots', 'progress'
       // available reporters: https://npmjs.org/browse/keyword/karma-reporter
