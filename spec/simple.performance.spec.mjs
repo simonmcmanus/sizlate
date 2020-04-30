@@ -1,6 +1,4 @@
-if (typeof require !== 'undefined') {
-  var sizlate = require('../sizlate.js')
-}
+import sizlate from  '../sizlate.js'
 
 describe('When given tag selector ', function () {
   it('it should set the innerHTML', function () {

@@ -1,6 +1,4 @@
-if (typeof require !== 'undefined') {
-    sizlate = require('../sizlate.js')
-  }
+import sizlate from  '../sizlate.js'
   
   describe('Given calling render', function () {
     var out

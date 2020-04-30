@@ -1,6 +1,4 @@
-if (typeof require !== 'undefined') {
-  sizlate = require('../sizlate.js')
-}
+import sizlate from  '../sizlate.js'
 
 describe('When given a regex', function () {
   it('it should allow simple replacing', function () {

@@ -5,7 +5,7 @@ import alias from '@rollup/plugin-alias';
 
 
 export default [
-	{
+	{  // client side consumable es module containing all modules
 		input: 'sizlate.js',
 		output: {
 			name: 'sizlate',

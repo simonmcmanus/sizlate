@@ -21,7 +21,7 @@ module.exports = function (config) {
   
       // list of files / patterns to load in the browser
       files: [
-        './spec/**.spec.js',
+        './spec/**.spec.mjs',
         { pattern: 'tests/spec/samples/*/*/**.html', included: false, served: true },
         { pattern: 'tests/spec/samples/*/*/*/*.html', included: false, served: true }
       ],
@@ -35,7 +35,7 @@ module.exports = function (config) {
       exclude: [
       ],
       preprocessors: {
-        './spec/**.spec.js': 'rollup'
+        './spec/**.spec.mjs': 'rollup'
       },
       plugins: [
         'karma-rollup',

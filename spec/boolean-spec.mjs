@@ -1,6 +1,5 @@
-if (typeof require !== 'undefined') {
-  var sizlate = require('../sizlate.js')
-}
+import sizlate from  '../sizlate.js'
+
 
 describe('When a false value', function () {
   it('it should remove the node', function () {
