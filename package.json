@@ -13,16 +13,13 @@
   },
   "@std/esm": "cjs",
   "main": "sizlate.js",
-  "module": "module.mjs",
-  "browser": "module.mjs",
-  "unpkg": "module.mjs",
+  "module": "sizlate-module.mjs",
+  "browser": "sizlate-module.mjs",
+  "unpkg": "sizlate-module.mjs",
   "dependencies": {
     "@std/esm": "^0.26.0",
-    "cheerio": "0.x.x"
+    "cheerio": "0.x.x",
   },
-  "files": [
-    "./module.mjs"
-  ],
   "devDependencies": {
     "@rollup/plugin-alias": "^3.1.0",
     "@rollup/plugin-commonjs": "^11.1.0",
@@ -36,7 +33,9 @@
     "karma-phantomjs-launcher": "1.0.x",
     "karma-rollup": "^1.0.1",
     "karma-serve-static": "1.0.x",
-    "rollup": "^2.7.3"
+    "rollup": "^2.7.3",
+    "rollup-plugin-babel-minify": "^10.0.0",
+    "rollup-plugin-uglify": "^6.0.4",
   },
   "scripts": {
     "build": "rollup --config ./rollup.config.js",
