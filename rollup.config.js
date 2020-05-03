@@ -12,9 +12,6 @@ const plugins = [
 	}),
 	resolve(), // so Rollup can find node modules
 	commonjs(), // so Rollup can convert node modules to an ES module
-	minify({
-		comments: false
-	  }),
 ]
 export default [
 	{  // client side consumable es module containing all modules
