@@ -13,9 +13,7 @@
   },
   "@std/esm": "cjs",
   "main": "sizlate.js",
-  "module": "sizlate-module.mjs",
-  "browser": "sizlate-module.mjs",
-  "unpkg": "sizlate-module.mjs",
+  "module": "sizlate-module.mjs", 
   "dependencies": {
     "@std/esm": "^0.26.0",
     "cheerio": "0.x.x"
