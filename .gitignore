@@ -3,5 +3,3 @@ node_modules
 npm-debug.log
 dist
 package-lock.json
-sizlate-module.mjs
-sizlate-module-min.mjs
