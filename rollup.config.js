@@ -2,7 +2,7 @@ import resolve from '@rollup/plugin-node-resolve';
 import commonjs from '@rollup/plugin-commonjs';
 import pkg from './package.json';
 import alias from '@rollup/plugin-alias';
-import minify from 'rollup-plugin-babel-minify'
+import { terser } from "rollup-plugin-terser";
 const plugins = [
 	alias({
 		entries: [
@@ -33,6 +33,6 @@ export default [
 			file: 'sizlate-module-min.mjs',
             format: 'es' 
 		},
-		plugins: [...plugins, minify()] 
+		plugins: [...plugins, terser()] 
 	}
 ];
