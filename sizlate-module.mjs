@@ -1,1 +1,292 @@
-function createCommonjsModule(a,b){return b={exports:{}},a(b,b.exports),b.exports}var checkForInputs=function(a,b){return"INPUT"===dom.getTag(a)?dom.setAttribute(a,"value",b):dom.setMarkup(a,b),a},newValue=function(a,b){if("object"==typeof b&&b.regex&&b.value)return a.replace(b.regex,b.value);return"function"==typeof b?b(a):b},updateNodeWithObject=function(a,b){for(var c in b)switch(c){case"selectors":var d=b[c];for(var e in d){var f=dom.query(a,e);dom.setMarkup(f,d[e])}break;case"className":dom.addClass(a,b[c]);break;case"innerHTML":b[c]&&b[c].regex||"function"==typeof b[c]?a.each(function(){var a=dom.get(this);a.innerHTML=b[c]}):dom.setMarkup(a,b[c]);break;case"innerText":b[c]&&b[c].regex||"function"==typeof b[c]?dom.newValue(a,b[c]):a.text(b[c]);break;default:if(b[c]&&b[c].regex||"function"==typeof b[c]){var g=newValue(dom.getAttribute(a,c),b[c]);dom.setAttribute(a,c,g)}else dom.setAttribute(a,c,b[c]);}return a};function updateNode(a,b,d){if(".id"===b)return a.attr("id",d),a;switch(typeof d){case"string":""!==d&&(a=checkForInputs(a,d));break;case"number":a=checkForInputs(a,d);break;case"boolean":if(!1===d)return a.remove();break;case"object":if(d&&d.length){var e=dom.parent(a);if(1===d.length&&!1===d[0])return e.remove();var f=dom.clone(a);d.forEach(function(g,h){var c=dom.clone(f);0===h&&a.remove();var i=updateNode(c,b,d[h]);dom.append(e,i)})}else a=updateNodeWithObject(a,d);}return a}var updateNode_1=updateNode,dom=createCommonjsModule(function(a,b){b.load=function(a){var b=document.createElement("div");return b.innerHTML=a.trim(),b},b.init=function(a){return a},b.find=function(a,b){return a.querySelectorAll(b)},b.getMarkup=function(a){var b=document.createElement("div");return b.appendChild(a.cloneNode(!0)),b.innerHTML},b.setMarkup=function(a,b){a.innerHTML=b},b.get=function(a){return a},b.setAttribute=function(a,b,c){a.setAttribute(b,c)},b.getAttribute=function(a,b){return a.getAttribute(b)},b.addClass=function(a,b){a.classList.add(b)},b.clone=function(a){return a.cloneNode()},b.append=function(a,b){return a.appendChild(b)},b.parent=function(a){return a.parentNode},b.getTag=function(a){return a.tagName.toUpperCase()},b.getText=function(a){return a.innerText},b.setText=function(a,b){return a.innerText=b,a},b.query=function(a,b){return a.querySelector(b)},b.updateNodes=function(a,b,c){a.forEach(function(a){updateNode_1(a,b,c)})},b.newValue=function(a,c){var d=newValue(b.getText(a),c);b.setText(a,d)}}),dom_1=dom.load,dom_2=dom.init,dom_3=dom.find,dom_4=dom.getMarkup,dom_5=dom.setMarkup,dom_6=dom.get,dom_7=dom.setAttribute,dom_8=dom.getAttribute,dom_9=dom.addClass,dom_10=dom.clone,dom_11=dom.append,dom_12=dom.parent,dom_13=dom.getTag,dom_14=dom.getText,dom_15=dom.setText,dom_16=dom.query,dom_17=dom.updateNodes,dom_18=dom.newValue,doRender=function(a,b){if(!b)return a;b="undefined"==typeof b[0]?[b]:b;var c=b.length;b=b.reverse();var d,e=null;for("string"==typeof a?(d=dom.load(a),e="string"):(d=a,e="dom");c--;)Object.keys(b[c]).forEach(function(a){var e=dom.find(d,a);dom.updateNodes(e,a,b[c][a])});if(dom.getMarkup){if("string"===e)return d.innerHTML;if("dom"===e)return d}else return d.html()},classifyKeys=function(a,b){if(!b.classifyKeys||"undefined"==typeof a)return a;for(var d=a.length,e=[];d--;){var f={};for(var g in a[d])f["."+g]=a[d][g];e.push(f)}return e},render=doRender,classifyKeys$1=classifyKeys,sizlate={render:render,classifyKeys:classifyKeys$1};export default sizlate;export{classifyKeys$1 as classifyKeys,render};
+function createCommonjsModule(fn, module) {
+	return module = { exports: {} }, fn(module, module.exports), module.exports;
+}
+
+/**
+ * In the case of input we should update the value and not just set the innerHTML property.
+ * @param  {Object} $node selector object
+ * @param  {String} data  The value to be set on the html.
+ */
+var checkForInputs = function ($node, data) {
+  if (dom.getTag($node) === 'INPUT') {
+    dom.setAttribute($node, 'value', data);
+  } else {
+    dom.setMarkup($node, data);
+  }
+  return $node
+};
+
+// given a regex or function updates the value.
+var newValue = function (oldValue, newValue) {
+
+  if (typeof newValue === 'object' && newValue.regex && newValue.value) {
+    return oldValue.replace(newValue.regex, newValue.value)
+  } else if (typeof newValue === 'function') {
+    return newValue(oldValue)
+  }
+  return newValue
+};
+
+var updateNodeWithObject = function ($node, obj) {
+  // Iterate over the actions to be applied to the dom node.
+  for (var key in obj) {
+    //   console.log('key', $node, key, obj[key])
+    switch (key) {
+      case 'selectors':
+        var selectors = obj[key];
+        for (var selector in selectors) {
+          // really this should call update-node. so that it can handle something other than html.
+
+          var $item = dom.query($node, selector);
+          dom.setMarkup($item, selectors[selector]);        
+        }
+        break
+      case 'className':
+        dom.addClass($node, obj[key]);
+        break
+      case 'innerHTML' :
+        // if we need to apply something the each value we need to iterate over each dom node.
+        if (obj[key] && obj[key].regex || typeof obj[key] === 'function') {
+          $node.each(function (i, node) {
+            var $domNode = dom.get(this);
+            $domNode.innerHTML = obj[key];
+          });
+        } else {
+          dom.setMarkup($node, obj[key]);
+        }
+        break
+      case 'innerText':
+
+        // if we need to apply something the each value we need to iterate over each dom node.
+        if (obj[key] && obj[key].regex || typeof obj[key] === 'function') {
+          dom.newValue($node, obj[key]);
+        } else {
+          $node.text(obj[key]);
+        }
+        break
+
+      default:
+        if (obj[key] && obj[key].regex || typeof obj[key] === 'function') {
+          //$node.each(function (i, node) {
+          var newText = newValue(dom.getAttribute($node, key), obj[key]);
+          dom.setAttribute($node, key, newText);
+          //})
+        } else {
+          dom.setAttribute($node, key, obj[key]);
+        }
+    }
+  }
+  return $node
+};
+
+function updateNode ($node, selector, data) { 
+  if (selector === '.id') {
+    $node.attr('id', data);
+    return $node
+  }
+  switch (typeof data) {
+    case 'string':
+      if (data !== '') {
+        $node = checkForInputs($node, data);
+      }
+      break
+    case 'number':
+      $node = checkForInputs($node, data);
+      break
+    case 'boolean':
+      if (data === false) {
+        return $node.remove()
+      }
+      break
+    case 'object':
+      if (data && data.length) {
+        var $parent = dom.parent($node); 
+        if (data.length === 1 && data[0] === false) { // [ false ]
+          return $parent.remove()
+        } 
+        var $newNode = dom.clone($node);
+        data.forEach(function (item, c) {
+          var $itemNode = dom.clone($newNode);
+          if (c === 0) {
+            $node.remove();
+          }
+          var $updatedNode = updateNode($itemNode, selector, data[c]);
+          dom.append($parent, $updatedNode);
+        });
+      } else {
+        $node = updateNodeWithObject($node, data);
+      }
+      break
+  }
+  return $node
+}
+
+var updateNode_1 = updateNode;
+
+var dom = createCommonjsModule(function (module, exports) {
+
+
+
+
+exports.load = function (html) {
+  var template = document.createElement('div');
+  template.innerHTML = html.trim();
+  return template
+};
+
+exports.init = function (str) {
+  return str
+};
+
+exports.find = function ($domNode, selector) {
+  return $domNode.querySelectorAll(selector)
+};
+
+// only available in the browser
+exports.getMarkup = function ($page) {
+  var container = document.createElement('div');
+  container.appendChild($page.cloneNode(true));
+  return container.innerHTML
+};
+
+exports.setMarkup = function ($node, markup) {
+  $node.innerHTML = markup;
+};
+
+exports.get = function (item) {
+  return item
+};
+exports.setAttribute = function ($node, attribute, value) {
+  $node.setAttribute(attribute, value);
+};
+
+exports.getAttribute = function ($node, attribute) {
+  return $node.getAttribute(attribute)
+};
+
+exports.addClass = function ($node, className) {
+  $node.classList.add(className);
+};
+
+exports.clone = function ($node) {
+  return $node.cloneNode()
+};
+
+exports.append = function ($parent, $node) {
+  return $parent.appendChild($node)
+};
+
+exports.parent = function ($node) {
+  return $node.parentNode
+};
+
+exports.getTag = function ($node) {
+  return $node.tagName.toUpperCase()
+};
+
+exports.getText = function ($node) {
+  return $node.innerText
+};
+
+exports.setText = function ($node, value) {
+  $node.innerText = value;
+  return $node
+};
+
+exports.query = function ($node, selector) {
+  return $node.querySelector(selector)
+};
+
+exports.updateNodes = function ($nodes, selector, data) {
+  $nodes.forEach(function ($node) {
+    updateNode_1($node, selector, data);  // might need to clone the node here.
+  });
+};
+
+exports.newValue = function ($node, selectors) {
+  var newText = newValue(exports.getText($node), selectors);
+  exports.setText($node, newText);
+};
+});
+var dom_1 = dom.load;
+var dom_2 = dom.init;
+var dom_3 = dom.find;
+var dom_4 = dom.getMarkup;
+var dom_5 = dom.setMarkup;
+var dom_6 = dom.get;
+var dom_7 = dom.setAttribute;
+var dom_8 = dom.getAttribute;
+var dom_9 = dom.addClass;
+var dom_10 = dom.clone;
+var dom_11 = dom.append;
+var dom_12 = dom.parent;
+var dom_13 = dom.getTag;
+var dom_14 = dom.getText;
+var dom_15 = dom.setText;
+var dom_16 = dom.query;
+var dom_17 = dom.updateNodes;
+var dom_18 = dom.newValue;
+
+var doRender = function (str, selectors) {
+
+  if (!selectors) {
+    return str
+  }
+
+  selectors = (typeof selectors[0] === 'undefined') ? [selectors] : selectors; // make sure we have an array.
+  var selectorCount = selectors.length;
+  selectors = selectors.reverse();
+  var $page;
+  var sourceType = null; // so we can out the same thing we got in.
+  if (typeof str === 'string') {
+    $page = dom.load(str);
+    sourceType = 'string';
+  } else {
+    $page = str; // its already a dom obj
+    sourceType = 'dom';
+  }
+  // iterate over the array.
+  while (selectorCount--) {
+    Object.keys(selectors[selectorCount]).forEach(function (selector) {
+      var $nodes = dom.find($page, selector);
+      dom.updateNodes($nodes, selector, selectors[selectorCount][selector]);
+    });
+  }
+
+  if (dom.getMarkup) { // browserside
+    if (sourceType === 'string') {
+      return $page.innerHTML
+    } else if (sourceType === 'dom') {
+      return $page
+    }
+  } else {
+    return $page.html()
+  }
+};
+
+var classifyKeys = function (data, options) {
+  if (!options.classifyKeys || typeof data === 'undefined') {
+    return data
+  }
+  var c = data.length;
+  var retArray = [];
+  while (c--) {
+    var newObj = {};
+    for (var key in data[c]) {
+      newObj['.' + key] = data[c][key];
+    }
+    retArray.push(newObj);
+  }
+  return retArray
+};
+
+var render = doRender;
+var classifyKeys$1 = classifyKeys;
+
+var sizlate = {
+	render: render,
+	classifyKeys: classifyKeys$1
+};
+
+export default sizlate;
+export { classifyKeys$1 as classifyKeys, render };
