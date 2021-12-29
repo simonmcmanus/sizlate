@@ -27,98 +27,101 @@ var newValue = function (oldValue, newValue) {
   return newValue
 };
 
-var updateNodeWithObject = function ($node, obj) {
-  // Iterate over the actions to be applied to the dom node.
-  for (var key in obj) {
-    //   console.log('key', $node, key, obj[key])
-    switch (key) {
-      case 'selectors':
-        var selectors = obj[key];
-        for (var selector in selectors) {
-          // really this should call update-node. so that it can handle something other than html.
+var updateNodeWithObject = function($node, obj, updateNode) {
+    // Iterate over the actions to be applied to the dom node.
+    for (var key in obj) {
+        //   console.log('key', $node, key, obj[key])
+        switch (key) {
+            case 'selectors':
+                var selectors = obj[key];
 
-          var $item = dom.query($node, selector);
-          dom.setMarkup($item, selectors[selector]);        
-        }
-        break
-      case 'className':
-        dom.addClass($node, obj[key]);
-        break
-      case 'innerHTML' :
-        // if we need to apply something the each value we need to iterate over each dom node.
-        if (obj[key] && obj[key].regex || typeof obj[key] === 'function') {
-          $node.each(function (i, node) {
-            var $domNode = dom.get(this);
-            $domNode.innerHTML = obj[key];
-          });
-        } else {
-          dom.setMarkup($node, obj[key]);
-        }
-        break
-      case 'innerText':
+                for (var selector in selectors) {
+                    var $item = dom.query($node, selector);
+                    if (typeof selectors[selector] === 'string') {
+                        dom.setMarkup($item, selectors[selector]);
+                    } else if (typeof selectors[selector] === 'object') {
+                        updateNode && updateNode($item, selector, selectors[selector]);
+                    }
+                }
+                break
+            case 'className':
+                dom.addClass($node, obj[key]);
+                break
+            case 'innerHTML':
+                // if we need to apply something the each value we need to iterate over each dom node.
+                if (obj[key] && obj[key].regex || typeof obj[key] === 'function') {
+                    $node.each(function(i, node) {
+                        var $domNode = dom.get(this);
+                        $domNode.innerHTML = obj[key];
+                    });
+                } else {
+                    dom.setMarkup($node, obj[key]);
+                }
+                break
+            case 'innerText':
 
-        // if we need to apply something the each value we need to iterate over each dom node.
-        if (obj[key] && obj[key].regex || typeof obj[key] === 'function') {
-          dom.newValue($node, obj[key]);
-        } else {
-          $node.text(obj[key]);
-        }
-        break
+                // if we need to apply something the each value we need to iterate over each dom node.
+                if (obj[key] && obj[key].regex || typeof obj[key] === 'function') {
+                    dom.newValue($node, obj[key]);
+                } else {
+                    $node.text(obj[key]);
+                }
+                break
 
-      default:
-        if (obj[key] && obj[key].regex || typeof obj[key] === 'function') {
-          //$node.each(function (i, node) {
-          var newText = newValue(dom.getAttribute($node, key), obj[key]);
-          dom.setAttribute($node, key, newText);
-          //})
-        } else {
-          dom.setAttribute($node, key, obj[key]);
+            default:
+                if (obj[key] && obj[key].regex || typeof obj[key] === 'function') {
+                    //$node.each(function (i, node) {
+                    var newText = newValue(dom.getAttribute($node, key), obj[key]);
+                    dom.setAttribute($node, key, newText);
+                        //})
+                } else {
+                    dom.setAttribute($node, key, obj[key]);
+                }
         }
     }
-  }
-  return $node
+    return $node
 };
 
-function updateNode ($node, selector, data) { 
-  if (selector === '.id') {
-    $node.attr('id', data);
+function updateNode($node, selector, data) {
+    if (selector === '.id') {
+        $node.attr('id', data);
+        return $node
+    }
+    switch (typeof data) {
+        case 'string':
+            if (data !== '') {
+                $node = checkForInputs($node, data);
+            }
+            break
+        case 'number':
+            $node = checkForInputs($node, data);
+            break
+        case 'boolean':
+            if (data === false) {
+                return $node.remove()
+            }
+            break
+        case 'object':
+            if (data && data.length) {
+                var $parent = dom.parent($node);
+                if (data.length === 1 && data[0] === false) { // [ false ]
+                    return $parent.remove()
+                }
+                var $newNode = dom.clone($node);
+                data.forEach(function(item, c) {
+                    var $itemNode = dom.clone($newNode);
+                    if (c === 0) {
+                        $node.remove();
+                    }
+                    var $updatedNode = updateNode($itemNode, selector, data[c]);
+                    dom.append($parent, $updatedNode);
+                });
+            } else {
+                $node = updateNodeWithObject($node, data, updateNode);
+            }
+            break
+    }
     return $node
-  }
-  switch (typeof data) {
-    case 'string':
-      if (data !== '') {
-        $node = checkForInputs($node, data);
-      }
-      break
-    case 'number':
-      $node = checkForInputs($node, data);
-      break
-    case 'boolean':
-      if (data === false) {
-        return $node.remove()
-      }
-      break
-    case 'object':
-      if (data && data.length) {
-        var $parent = dom.parent($node); 
-        if (data.length === 1 && data[0] === false) { // [ false ]
-          return $parent.remove()
-        } 
-        var $newNode = dom.clone($node);
-        data.forEach(function (item, c) {
-          var $itemNode = dom.clone($newNode);
-          if (c === 0) {
-            $node.remove();
-          }
-          var $updatedNode = updateNode($itemNode, selector, data[c]);
-          dom.append($parent, $updatedNode);
-        });
-      } else {
-        $node = updateNodeWithObject($node, data);
-      }
-      break
-  }
-  return $node
 }
 
 var updateNode_1 = updateNode;
