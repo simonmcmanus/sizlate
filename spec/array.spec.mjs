@@ -1,6 +1,5 @@
-if (typeof require !== 'undefined') {
-  var sizlate = require('../sizlate.js')
-}
+import sizlate from  '../sizlate.js'
+
 
 describe('When given an array ', function () {
   it('it should render the list', function () {
