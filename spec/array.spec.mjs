@@ -1,7 +1,7 @@
 import sizlate from  '../sizlate.js'
 
 
-describe('When given an array ', function () {
+describe('When given an array with an object', function () {
   it('it should render the list', function () {
     var html = '<ul><li></li></ul>'
     var selectors = {
