@@ -17,19 +17,13 @@ module.exports = function (config) {
   
       // frameworks to use
       // available frameworks: https://npmjs.org/browse/keyword/karma-adapter
-      frameworks: ['jasmine', 'serve-static'],
+      frameworks: ['jasmine'],
   
       // list of files / patterns to load in the browser
       files: [
-        './spec/**.spec.mjs',
-        { pattern: 'tests/spec/samples/*/*/**.html', included: false, served: true },
-        { pattern: 'tests/spec/samples/*/*/*/*.html', included: false, served: true }
+       './spec/**.spec.mjs',
       ],
-  
-      proxies: {
-        '/pages': '/base/tests/spec/samples/simple/pages',
-        '/components': '/base/tests/spec/samples/simple/components'
-      },
+
   
       // list of files to exclude
       exclude: [
@@ -39,7 +33,6 @@ module.exports = function (config) {
       },
       plugins: [
         'karma-rollup',
-        'karma-serve-static',
         'karma-chrome-launcher',
         'karma-firefox-launcher', 
         'karma-phantomjs-launcher',
@@ -80,7 +73,7 @@ module.exports = function (config) {
   
       // level of logging
       // possible values: config.LOG_DISABLE || config.LOG_ERROR || config.LOG_WARN || config.LOG_INFO || config.LOG_DEBUG
-      logLevel: config.LOG_INFO,
+      logLevel: config.LOG_WARNING,
   
       // enable / disable watching file and executing tests whenever any file changes
       autoWatch: true,

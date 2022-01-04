@@ -32,7 +32,6 @@
     "karma-jasmine": "~3.1.1",
     "karma-phantomjs-launcher": "1.0.x",
     "karma-rollup": "^1.0.1",
-    "karma-serve-static": "1.0.x",
     "rollup": "^2.7.3",
     "rollup-plugin-babel-minify": "^10.0.0"
   },
@@ -41,7 +40,9 @@
     "test": "npm run test:server && npm run test:client",
     "test:server": "jasmine ./spec/*.spec.mjs",
     "test:client": "NODE_ENV=test ./node_modules/karma/bin/karma  start  --single-run",
-    "test-watch": "node node_modules/jasmine-node/bin/jasmine-node --autotest ./spec/* ./spec/*.spec.mjs"
+    "test:watch": "npm run test:client:watch & npm run test:server:watch",
+    "test:client:watch": "NODE_ENV=test ./node_modules/karma/bin/karma  start  ",
+    "test:server:watch": "node node_modules/jasmine-node/bin/jasmine-node --autotest ./spec/* ./spec/*.spec.mjs"
   },
   "bundledDependencies": [
     "cheerio"
