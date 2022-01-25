@@ -1,14 +1,14 @@
 var cheerio = require('cheerio')
 
-var updateNode = require('../lib/update-node')
 var newValue = require('../lib/new-value')
 
 exports.load = function (str) {
-  return cheerio.load(str)
+  return cheerio.load(str).root()
 }
 
 exports.find = function ($item, selector) {
-  return $item(selector)
+  // returns an array to be consistent with cheerio find. 
+  return [$item.find(selector)]
 }
 
 // jqueryify node
@@ -66,10 +66,6 @@ exports.setText = function ($node, value) {
 
 exports.query = function ($node, selector) {
   return $node.find(selector)
-}
-
-exports.updateNodes = function ($nodes, selector, data) {
-  updateNode($nodes, selector, data) // might need to clone the node here. 
 }
 
 exports.newValue = function ($node, selectors) {

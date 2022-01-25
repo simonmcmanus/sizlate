@@ -1,6 +1,5 @@
 'use strict'
 
-var updateNode = require('../lib/update-node')
 var newValue = require('../lib/new-value')
 
 exports.load = function (html) {
@@ -44,7 +43,7 @@ exports.addClass = function ($node, className) {
 }
 
 exports.clone = function ($node) {
-  return $node.cloneNode()
+  return $node.cloneNode(true)
 }
 
 exports.append = function ($parent, $node) {
@@ -72,11 +71,6 @@ exports.query = function ($node, selector) {
   return $node.querySelector(selector)
 }
 
-exports.updateNodes = function ($nodes, selector, data) {
-  $nodes.forEach(function ($node) {
-    updateNode($node, selector, data)  // might need to clone the node here.
-  })
-}
 
 exports.newValue = function ($node, selectors) {
   var newText = newValue(exports.getText($node), selectors)
