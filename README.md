@@ -128,10 +128,3 @@ var selectors = {'div': 'new content'};
 sizlate.render(domNode, selectors);
 ```
 
-# Express
-
-From sizlate v1 Express is not supported.
-
-For the moment you will need to use an older version of sizlate.
-
-The functionality is being moved into https://github.com/simonmcmanus/sizlate-express
