@@ -1,3 +1,7 @@
 declare module 'sizlate'  {
-  function render(string, unknown): string; 
+  type Markup  = string | HTMLElement;
+  type Values= {} | Values[] | string;
+  type Selectors = Record<string, Values>
+  function render(Markup, Selectors): string; 
+  function classifyKeys({}, {}): string; 
 }

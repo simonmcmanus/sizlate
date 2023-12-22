@@ -4,6 +4,7 @@
     "license": "MIT",
     "description": "Templating engine using css selectors.",
     "author": "Simon McManus  mcmanus.simon@gmail.com",
+    "types": "types.d.ts",
     "repository": {
         "type": "git",
         "url": "git://github.com/simonmcmanus/sizlate.git"
