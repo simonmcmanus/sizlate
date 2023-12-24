@@ -36,3 +36,19 @@ describe('When given an array ', function () {
     expect(out).toEqual(expected)
   })
 })
+
+
+describe('When given an empty array ', function () {
+  it('it should render the list', function () {
+    var html = '<ul><li></li></ul>'
+    var selectors = {
+      'li': [
+        
+      ]
+    }
+
+    var out = sizlate.render(html, selectors)
+    var expected = '<ul></ul>'
+    expect(out).toEqual(expected)
+  })
+})
