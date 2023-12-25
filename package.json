@@ -21,7 +21,7 @@
         "@std/esm": "^0.26.0",
         "rollup-plugin-terser": "^7.0.2",
         "@rollup/plugin-alias": "^5.1.0",
-        "@rollup/plugin-commonjs": "^11.1.0",
+        "@rollup/plugin-commonjs": "^25.0.7",
         "@rollup/plugin-node-resolve": "^15.2.3",
         "jasmine": "^4.0.0",
         "jasmine-node": "~3.0.0",
