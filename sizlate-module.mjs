@@ -17,7 +17,6 @@ var dom = createCommonjsModule(function (module, exports) {
 
 
 
-
 exports.load = function (html) {
   var template = document.createElement('div');
   template.innerHTML = html.trim();
@@ -132,11 +131,9 @@ var checkForInputs = function ($node, data) {
  * @returns 
  */
 var updateNodeWithObject = function ($node, obj) {
-
   // Iterate over the actions to be applied to the dom node.
   for (var key in obj) {
     switch (key) {
-      
       case 'className':
         dom.addClass($node, obj[key]);
         break
@@ -165,7 +162,6 @@ var updateNodeWithObject = function ($node, obj) {
         if (obj[key] && obj[key].regex || typeof obj[key] === 'function') {          
           var newText = newValue(dom.getAttribute($node, key), obj[key]);
           dom.setAttribute($node, key, newText);
-          //})
         } else {
           dom.setAttribute($node, key, obj[key]);
         }
@@ -239,8 +235,7 @@ var _loadSelectors = ($node, selectors) => {
     });
  };
 
-
- var nestedArray =   _loadSelectors;
+ var updateNode =   _loadSelectors;
 
 var doRender = function (str, selectors) {
 
@@ -263,7 +258,7 @@ var doRender = function (str, selectors) {
 
 
   while (selectorCount--) {
-    nestedArray($root, selectors[selectorCount]);
+    updateNode($root, selectors[selectorCount]);
   }
 
   if (dom.getMarkup) { // browserside
