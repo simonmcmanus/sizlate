@@ -16,7 +16,7 @@
     "main": "sizlate.js",
     "module": "sizlate-module.mjs",
     "dependencies": {
-        "cheerio": "0.x.x"
+        "cheerio": "1.x.x"
     },
     "devDependencies": {
         "@std/esm": "^0.26.0",

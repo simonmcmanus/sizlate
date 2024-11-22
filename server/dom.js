@@ -3,7 +3,7 @@ var cheerio = require('cheerio')
 var newValue = require('../lib/new-value')
 
 exports.load = function (str) {
-  return cheerio.load(str).root()
+  return cheerio.load(str, null, false).root()
 }
 
 exports.find = function ($item, selector) {
@@ -17,7 +17,7 @@ exports.get = function (item) {
 }
 
 exports.init = function (item) {
-  return cheerio(item)
+  return cheerio.load(item, null, false)
 }
 
 exports.setMarkup = function ($node, html) {
@@ -70,8 +70,8 @@ exports.query = function ($node, selector) {
 
 exports.newValue = function ($node, selectors) {
   $node.each(function (i, node) {
-    var $node = exports.init(node)
-    var newText = newValue(exports.getText($node), selectors)
-    exports.setText($node, newText)
+    const $subNode = $node._root.find(node)    
+     var newText = newValue(exports.getText($subNode), selectors)
+     exports.setText($subNode, newText)
   })
 }
