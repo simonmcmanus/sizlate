@@ -1,6 +1,8 @@
 # Sizlate
 
 
+Minimum node version now 18 to support Cheerio v1.
+
 Sizlate is an HTML templating engine.
 
 Sizlate requires no special syntax, your templates only contain valid HTML.
